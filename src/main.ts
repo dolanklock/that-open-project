@@ -6,7 +6,8 @@ import {KeyBoardShortCutManager} from "./bim-components/KeyboardShortcuts"
 import { Project, IProject, projectRole, projectStatus, ToDo } from "./Projects"
 import { ProjectsManager } from "./ProjectsManager"
 import { showWarnModalForm, showModalForm, updateProjectDetailsContent, updateProjectCardContent } from "./ProjectFunctions"
-import {ThreeDViewer} from "./ThreeDViewer"
+// import {ThreeDViewer} from "./ThreeDViewer"
+import { ThreeDViewer } from "./bim-viewer/src/threeDViewer";
 import * as THREE from "three"
 import * as OBC from "openbim-components"
 import * as BUI from "@thatopen/ui"
@@ -494,19 +495,19 @@ if ( editProjectDetails ) {
 
 // ------------------------ BIM viewer Event Listeners ------------------------------ #
 
-const bimViewerExitBtn = document.getElementById("bim-viewer-project-details") as HTMLElement
-bimViewerExitBtn.addEventListener("click", () => {
-    const activeProjectCard = getActiveProjectCard() as HTMLElement
-    bimViewerProjectCardClicked(activeProjectCard)
-})
+// const bimViewerExitBtn = document.getElementById("bim-viewer-project-details") as HTMLElement
+// bimViewerExitBtn.addEventListener("click", () => {
+//     const activeProjectCard = getActiveProjectCard() as HTMLElement
+//     bimViewerProjectCardClicked(activeProjectCard)
+// })
 
-const bimViewerHomeBtn = document.getElementById("bim-viewer-home") as HTMLElement
-bimViewerHomeBtn.addEventListener("click", () => {
-    projectsPage?.classList.toggle("page-hidden")
-    // sidebar.classList.toggle("page-hidden")
-    bimViewerContainer.classList.toggle("page-hidden")
-    resetActiveProject()
-})
+// const bimViewerHomeBtn = document.getElementById("bim-viewer-home") as HTMLElement
+// bimViewerHomeBtn.addEventListener("click", () => {
+//     projectsPage?.classList.toggle("page-hidden")
+//     // sidebar.classList.toggle("page-hidden")
+//     bimViewerContainer.classList.toggle("page-hidden")
+//     resetActiveProject()
+// })
 
 
 // ------------------------ Project Landing Page Event Listeners ------------------------------ #

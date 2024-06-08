@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <!-- <link rel="stylesheet" href="styles/components.css"> -->
+    <link rel="stylesheet" href='./src/bim-viewer/src/bim-viewer-styles.css'>
     <link rel="stylesheet" href="styles/components-copy.css">
     <link rel="stylesheet" href="./styles/components-custom.css">
     <link rel="stylesheet" href="bim-viewer.css">
@@ -328,57 +329,7 @@
     </main>
 
     <section id="bim-viewer" class="" style="width: 100vw; height: 100vh; margin: 0;">
-        <div id="page">
-            <bim-tabs id="tab-container" style="grid-area: head;">
-                <bim-tab label="Load">
-                    <div style="display: flex;">
-                        <bim-toolbar active>
-                            <bim-toolbar-section label="Load IFC">
-                                <bim-button id="load-ifc" vertical label="Load New IFC" icon="lets-icons:load-list"></bim-button>
-                                <bim-button id="import-ifc" vertical label="Load Fragment Group" icon="lets-icons:load-list-light"></bim-button>
-                            </bim-toolbar-section>
-                        </bim-toolbar>
-                    </div>
-                </bim-tab>
-                <bim-tab label="AI">
-                    <div style="display: flex;">
-                        <bim-toolbar active id="bim-toolbar-ai">
-                            <!-- <bim-toolbar-section label="AI Renderer">
-                                <bim-button id="load-ifc" vertical label="Render" icon="lets-icons:load-list"></bim-button>
-                                <bim-button id="import-ifc" vertical label="Render Settings" icon="lets-icons:load-list-light"></bim-button>
-                            </bim-toolbar-section> -->
-                        </bim-toolbar>
-                    </div>
-                </bim-tab>
-            </bim-tabs>
-            <div id="my-panel" style="grid-area: nav; background-color: var(--bim-ui_bg-base)">
-                <bim-panel label="Panel A">
-                    <bim-panel-section label="Build">
-                        <bim-text-input label="Tool Name" value="BCFManager"></bim-text-input>
-                        <bim-input label="Position" vertical>
-                            <bim-number-input pref="X" min="1" value="10" max="50" suffix="m" slider></bim-number-input>
-                            <bim-number-input pref="X" min="1" value="20" max="50" suffix="m" slider></bim-number-input>
-                            <bim-number-input pref="X" min="1" value="30" max="50" suffix="m" slider></bim-number-input>
-                        </bim-input>
-                        <bim-dropdown label="IFC Entity">
-                            <bim-option label="IFCWALL"></bim-option>
-                            <bim-option label="IFCWINDOW"></bim-option>
-                            <bim-option label="IFCSLAB"></bim-option>
-                        </bim-dropdown>
-                    </bim-panel-section>
-                </bim-panel>
-            </div>
-            <div id="viewer" style="grid-area: main; height: calc(100vh - 136);">
-                <div style="position: absolute; cursor: pointer; display: flex; flex-direction: row; column-gap: 5px;">
-                    <i class='bx bx-sm bx-home' id="bim-viewer-home" style="cursor: pointer;"></i>
-                    <i class='bx bx-sm bx-exit' id="bim-viewer-project-details" style="cursor: pointer;"></i>
-                </div>
-            </div>
-        </div>
-
-        <!-- <div id="viewer" style="width: 100vw; height: 100vh; min-width: 0; position: relative;">
-
-        </div> -->
+        <bim-grid id="app"></bim-grid>
         
     </section>
     
