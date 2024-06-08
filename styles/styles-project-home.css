@@ -1,0 +1,220 @@
+:root {
+    --action-btn: #27d128;
+    --cancel-btn: #fa4141;
+    --primary-btn: #5551ff;
+    --opencompany-green: #BCF124;
+    --primary: #22272e;
+}
+
+#content-projects-page {
+    background-color: #171a1f;
+    /* background-color: #27d128; */
+    /* flex-grow: 1; */
+    width: 100vw;
+    height: 100vh;
+    min-height: 750px;
+    display: grid;
+    grid-template-areas:
+    "head head"
+    "nav  main"
+    "nav  main";
+    grid-template-rows: auto 1fr;
+    grid-template-columns: auto 1fr;
+}
+
+#page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px;
+    column-gap: 10px;
+    padding-left: 10px;
+    color: white;
+}
+
+#page-header button {
+    background-color: var(--primary-btn);
+    border-radius: 5px;
+    border: 1 solid var(--primary-btn);
+    /* color: white; */
+    color: white;
+    padding: 5px;
+}
+
+#page-header-buttons {
+    display: flex;
+    column-gap: 20px;
+    align-items: center;
+}
+
+#page-header-buttons a:hover {
+    border-radius: 50%;
+    /* background-color: #029AE0; */
+}
+
+/* JSON export/import buttons */
+
+
+.import-export-btn {
+    display: flex;
+    align-items: center;
+    background-color: var(--primary-btn);
+    padding: 8px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    margin: 0;
+}
+
+.import-export-btn:hover {
+    cursor: pointer;;
+}
+
+
+/* ---------------------- project cards home page ---------------------- */
+
+
+#project-list {
+    display: grid;
+    /* here we use the repeat function and specify auto-fill
+    for the first arg, this will return and wrap content when screen
+    gets too small to fit the content. then we use minmax to specify
+    the min width for each column before returning that column below
+    and the 1fr is the max which evenly spaces them out  */
+    grid-template-columns: repeat(auto-fill, minmax(var(--card-width), 1fr));
+    gap: 30px 30px;
+    padding: 20px 20px 20px 0;
+}
+
+#project-list-section {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+#project-list-section h1 {
+    font-size: 22px;
+    font-weight: 300;
+}
+
+.project-card {
+    width: auto;
+    height: fit-content;
+    background-color: transparent;
+    border-radius: 10px;
+}
+
+.project-card:hover {
+    cursor: pointer;
+}
+
+.project-card h1 {
+    padding: 0;
+    margin: 0;
+}
+
+.project-card-header {
+    width: auto;
+    height: 15%;
+    display: flex;
+    /* background-color: #4a4946; */
+    background-color: var(--primary);
+    border-bottom: 1px solid var(--primary);
+    /* color: white; */
+    color: white;
+    padding: 15px;
+    border-radius: 10px 10px 0 0;
+    align-items: center;
+}
+
+/* .project-card-header:hover {
+    background-color: var(--primary);
+    cursor: pointer;
+} */
+
+.project-card-header h2,
+.project-card-header p {
+    margin: 0;
+    vertical-align: top;
+    /* font-family: 'Open Sans', sans-serif; */
+    font-size: var(--font-lg);
+}
+
+.project-card-body {
+    width: auto;
+    /* background-color: var(--primary-200); */
+    background-color: var(--primary);
+    /* border-radius: 0  0 10px 10px; */
+    padding: 15px;
+    height: fit-content;
+}
+
+/* .project-card-body:hover {
+    background-color: var(--primary-100);
+} */
+
+.project-card-footer {
+    width: auto;
+    background-color: var(--primary);
+    border-radius: 0  0 10px 10px;
+    padding: 10px 40px 20px 10px;
+    height: fit-content;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.bim-viewer-btn:hover {
+    cursor: pointer;
+    color: #fc3f5c;
+}
+
+.card-img {
+    width: 40px;
+    height: 40px;
+    background-color: orange;
+    display: inline-block;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.card-img h2 {
+    line-height: 40px;
+    text-align: center;
+}
+
+.card-title {
+    margin: 0;
+    justify-content: center;
+    display: inline-block;
+    line-height: 1.5rem;
+    font-weight: 100;
+}
+
+.card-body {
+    color: darkgray;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+.delete-project {
+    background-color: red;
+    /* color: white; */
+    color: white;
+    border-radius: 6px;
+    border: 1px solid red;
+    padding: 5px;
+    width: fit-content;
+}
+
+.delete-project:hover {
+    background-color: #fc3f5c;
+}
+
+.delete-project span {
+   font-size: 20px;
+}

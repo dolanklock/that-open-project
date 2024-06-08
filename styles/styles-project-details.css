@@ -1,0 +1,276 @@
+:root {
+    --action-btn: #27d128;
+    --cancel-btn: #fa4141;
+    --primary-btn: #5551ff;
+    --opencompany-green: #BCF124;
+    --primary: #22272e;
+}
+
+#content-project-details {
+    background-color: var(--primary);
+    /* background-color: #27d128; */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+
+/* ------------------- project details page ----------------- */
+
+
+/* #project-details {
+    background-color: var(--primary-300);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+} */
+
+/* ---------------- header -------------- */
+
+#proj-details-header {
+    background-color: var(--primary);
+    height: 100px;
+    min-height: 100px;
+    /* width: 100%; */
+    display: flex;
+    flex-direction: column;
+    margin: 20px 20px 0 20px;
+    padding-left: 20px;
+    justify-content: center;
+    border-radius: 20px;
+}
+
+#proj-details-header h2, p {
+    margin: 0;
+}
+
+
+/* ---------------- body ---------------- */
+
+
+#proj-details-content {
+    background-color: #171a1f;
+    /* height: 100vh; new */
+    /* flex-grow: 1; */
+    /* width: 100%; */
+    height: 100%;
+    /* width: 100%; */
+    /* max-height: 100%; */
+    min-height: 800px;
+    /* display: flex; */
+    box-sizing: border-box;
+    /* overflow-y: scroll; */
+    /* max-height: 75%; */
+    /* grid-template-columns: 500px 1fr; 300 specifies the first colo=umn width and the 1fr means the second column takes the rest of the width */
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 500px 1fr;
+
+}
+/* ---------------- main side panel and viewer -------------- */
+
+
+#side-info-panel {
+    background-color: #171a1f;
+    width: 500px;
+    height: 100%; /* new */
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    /* overflow: scroll; */
+}
+
+
+/*  ----------- side panel contents ------------ */
+
+
+#info {
+    background-color: var(--primary);
+    width: 100%;
+    height: 300px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    box-sizing: border-box;
+    row-gap: 35px;
+    border-radius: 20px;
+}
+
+#todo {
+    background-color: var(--primary);
+    flex-grow: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 20px;
+    max-width: 500px;
+    box-sizing: border-box;
+}
+
+.todo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.todo-status-date {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    row-gap: 7px;
+}
+
+.todo-status-date select {
+    border: 1px solid lightgray;
+    padding: 2px;
+}
+
+/*  ----------- info panel contents ------------ */
+
+
+#info-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+#info-header div {
+    background-color: orange;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#info-header button {
+    width: 100px;
+    border: 1px solid white;
+    border-radius: 20px;
+    background-color: var(--primary);
+    padding: 10px;
+    color: white;
+}
+
+#info-header button:hover {
+    background-color: var(--primary-100);
+    cursor: pointer;
+    border-color: var(--primary-100);
+}
+
+#info-sub-header {
+    display: flex;
+    flex-direction: column;
+}
+
+#info-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stat-title {
+    color: darkgray;
+}
+
+
+/*  ----------- todo panel contents ------------ */
+
+
+#todo-search {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    box-sizing: border-box;
+    background-color: var(--primary);
+    margin-bottom: 15px;
+}
+
+#todo-search input {
+    background-color: var(--primary-300);
+}
+
+#todo-search label {
+    font-size: var(--font-xl);
+}
+
+#todo-search div {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+
+#todo-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    /* height: 100%; */
+    max-width: 500px;
+    /* max-height: 100%; */
+    max-height: 350px;
+    background-color: var(--primary);
+    /* row-gap: 10px; */
+    /* height: fit-content; */
+    overflow-y: scroll;
+  
+}
+
+.todo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--primary-200);
+    border-radius: 10px;
+    padding: 10px 20px;
+    margin: 10px;
+}
+
+.todo span {
+    background-color: darkgray;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+.todo-text {
+    width: 200px;
+    margin-left: 10px;
+    overflow-wrap: break-word;
+
+}
+
+.todo-date {
+    font-size: var(--font-sm);
+}
+
+.select-edit {
+    display: flex;
+    column-gap: 10px;
+}
+
+.select-edit span {
+    font-size: 14px;
+}
+
+.todo-edit:hover {
+    cursor: pointer;;
+}
+
+
+#add-todo:hover {
+    cursor: pointer;
+    /* color: lightgray; */
+    background-color: lightgray;
+}

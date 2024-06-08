@@ -1,0 +1,19 @@
+import * as THREE from "three";
+import * as FRAGS from "bim-fragment";
+import { Component, UI, UIElement } from "../../base-types";
+import { FloatingWindow } from "../../ui";
+import { Components, Simple2DScene } from "../../core";
+import { EdgesPlane } from "../../navigation";
+export declare class CivilCrossSectionNavigator extends Component<any> implements UI {
+    static readonly uuid: "96b2c87e-d90b-4639-8257-8f01136fe324";
+    scene: Simple2DScene;
+    uiElement: UIElement<{
+        floatingWindow: FloatingWindow;
+    }>;
+    enabled: boolean;
+    plane: EdgesPlane;
+    constructor(components: Components);
+    get(): any;
+    set(curveMesh: FRAGS.CurveMesh, point: THREE.Vector3): Promise<void>;
+    private setUI;
+}

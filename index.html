@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <title>🚀 That Open Company</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <!-- <link rel="stylesheet" href="styles/components.css"> -->
+    <link rel="stylesheet" href="styles/components-copy.css">
+    <link rel="stylesheet" href="./styles/components-custom.css">
+    <link rel="stylesheet" href="bim-viewer.css">
+    <link rel="stylesheet" href="styles/styles-landing.css">
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="styles/styles-sidebar.css">
+    <link rel="stylesheet" href="styles/styles-project-details.css">
+    <link rel="stylesheet" href="styles/styles-project-home.css">
+    <link rel="stylesheet" href="styles/styles-form-dialog.css">
+    <link rel="stylesheet" href="styles/styles-loaders.css">
+    <link rel="stylesheet" href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
+    <style>
+        #page {
+            display: grid;
+            width: 100%;
+            height: 100%;
+            grid-template-areas:
+            "head head"
+            "nav  main"
+            "nav  main";
+            grid-template-rows: auto 1fr;
+            grid-template-columns: auto 1fr;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- projects page main -->
+    <dialog id="new-project-modal">
+        <form id="new-project-form" action="">
+            <h2>New Project</h2>
+            <div class="input-list">
+                <div class="form-field-container">
+                    <div class="form-field-title">
+                        <span class="material-icons-round">apartment</span>
+                        <label for="">Name</label>
+                    </div>
+                    <input id="new-project-form-project-name" name="project-name" type="text" placeholder="project name">
+                    <p class="tip">TIP: Give it a short name</p>
+                </div>
+                <div class="form-field-container">
+                    <div class="form-field-title">
+                        <span class="material-icons-round">description</span>
+                        <label for="">Description</label>
+                    </div>
+                    <textarea id="new-project-form-description" name="description" id="" cols="30" rows="5" placeholder="Give you..."></textarea>
+                </div>
+                <div class="form-field-container">
+                    <div class="form-field-title">
+                        <span class="material-icons-round">person</span>
+                        <label for="">Role</label>
+                    </div>
+                    <select id="new-project-form-role" name="role" id="">
+                        <option value="Architect">Architect</option>
+                        <option value="Engineer">Engineer</option>
+                        <option value="Developer">Developer</option>
+                    </select>
+                </div>
+                <div class="form-field-container">
+                    <div class="form-field-title"> 
+                        <span class="material-icons-round">place</span>
+                        <label for="">Status</label>
+                    </div>
+                    <select id="new-project-form-status" name="project-status" id="">
+                        <option value="Pending">Pending</option>
+                        <option value="Active">Active</option>
+                        <option value="Finished">Finished</option>
+                    </select>
+                </div>
+                <div class="form-field-container">
+                    <div class="form-field-title">
+                        <span class="material-icons-round">calendar_today</span>
+                        <label for="">Finish Date</label>
+                    </div>
+                    <input id="new-project-form-date" name="finish-date" type="date">
+                </div>
+                <div>
+                    <button type="reset" class="form-cancel-btn form-btn">Cancel</button>
+                    <button type="submit" class="form-submit-btn form-btn">Accept</button>
+                </div>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog id="new-todo-modal">
+        <form id="new-todo-form" action="">
+            <div class="input-list">
+                <div class="form-field-container">
+                    <div class="form-field-title">
+                        <label for="">Todo Note</label>
+                    </div>
+                    <input id="todo-form-input" name="todo-text" type="text" placeholder="Enter text">
+                </div>
+                <div>
+                    <button type="button" class="form-btn form-cancel-btn">Cancel</button>
+                    <button type="submit" class="form-btn form-submit-btn">Add</button>
+                </div>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- dialog for same name error window -->
+    <dialog id="warning-dialog">
+        <form class="warn-form" id="warn-form" action="">
+            <span class="material-symbols-outlined">error</span>
+            <div id="warn-body">
+                <div class="">
+                    <h3 id="warn-message"></h3>
+                </div>
+            </div>
+            <div id="warn-footer">
+                <button type="reset" class="warn-button">Ok</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog id="warning-dialog-import-json">
+        <form class="warn-form" id="warn-form-import-json" action="">
+            <div id="warn-body">
+                <div>
+                    <span class="material-symbols-outlined" style="font-size: 50px;">error</span>
+                </div>
+                <div class="warn-message">
+                    <h3 id="warn-message"></h3>
+                </div>
+                <div id="warn-footer">
+                    <button type="button" id="cancel-warn-import-json-btn" class="warn-button"
+                    style="border-right: 1px solid darkgray; padding-right: 25px;">Don't Override</button>
+                    <button type="submit" class="warn-button">Override</button>
+                </div>
+            </div>
+        </form>
+    </dialog>
+
+    <main id="project-landing" class="page-hidden">
+        <nav id="navbar">
+            <div style="display: flex; align-items: center; column-gap: 10px;">
+                <span class="material-symbols-outlined">rocket_launch</span>
+                <h1>BIM Viewer</h1>
+            </div>
+            <div id="navbar-btn">
+                <button id="project-landing-product">Product</button>
+                <button>Demo</button>
+                <button>Login / Signup</button>
+            </div>
+        </nav>
+        <div id="project-landing-content">
+            <h1>Load IFC files and start viewing!</h1>
+            <button>Load IFC</button>
+            <video class="video-shadow" style="border-radius: 20px; width: 1100px; height: auto;" muted autoplay loop src="./Video/test.mp4"></video>
+        </div>
+    </main>
+
+    <main id="content-projects-page" class="projects-page page-hidden">
+        <div style="grid-area: nav; width: 100%; height: 100%;">
+            <aside id="side-bar" class="page-hidden">
+                <header id="side-bar-header">
+                    <div class="icon">
+                        <i class='bx bx-sm bx-menu bx-flashing-hover'></i>
+                        <h4 class="side-bar-titles hide">Menu</h4>
+                    </div>
+                    <div class="icon">
+                        <i class='bx bx-sm bx-home-alt-2 bx-flashing-hover about-btn'></i>
+                        <h4 class="side-bar-titles hide">Home</h4>
+                    </div>
+                    <div class="icon">
+                        <i class='bx bx-sm bxl-python bx-flashing-hover blog-btn' ></i>
+                        <h4 class="side-bar-titles hide">Blog</h4>
+                    </div>
+                    <div class="scripts">
+                        <div class="icon">
+                            <i class='bx bx-sm bxs-component bx-flashing-hover'></i>
+                            <h4 class="side-bar-titles hide">Automation</h4>
+                        </div>
+                        <div class="scripts-list">
+                            <!-- <ol>
+                                <a href=""><li>script one</li></a>
+                                <li>script two</li>
+                            </ol> -->
+                        </div>
+                    </div>
+                </header>
+                
+            </aside>
+
+        </div>
+        <!-- <div id="projects-page" class=""> -->
+        <header id="page-header" style="grid-area: head;">
+            <div style="display: flex; align-items: center; column-gap: 10px;">
+                <span class="material-symbols-outlined">rocket_launch</span>
+                <h1>BIM Viewer</h1>
+            </div>
+            <div id="page-header-buttons">
+                <div class="import-export-btn import-json">
+                    <i class='bx bx-sm bxs-file-import'></i>
+                    <p>Import Projects</p>
+                </div>
+                <div class="import-export-btn export-json">
+                    <i class='bx bx-sm bxs-file-export'></i>
+                    <p>Export Projects</p>                
+                    <a href="" id="export-json"></a>
+                </div>
+                <div class="import-export-btn">
+                    <i class='bx bx-sm bxs-file-plus' ></i>
+                    <button style="padding: 0;" class="new-project-btn">New Project</button>
+                </div>
+            </div>
+        </header>
+        <div id="project-list-section" style="grid-area: main;">
+            <h1>Projects</h1>
+            <div id="project-list">
+                <!-- <div class="project-card">
+                    <div class="project-card-header">
+                        <div class="card-img">
+                            <h2>HP</h2>
+                        </div>
+                        <div class="card-title">
+                            <h2>Commercial</h2>
+                            <p>Community hospital located at downtown.</p>
+                        </div>
+                    </div>
+                    <div class="project-card-body">
+                        <div class="card-body">
+                            <p>Status</p>
+                            <p style="color: white;">Active</p>
+                        </div>
+                        <div class="card-body">
+                            <p>Role</p>
+                            <p style="color: white;">Engineer</p>
+                        </div>
+                        <div class="card-body">
+                            <p>Cost</p>
+                            <p style="color: white;" class="cost">$2,000,000</p>
+                        </div>
+                        <div class="card-body">
+                            <p>Estimated Progress</p>
+                            <p style="color: white;">50%</p>
+                        </div>
+                    </div>
+                </div>
+                </div> -->
+            </div>
+        </div>
+        <!-- </div>        -->
+    </main>
+
+    <main id="content-project-details" class="project-details page-hidden">
+        <!-- for project details page -->
+        <div id="proj-details-header">
+            <h2 id="active-project-title">Hospital Center</h2>
+            <p>Community Hospital Location</p>
+            <!-- <button id="test">*TEST ONLY*</button> -->
+        </div>
+        <div id="proj-details-content">
+            <div id="side-info-panel">
+                <div id="info">
+                    <div id="info-header">
+                        <div>
+                            <p>H</p>
+                        </div>
+                        <button id="info-header-edit">Edit</button>
+                    </div>
+                    <div id="info-sub-header">
+                        <p id="info-sub-header-title"><b>Hospital Center</b></p>
+                        <p id="info-sub-header-description">Hospital center location at downtown</p>
+                    </div>
+                    <div id="info-body">
+                        <div class="info-body-stats">
+                            <p class="stat-title">Status</p>
+                            <p id="info-body-status">Active</p>
+                        </div>
+                        <div class="info-body-stats">
+                            <p class="stat-title">Cost</p>
+                            <p id="info-body-cost">$2,499,000</p>
+                        </div>
+                        <div class="info-body-stats">
+                            <p class="stat-title">Role</p>
+                            <p id="info-body-role">Engineer</p>
+                        </div>
+                        <div class="info-body-stats">
+                            <p class="stat-title">Finish Date</p>
+                            <p id="info-body-finish-date">2023-11-28</p>
+                        </div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar">
+                            <p>35%</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="todo">
+                    <div id="todo-search">
+                        <label for="">To Do</label>
+                        <div>
+                            <span class="material-icons-round">search</span>
+                            <input type="text" placeholder="Search To-Do's by name">
+                            <span id="add-todo" class="material-icons-round">add</span>
+                        </div>
+                    </div>
+                    <div id="todo-body">
+                        <!-- <div class="todo">
+                            <span class="material-icons-round">construction</span>
+                            <p class="todo-text">
+                                this is a test i have a lot more to add to this page still and
+                                then i will add the viewer.. excited for this!!!!
+                            </p>
+                            <p class="todo-date">Fri, Sep 20</p>
+                        </div> -->
+                    </div>
+                </div>
+
+            </div>
+            <!-- <div id="viewer" style="min-width: 0; position: relative;">
+                
+            </div> -->
+        </div>
+    </main>
+
+    <section id="bim-viewer" class="" style="width: 100vw; height: 100vh; margin: 0;">
+        <div id="page">
+            <bim-tabs id="tab-container" style="grid-area: head;">
+                <bim-tab label="Load">
+                    <div style="display: flex;">
+                        <bim-toolbar active>
+                            <bim-toolbar-section label="Load IFC">
+                                <bim-button id="load-ifc" vertical label="Load New IFC" icon="lets-icons:load-list"></bim-button>
+                                <bim-button id="import-ifc" vertical label="Load Fragment Group" icon="lets-icons:load-list-light"></bim-button>
+                            </bim-toolbar-section>
+                        </bim-toolbar>
+                    </div>
+                </bim-tab>
+                <bim-tab label="AI">
+                    <div style="display: flex;">
+                        <bim-toolbar active id="bim-toolbar-ai">
+                            <!-- <bim-toolbar-section label="AI Renderer">
+                                <bim-button id="load-ifc" vertical label="Render" icon="lets-icons:load-list"></bim-button>
+                                <bim-button id="import-ifc" vertical label="Render Settings" icon="lets-icons:load-list-light"></bim-button>
+                            </bim-toolbar-section> -->
+                        </bim-toolbar>
+                    </div>
+                </bim-tab>
+            </bim-tabs>
+            <div id="my-panel" style="grid-area: nav; background-color: var(--bim-ui_bg-base)">
+                <bim-panel label="Panel A">
+                    <bim-panel-section label="Build">
+                        <bim-text-input label="Tool Name" value="BCFManager"></bim-text-input>
+                        <bim-input label="Position" vertical>
+                            <bim-number-input pref="X" min="1" value="10" max="50" suffix="m" slider></bim-number-input>
+                            <bim-number-input pref="X" min="1" value="20" max="50" suffix="m" slider></bim-number-input>
+                            <bim-number-input pref="X" min="1" value="30" max="50" suffix="m" slider></bim-number-input>
+                        </bim-input>
+                        <bim-dropdown label="IFC Entity">
+                            <bim-option label="IFCWALL"></bim-option>
+                            <bim-option label="IFCWINDOW"></bim-option>
+                            <bim-option label="IFCSLAB"></bim-option>
+                        </bim-dropdown>
+                    </bim-panel-section>
+                </bim-panel>
+            </div>
+            <div id="viewer" style="grid-area: main; height: calc(100vh - 136);">
+                <div style="position: absolute; cursor: pointer; display: flex; flex-direction: row; column-gap: 5px;">
+                    <i class='bx bx-sm bx-home' id="bim-viewer-home" style="cursor: pointer;"></i>
+                    <i class='bx bx-sm bx-exit' id="bim-viewer-project-details" style="cursor: pointer;"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div id="viewer" style="width: 100vw; height: 100vh; min-width: 0; position: relative;">
+
+        </div> -->
+        
+    </section>
+    
+    <main id="content-project-details" class="project-details page-hidden" style="display: flex; justify-content: center; align-items: center;">
+        <div id="shortcut-container" style="width: 500px; height: 500px; background-color: lightgray;">
+            <div id="shortcut-header">
+                <label for="">Search</label>
+                <input type="text">
+            </div>
+            <div id="shortcut-assignments">
+                <div class="commands">
+                    <div class="command-line">
+                        <p class="command">Create new Create new projectCreate new projectproject</p>
+                    </div>
+                    <div class="command-line">
+                        <p class="command">Create new project</p>
+                    </div>
+                    <div class="command-line">
+                        <p class="command">Create new project</p>
+                    </div>
+                    <div class="command-line">
+                        <p class="command">Create new project</p>
+                    </div>
+                </div>
+                <div class="shortcut">
+                    <div class="command-line">
+                        <p class="key">cnp</p>
+                    </div>
+                    <div class="command-line">
+                        <p class="key">cnp</p>
+                    </div>
+                    <div class="command-line">
+                        <p class="key">cnp</p>
+                    </div>
+                    <div class="command-line">
+                        <p class="key">cnp</p>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </main>
+  
+    <script type="module" src="src/main.ts"></script>
+</body>
+</html>
+
+

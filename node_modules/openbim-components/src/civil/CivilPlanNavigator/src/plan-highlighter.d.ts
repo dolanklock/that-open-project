@@ -1,0 +1,27 @@
+import * as THREE from "three";
+import * as FRAGS from "bim-fragment";
+import { CurveHighlighter } from "../../CivilNavigator/src/curve-highlighter";
+import { KPManager } from "../../CivilNavigator/src/kp-manager";
+export declare class PlanHighlighter extends CurveHighlighter {
+    private kpManager;
+    private readonly markupMaterial;
+    private offset;
+    private markupLines;
+    private currentCurveMesh?;
+    constructor(scene: THREE.Group | THREE.Scene, kpManager: KPManager);
+    showCurveInfo(curveMesh: FRAGS.CurveMesh): void;
+    updateOffset(screenSize: {
+        height: number;
+        width: number;
+    }, _zoom: number, _triggerRedraw: boolean): void;
+    dispose(): void;
+    private disposeMarkups;
+    unSelect(): void;
+    private calculateTangent;
+    private calculateParallelCurve;
+    private calculateDimensionLines;
+    private offsetDimensionLine;
+    private showLineInfo;
+    private showClothoidInfo;
+    private showCircularArcInfo;
+}

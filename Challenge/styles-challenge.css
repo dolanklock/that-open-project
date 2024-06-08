@@ -1,0 +1,587 @@
+/* font style import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300&display=swap');
+
+:root {
+    --primary: #26282b;
+    --primary-100: #029AE0;
+    --primary-200: #4a4946;
+    --primary-300: #202124;
+    --background-100: #029AE0;
+    --action-btn: #27d128;
+    --font-xs: 10px;
+    --font-sm: 12px;
+    --font-base: 14px;
+    --font-lg: 16px;
+    --font-xl: 18px;
+    --font-2xl: 20px;
+    --font-3xl: 22px;
+    --card-width: 350px;
+}
+
+
+/* styling all font in html doc using 'Global selector' */
+* {
+    font-family: 'Inter' sans-serif;
+    /* font-weight: 100; */
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+body {
+    display: grid;
+    grid-template-columns: 300px 1fr; /* 300 specifies the first colo=umn width and the 1fr means the second column takes the rest of the width */
+    grid-template-areas: 'sidebar content'; /* this lets us assign a name to each column, first is called sidebar and the second column is content */
+    height: 100vh;
+    background-color: #202124;
+    color: white;
+    margin: 0;
+    font-weight: 100;
+}
+
+h2 {
+    font-size: var(--font-3xl);
+}
+
+h3 {
+    font-size: var(--font-2xl);
+}
+
+h4 {
+    font-size: var(--font-xl);
+}
+
+h5 {
+    font-size: var(--font-lg);
+}
+
+#main {
+    height: 100vh;
+    width: 100%;
+}
+
+
+/* ------------------- sidebar ----------------- */
+
+
+#sidebar {
+    background-color: var(--primary);
+    display: flex;
+    flex-direction: column; /* makes items stack in y direction rather than being in x direction */
+    row-gap: 40px;
+    padding: 25px;
+    align-items: center;
+}
+
+#company-logo {
+    height: 65px;
+    width: 300px;
+}
+
+#nav-buttons {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* only will style li elements within nav-buttons id */
+#nav-buttons li {
+    background-color: var(--primary);
+    border-radius: 10px;
+    font-size: var(--font-base);
+    cursor: pointer;
+    padding: 10px;
+    list-style-type: none;
+    margin: 5px;
+    align-items: center;
+    display: flex;
+    column-gap: 10px;
+
+
+}
+
+#nav-buttons li:hover {
+    background-color: var(--primary-100);
+}
+
+
+/* ------------ main content ----------- */
+
+
+#content {
+    background-color: var(--primary-300);
+}
+
+#page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+#page-header button {
+    background-color: var(--primary-100);
+    border-radius: 5px;
+    border: 1 solid var(--primary-100);
+    color: white;
+    padding: 10px;
+}
+
+#page-header button:hover {
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+
+/* --------------------- project card styles ----------------------- */
+
+#project-list {
+    display: grid;
+    /* here we use the repeat function and specify auto-fill
+    for the first arg, this will return and wrap content when screen
+    gets too small to fit the content. then we use minmax to specify
+    the min width for each column before returning that column below
+    and the 1fr is the max which evenly spaces them out  */
+    grid-template-columns: repeat(auto-fill, minmax(var(--card-width), 1fr));
+    gap: 30px 30px;
+    padding: 20px 20px;
+}
+
+.project-card {
+    width: auto;
+    height: fit-content;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.project-card:hover {
+    background-color: var(--primary-100);
+}
+
+.project-card h1 {
+    padding: 0;
+    margin: 0;
+}
+
+.project-card-header {
+    width: auto;
+    height: 15%;
+    display: flex;
+    background-color: #4a4946;
+    border-bottom: 1px solid var(--primary);
+    color: white;
+    padding: 15px;
+    border-radius: 10px 10px 0 0;
+    align-items: center;
+}
+
+.project-card-header:hover {
+    background-color: var(--primary);
+    cursor: pointer;
+}
+
+.project-card-header h2,
+.project-card-header p {
+    margin: 0;
+    vertical-align: top;
+    font-family: 'Open Sans', sans-serif;
+    font-size: var(--font-lg);
+}
+
+.project-card-body {
+    width: auto;
+    background-color: var(--primary-200);
+    border-radius: 0  0 10px 10px;
+    padding: 15px;
+    height: fit-content;
+}
+
+/* .project-card-body:hover {
+    background-color: var(--primary-100);
+} */
+
+.card-img {
+    width: 40px;
+    height: 40px;
+    background-color: orange;
+    display: inline-block;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.card-img h2 {
+    line-height: 40px;
+    text-align: center;
+}
+
+.card-title {
+    margin: 0;
+    justify-content: center;
+    display: inline-block;
+    line-height: 1.5rem;
+    font-weight: 100;
+}
+
+.card-body {
+    color: darkgray;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+
+/* ---------------- NEW PROJECT FORM DIALOG ---------------- */
+
+form {
+    width: 450px;
+    border-radius: 10px;
+    background-color: var(--primary);
+    color: white;
+}
+
+form h2 {
+    padding: 20px;
+    border-bottom: 2px solid var(--primary);
+}
+
+form .input-list {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    row-gap: 25px;
+}
+
+form .form-field-container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+form .form-field-title {
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+}
+
+dialog {
+    background-color: transparent;
+    border: none;
+    margin: auto;
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+}
+
+/* selecting multiple different tags */
+input, textarea, select {
+    color: white;
+    background-color: var(--primary-200);
+    padding: 15px;
+    border-radius: 8px;
+    border: none;
+    font-size: var(--font-base);
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: 2px solid var(--primary-200);
+}
+
+.tip {
+    font-style: italic;
+    font-size: var(--font-sm);
+    color: lightgray;
+    margin: 0;
+    padding: 0;
+}
+
+.form-action-btn {
+    background-color: var(--action-btn);
+    border-radius: 15px;
+    padding: 5px;
+    color: white;
+    border: none;
+}
+
+.form-cancel-btn {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+}
+
+
+/* ------------------- project details page ----------------- */
+
+
+#project-users {
+    background-color: var(--primary-300);
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#users-main {
+    background-color: var(--primary-300);
+    width: 90%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+
+}
+
+#users-header {
+    height: 80px;
+    background-color:var(--primary-300) ;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 25px;
+    color: white;
+}
+
+#users-header h1 {
+    font-weight: 100;
+}
+
+#users-search {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    column-gap: 15px;
+    margin: 25px;
+}
+
+#users-search input {
+    width: 700px;
+    background-color: transparent;
+    border: 1px solid darkgray;
+    color: white;
+}
+
+#users-search button {
+    width: 180px;
+    background-color: transparent;
+    border-radius: 10px;
+    padding: 12px;
+    color: white;
+    border: 1px solid darkgray;
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+    justify-content: center;
+}
+
+#users-search button:hover {
+    background-color: darkgray;
+}
+
+#users-content {
+    flex-grow: 1;
+    background-color: var(--primary-300);
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    padding: 30px;
+    overflow-y: scroll;
+}
+
+#users-header button {
+    border: 1px solid darkgray;
+    border-radius: 10px;
+    background-color: transparent;
+    padding: 6px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+#users-header button:hover {
+    cursor: pointer;
+    background-color: darkgray;
+}
+
+.user {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 15px 15px 15px 50px;
+    border-radius: 15px;
+    height: 50px;
+    background-color: #26282b;
+}
+
+.user div p {
+    margin: 5px;
+}
+
+
+.list-pair-one {
+    flex: 1;
+}
+
+.list-pair-two {
+    flex: 1;
+}
+
+.list-pair-three {
+    flex: 1;
+}
+
+.list-pair-four {
+    flex: 1;
+}
+
+.list-pair-five {
+    flex: 1;
+}
+
+.list-pair-five button {
+    width: 150px;
+    background-color: transparent;
+    border-radius: 10px;
+    padding: 12px;
+    color: white;
+    border: 1px solid darkgray;
+}
+
+.list-pair-five button:hover {
+    background-color: darkgray;
+}
+
+.sub-title {
+    color: lightgray;
+    font-size: var(--font-sm);
+}
+
+.active-user {
+    color: #27d128;
+}
+
+.inactive-user {
+    color: red;
+}
+
+.pending-user {
+    color: yellow;
+}
+
+
+#users-title-content {
+    background-color: var(--primary-300);
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    padding: 30px;
+}
+
+.users-title {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 15px 15px 15px 50px;
+    height: 50px;
+    border-bottom: 1px solid darkgray;
+}
+
+.users-title div p {
+    margin: 5px;
+}
+
+/* -------------------- new user dialog ----------------------------- */
+
+
+#new-user-dialog {
+    width: 500pxpx;
+    height: fit-content;
+    background-color: var(--primary);
+    border-radius: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    row-gap:30px;
+    padding: 30px;
+}
+
+.input-dialog {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#new-user-dialog::backdrop {
+    backdrop-filter: blur(5px);
+}
+
+.input-dialog input {
+    width: 150px;
+}
+
+.input-title {
+    display: flex;
+    column-gap: 15px;
+    align-items: center;
+}
+
+.input-title span {
+    display: flex;
+    align-items: center;
+    background-color: darkgray;
+    border-radius: 8px;
+    padding: 3px;
+}
+
+#new-user-buttons {
+    display: flex;
+    justify-content: end;
+    column-gap: 20px;
+    margin-top: 20px;
+
+}
+
+#cancel-btn {
+    background-color:red;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    width: 70px;
+}
+
+#add-btn {
+    background-color:#27d128;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    width: 100px;
+}
+
+#new-user-buttons button:hover {
+    cursor: pointer;
+    background-color: darkgray;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

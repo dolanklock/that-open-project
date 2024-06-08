@@ -1,0 +1,5 @@
+import { FloatingWindow } from "../../ui";
+import { Components, Simple2DScene } from "../../core";
+export declare class CivilFloatingWindow {
+    static get(components: Components, scene: Simple2DScene, name: string): FloatingWindow;
+}

@@ -1,0 +1,63 @@
+import * as THREE from "three";
+import * as FRAGS from "bim-fragment";
+import { Alignment } from "bim-fragment";
+export class CivilReader {
+    constructor() {
+        this.defLineMat = new THREE.LineBasicMaterial({ color: 0xffffff });
+    }
+    read(webIfc) {
+        const IfcAlignment = webIfc.GetAllAlignments(0);
+        const IfcCrossSection2D = webIfc.GetAllCrossSections2D(0);
+        const IfcCrossSection3D = webIfc.GetAllCrossSections3D(0);
+        const civilItems = {
+            IfcAlignment,
+            IfcCrossSection2D,
+            IfcCrossSection3D,
+        };
+        return this.get(civilItems);
+    }
+    get(civilItems) {
+        if (civilItems.IfcAlignment) {
+            const alignments = new Map();
+            for (const ifcAlign of civilItems.IfcAlignment) {
+                const alignment = new Alignment();
+                alignment.absolute = this.getCurves(ifcAlign.curve3D, alignment);
+                alignment.horizontal = this.getCurves(ifcAlign.horizontal, alignment);
+                alignment.vertical = this.getCurves(ifcAlign.vertical, alignment);
+                alignments.set(alignments.size, alignment);
+            }
+            return { alignments, coordinationMatrix: new THREE.Matrix4() };
+        }
+        return undefined;
+    }
+    getCurves(ifcAlignData, alignment) {
+        const curves = [];
+        let index = 0;
+        for (const curve of ifcAlignData) {
+            const data = {};
+            if (curve.data) {
+                for (const entry of curve.data) {
+                    const [key, value] = entry.split(": ");
+                    const numValue = parseFloat(value);
+                    data[key] = numValue || value;
+                }
+            }
+            const { points } = curve;
+            const array = new Float32Array(points.length * 3);
+            for (let i = 0; i < points.length; i++) {
+                const { x, y, z } = points[i];
+                array[i * 3] = x;
+                array[i * 3 + 1] = y;
+                array[i * 3 + 2] = z || 0;
+            }
+            const attr = new THREE.BufferAttribute(array, 3);
+            const geometry = new THREE.EdgesGeometry();
+            geometry.setAttribute("position", attr);
+            const mesh = new FRAGS.CurveMesh(index, data, alignment, geometry, this.defLineMat);
+            curves.push(mesh.curve);
+            index++;
+        }
+        return curves;
+    }
+}
+//# sourceMappingURL=civil-reader.js.map

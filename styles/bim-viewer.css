@@ -1,0 +1,38 @@
+:root {
+    --action-btn: #27d128;
+    --cancel-btn: #fa4141;
+    --primary-btn: #029AE0;
+    --opencompany-green: #BCF124;
+    --primary: #22272e;
+}
+
+/* #bim-viewer {
+    width: 100vw !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    background-color: orange;
+} */
+
+
+#bim-viewer {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* bim-button {
+    color:black
+}
+
+bim-panel,
+bim-panel-section,
+bim-toolbars-container,
+bim-toolbar,
+bim-toolbar-section {
+    background-color: var(--primary);
+} */
+

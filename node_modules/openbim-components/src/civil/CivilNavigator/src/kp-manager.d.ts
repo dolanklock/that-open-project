@@ -1,0 +1,23 @@
+import * as THREE from "three";
+import * as FRAGS from "bim-fragment";
+import CameraControls from "camera-controls";
+import { Components, SimpleRenderer } from "../../../core";
+import { MarkerManager } from "../../../core/Simple2DMarker/src/marker-manager";
+import { PostproductionRenderer } from "../../../navigation";
+type CivilHighlightType = "horizontal" | "absolute" | "vertical";
+export declare class KPManager extends MarkerManager {
+    private view;
+    private divisionLength;
+    constructor(components: Components, renderer: SimpleRenderer | PostproductionRenderer, scene: THREE.Group | THREE.Scene, controls: CameraControls, type: CivilHighlightType);
+    showKPStations(mesh: FRAGS.CurveMesh): void;
+    showCurveLength(points: THREE.Vector3[], length: number): void;
+    showLineLength(line: THREE.Line, length: number): void;
+    showCurveRadius(line: THREE.Line, radius: number): void;
+    private generateStartAndEndKP;
+    private createNormalLine;
+    private generateConstantKP;
+    private getNormal;
+    private getShortendKPValue;
+    clearKPStations(): void;
+}
+export {};

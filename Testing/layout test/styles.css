@@ -1,0 +1,475 @@
+/* font style import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300&display=swap');
+
+:root {
+    --primary: #26282b;
+    --primary-100: #029AE0;
+    --primary-200: #4a4946;
+    --primary-300: #202124;
+    --background-100: #029AE0;
+    --action-btn: #27d128;
+    --font-xs: 10px;
+    --font-sm: 12px;
+    --font-base: 14px;
+    --font-lg: 16px;
+    --font-xl: 18px;
+    --font-2xl: 20px;
+    --font-3xl: 22px;
+    --card-width: 350px;
+}
+
+
+/* styling all font in html doc using 'Global selector' */
+* {
+    font-family: 'Inter' sans-serif;
+    /* font-weight: 100; */
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+body {
+    display: grid;
+    grid-template-columns: 300px 1fr; /* 300 specifies the first colo=umn width and the 1fr means the second column takes the rest of the width */
+    grid-template-areas: 'sidebar content'; /* this lets us assign a name to each column, first is called sidebar and the second column is content */
+    height: 100vh;
+    background-color: #202124;
+    color: white;
+    margin: 0;
+}
+
+h2 {
+    font-size: var(--font-3xl);
+}
+
+h3 {
+    font-size: var(--font-2xl);
+}
+
+h4 {
+    font-size: var(--font-xl);
+}
+
+h5 {
+    font-size: var(--font-lg);
+}
+
+
+/* ------------------- sidebar ----------------- */
+
+
+#sidebar {
+    background-color: var(--primary);
+    display: flex;
+    flex-direction: column; /* makes items stack in y direction rather than being in x direction */
+    row-gap: 40px;
+    padding: 25px;
+    align-items: center;
+}
+
+#company-logo {
+    height: 65px;
+    width: 300px;
+}
+
+#nav-buttons {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* only will style li elements within nav-buttons id */
+#nav-buttons li {
+    background-color: var(--primary);
+    border-radius: 10px;
+    font-size: var(--font-base);
+    cursor: pointer;
+    padding: 10px;
+    list-style-type: none;
+    margin: 5px;
+    align-items: center;
+    display: flex;
+    column-gap: 10px;
+
+
+}
+
+#nav-buttons li:hover {
+    background-color: var(--primary-100);
+}
+
+
+/* ------------ main content ----------- */
+
+
+#content {
+    background-color: var(--primary-300);
+}
+
+#page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+#page-header button {
+    background-color: var(--primary-100);
+    border-radius: 5px;
+    border: 1 solid var(--primary-100);
+    color: white;
+    padding: 10px;
+}
+
+#page-header button:hover {
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+
+/* --------------------- project card styles ----------------------- */
+
+#project-list {
+    display: grid;
+    /* here we use the repeat function and specify auto-fill
+    for the first arg, this will return and wrap content when screen
+    gets too small to fit the content. then we use minmax to specify
+    the min width for each column before returning that column below
+    and the 1fr is the max which evenly spaces them out  */
+    grid-template-columns: repeat(auto-fill, minmax(var(--card-width), 1fr));
+    gap: 30px 30px;
+    padding: 20px 20px;
+}
+
+.project-card {
+    width: auto;
+    height: fit-content;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.project-card:hover {
+    background-color: var(--primary-100);
+}
+
+.project-card h1 {
+    padding: 0;
+    margin: 0;
+}
+
+.project-card-header {
+    width: auto;
+    height: 15%;
+    display: flex;
+    background-color: #4a4946;
+    border-bottom: 1px solid var(--primary);
+    color: white;
+    padding: 15px;
+    border-radius: 10px 10px 0 0;
+    align-items: center;
+}
+
+.project-card-header:hover {
+    background-color: var(--primary);
+    cursor: pointer;
+}
+
+.project-card-header h2,
+.project-card-header p {
+    margin: 0;
+    vertical-align: top;
+    font-family: 'Open Sans', sans-serif;
+    font-size: var(--font-lg);
+}
+
+.project-card-body {
+    width: auto;
+    background-color: var(--primary-200);
+    border-radius: 0  0 10px 10px;
+    padding: 15px;
+    height: fit-content;
+}
+
+/* .project-card-body:hover {
+    background-color: var(--primary-100);
+} */
+
+.card-img {
+    width: 40px;
+    height: 40px;
+    background-color: orange;
+    display: inline-block;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.card-img h2 {
+    line-height: 40px;
+    text-align: center;
+}
+
+.card-title {
+    margin: 0;
+    justify-content: center;
+    display: inline-block;
+    line-height: 1.5rem;
+    font-weight: 100;
+}
+
+.card-body {
+    color: darkgray;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+
+/* ---------------- NEW PROJECT FORM DIALOG ---------------- */
+
+form {
+    width: 450px;
+    border-radius: 10px;
+    background-color: var(--primary);
+    color: white;
+}
+
+form h2 {
+    padding: 20px;
+    border-bottom: 2px solid var(--primary);
+}
+
+form .input-list {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    row-gap: 25px;
+}
+
+form .form-field-container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+form .form-field-title {
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+}
+
+dialog {
+    background-color: transparent;
+    border: none;
+    margin: auto;
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+}
+
+/* selecting multiple different tags */
+input, textarea, select {
+    color: white;
+    background-color: var(--primary-200);
+    padding: 15px;
+    border-radius: 8px;
+    border: none;
+    font-size: var(--font-base);
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: 2px solid var(--primary-200);
+}
+
+.tip {
+    font-style: italic;
+    font-size: var(--font-sm);
+    color: lightgray;
+    margin: 0;
+    padding: 0;
+}
+
+.form-action-btn {
+    background-color: var(--action-btn);
+    border-radius: 15px;
+    padding: 5px;
+    color: white;
+    border: none;
+}
+
+.form-cancel-btn {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+}
+
+
+/* ------------------- project details page ----------------- */
+
+
+/* header */
+
+#main {
+    height: 100vh;
+    width: 100%;
+}
+
+#project-details {
+    background-color: #27d128;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-height: 100%;
+}
+
+/* ---------------- header -------------- */
+
+#proj-detals-header {
+    background-color: var(--primary-300);
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding-left: 25px;
+    justify-content: center;
+}
+
+#proj-detals-header h2, p {
+    margin: 0;
+}
+
+
+/* ---------------- body ---------------- */
+
+
+#proj-details-content {
+    background-color: var(--primary-300);
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    padding: 20px;
+}
+
+/* ---------------- main side panel and viewer -------------- */
+
+#side-info-panel {
+    background-color: var(--primary-300);
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+}
+
+
+#viewer {
+    flex-grow: 1;
+    background-color: var(--primary);
+}
+
+/*  ----------- side panel contents ------------ */
+
+#info {
+    background-color: var(--primary);
+    width: 100%;
+    height: 400px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    box-sizing: border-box;
+    row-gap: 35px;
+}
+
+#todo {
+    background-color: var(--primary);
+    flex-grow: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/*  ----------- info panel contents ------------ */
+
+#info-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+#info-header div {
+    background-color: orange;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#info-header button {
+    width: 100px;
+    border: 1px solid white;
+    border-radius: 20px;
+    background-color: var(--primary);
+    padding: 10px;
+    color: white;
+}
+
+#info-sub-header {
+    display: flex;
+    flex-direction: column;
+}
+
+#info-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stat-title {
+    color: lightgray;
+}
+
+
+/*  ----------- todo panel contents ------------ */
+
+
+#todo-search {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: var(--primary);
+}
+
+#todo-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    background-color: var(--primary);
+    overflow-y: scroll;
+}
+
+.todo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid darkgray;
+    margin: 10px;
+}
+
+
+
+
+

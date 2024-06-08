@@ -1,0 +1,39 @@
+import * as THREE from "three";
+import * as FRAGS from "bim-fragment";
+import { Alignment, FragmentsGroup } from "bim-fragment";
+import { CurveHighlighter } from "../CivilNavigator/src/curve-highlighter";
+import { Component, Event } from "../../base-types";
+import { Components, Simple2DMarker } from "../../core";
+import { CivilMarkerType } from "../CivilNavigator";
+export declare class Civil3DNavigator extends Component<any> {
+    static readonly uuid: "0a59c09e-2b49-474a-9320-99f51f40f182";
+    readonly onHighlight: Event<{
+        curve: FRAGS.CurveMesh;
+        point: THREE.Vector3;
+        index: number;
+    }>;
+    highlighter: CurveHighlighter;
+    enabled: boolean;
+    mouseMarkers: {
+        hover: Simple2DMarker;
+        select: Simple2DMarker;
+    };
+    readonly onMarkerChange: Event<{
+        alignment: FRAGS.Alignment;
+        percentage: number;
+        type: CivilMarkerType;
+        curve: FRAGS.CivilCurve;
+    }>;
+    readonly onMarkerHidden: Event<{
+        type: CivilMarkerType;
+    }>;
+    private _curves;
+    constructor(components: Components);
+    get(): any;
+    draw(model: FragmentsGroup): void;
+    setup(): void;
+    private newMouseMarker;
+    setMarker(alignment: Alignment, percentage: number, type: CivilMarkerType): void;
+    hideMarker(type: CivilMarkerType): void;
+    private updateMarker;
+}

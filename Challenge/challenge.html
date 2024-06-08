@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles-challenge.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
+</head>
+<body>
+    <aside id="sidebar">
+        <img id="company-logo" src="company-logo.svg" alt="company logo">
+        <ul id="nav-buttons">
+            <li><span class="material-icons-round">apartment</span>Projects</li>
+            <li><span class="material-icons-round">people</span>Users</li>
+        </ul>
+    </aside>
+
+
+    <!-- projects page main -->
+
+    <main id="content">
+        <div id="projects-page" style="display: none;">
+            <dialog id="new-project-modal">
+                <form action="">
+                    <h2>New Project</h2>
+                    <div class="input-list">
+                        <div class="form-field-container">
+                            <div class="form-field-title">
+                                <span class="material-icons-round">apartment</span>
+                                <label for="">Name</label>
+                            </div>
+                            <input type="text" placeholder="name">
+                            <p class="tip">TIP: Give it a short name</p>
+                        </div>
+                        <div class="form-field-container">
+                            <div class="form-field-title">
+                                <span class="material-icons-round">description</span>
+                                <label for="">Description</label>
+                            </div>
+                            <textarea name="" id="" cols="30" rows="5" placeholder="Give you..."></textarea>
+                        </div>
+                        <div class="form-field-container">
+                            <div class="form-field-title">
+                                <span class="material-icons-round">person</span>
+                                <label for="">Role</label>
+                            </div>
+                            <select name="" id="">
+                                <option value="">Architect</option>
+                                <option value="">Engineer</option>
+                                <option value="">Developer</option>
+                            </select>
+                        </div>
+                        <div class="form-field-container">
+                            <div class="form-field-title"> 
+                                <span class="material-icons-round">place</span>
+                                <label for="">Status</label>
+                            </div>
+                            <select name="" id="">
+                                <option value="">Pending</option>
+                                <option value="">Active</option>
+                                <option value="">Finished</option>
+                            </select>
+                        </div>
+                        <div class="form-field-container">
+                            <div class="form-field-title">
+                                <span class="material-icons-round">calendar_today</span>
+                                <label for="">Finish Date</label>
+                            </div>
+                            <input type="date">
+                        </div>
+                        <div>
+                            <button class="form-cancel-btn">Cancel</button>
+                            <button class="form-action-btn">Accept</button>
+                        </div>
+                    </div>
+                </form>
+            </dialog>
+            <header id="page-header">
+                <h2>Projects</h2>
+                <div>
+                    <button class="new-project-btn">New Projects</button>
+                </div>
+            </header>
+            <div id="project-list">
+                <div class="project-card">
+                    <div class="project-card-header">
+                        <div class="card-img">
+                            <h2>HP</h2>
+                        </div>
+                        <div class="card-title">
+                            <h2>Hospital</h2>
+                            <p>Community hospital located at downtown.</p>
+                        </div>
+                    </div>
+                    <div class="project-card-body">
+                        <div class="card-body">
+                            <p>Status</p>
+                            <p style="color: white;">Active</p>
+                        </div>
+                        <div class="card-body">
+                            <p>Role</p>
+                            <p style="color: white;">Engineer</p>
+                        </div>
+                        <div class="card-body">
+                            <p>Cost</p>
+                            <p style="color: white;">$2,000,000</p>
+                        </div>
+                        <div class="card-body">
+                            <p>Estimated Progress</p>
+                            <p style="color: white;">50%</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-card-header">
+                        <div class="card-img">
+                            <h2>HP</h2>
+                        </div>
+                        <div class="card-title">
+                            <h2>Hospital</h2>
+                            <p>Community hospital located at downtown.</p>
+                        </div>
+                    </div>
+                    <div class="project-card-body">
+                        <div class="card-body">
+                            <p>Status</p>
+                            <p style="color: white;">Active</p>
+                        </div>
+                        <div class="card-body">
+                            <p>Role</p>
+                            <p style="color: white;">Engineer</p>
+                        </div>
+                        <div class="card-body">
+                            <p>Cost</p>
+                            <p style="color: white;">$2,000,000</p>
+                        </div>
+                        <div class="card-body">
+                            <p>Estimated Progress</p>
+                            <p style="color: white;">50%</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-card-header">
+                        <div class="card-img">
+                            <h2>HP</h2>
+                        </div>
+                        <div class="card-title">
+                            <h2>Hospital</h2>
+                            <p>Community hospital located at downtown.</p>
+                        </div>
+                    </div>
+                    <div class="project-card-body">
+                        <div class="card-body">
+                            <p>Status</p>
+                            <p style="color: white;">Active</p>
+                        </div>
+                        <div class="card-body">
+                            <p>Role</p>
+                            <p style="color: white;">Engineer</p>
+                        </div>
+                        <div class="card-body">
+                            <p>Cost</p>
+                            <p style="color: white;">$2,000,000</p>
+                        </div>
+                        <div class="card-body">
+                            <p>Estimated Progress</p>
+                            <p style="color: white;">50%</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-card-header">
+                        <div class="card-img">
+                            <h2>HP</h2>
+                        </div>
+                        <div class="card-title">
+                            <h2>Hospital</h2>
+                            <p>Community hospital located at downtown.</p>
+                        </div>
+                    </div>
+                    <div class="project-card-body">
+                        <div class="card-body">
+                            <p>Status</p>
+                            <p style="color: white;">Active</p>
+                        </div>
+                        <div class="card-body">
+                            <p>Role</p>
+                            <p style="color: white;">Engineer</p>
+                        </div>
+                        <div class="card-body">
+                            <p>Cost</p>
+                            <p style="color: white;">$2,000,000</p>
+                        </div>
+                        <div class="card-body">
+                            <p>Estimated Progress</p>
+                            <p style="color: white;">50%</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-card-header">
+                        <div class="card-img">
+                            <h2>HP</h2>
+                        </div>
+                        <div class="card-title">
+                            <h2>Hospital</h2>
+                            <p>Community hospital located at downtown.</p>
+                        </div>
+                    </div>
+                    <div class="project-card-body">
+                        <div class="card-body">
+                            <p>Status</p>
+                            <p style="color: white;">Active</p>
+                        </div>
+                        <div class="card-body">
+                            <p>Role</p>
+                            <p style="color: white;">Engineer</p>
+                        </div>
+                        <div class="card-body">
+                            <p>Cost</p>
+                            <p style="color: white;">$2,000,000</p>
+                        </div>
+                        <div class="card-body">
+                            <p>Estimated Progress</p>
+                            <p style="color: white;">50%</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-card-header">
+                        <div class="card-img">
+                            <h2>HP</h2>
+                        </div>
+                        <div class="card-title">
+                            <h2>Hospital</h2>
+                            <p>Community hospital located at downtown.</p>
+                        </div>
+                    </div>
+                    <div class="project-card-body">
+                        <div class="card-body">
+                            <p>Status</p>
+                            <p style="color: white;">Active</p>
+                        </div>
+                        <div class="card-body">
+                            <p>Role</p>
+                            <p style="color: white;">Engineer</p>
+                        </div>
+                        <div class="card-body">
+                            <p>Cost</p>
+                            <p style="color: white;">$2,000,000</p>
+                        </div>
+                        <div class="card-body">
+                            <p>Estimated Progress</p>
+                            <p style="color: white;">50%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- for project details page -->
+
+        <div id="project-users">
+            <div id="users-main">
+                <dialog id="dialog">
+                    <form action="" id="new-user-dialog">
+                        <h2>New User</h2>
+                        <div class="input-dialog">
+                            <div class="input-title">
+                                <span class="material-icons-round">
+                                    person
+                                    </span>
+                                <label for="">Name</label>
+                            </div>
+                            <input type="text" placeholder="name" required>
+                        </div>
+                        <div class="input-dialog">
+                            <div class="input-title">
+                                <span class="material-icons-round">
+                                    calendar_today
+                                    </span>
+                                <label for="">Date</label>
+                            </div>
+                            <input type="date">
+                        </div>
+                        <div class="input-dialog">
+                            <div class="input-title">
+                                <span class="material-icons-round">
+                                    engineering
+                                    </span>
+                                <label for="">Job</label>
+                            </div>
+                            <input type="text" placeholder="job title">
+                        </div>
+                        <div class="input-dialog">
+                            <div class="input-title">
+                                <span class="material-icons-round">
+                                    location_on
+                                    </span>
+                                <label for="">Address</label>
+                            </div>
+                            <input type="text" placeholder="address">
+                        </div>
+                        <div class="input-dialog">
+                            <div class="input-title">
+                                <span class="material-icons-round">
+                                    account_circle
+                                    </span>
+                                <label for="">Created By</label>
+                            </div>
+                            <select name="" id="">
+                                <option value="">Dolan</option>
+                                <option value="">Dustin</option>
+                                <option value="">Daniel</option>
+                                <option value="">Braedon</option>
+                            </select>
+                        </div>
+                        <div id="new-user-buttons">
+                            <button id="add-btn">Add</button>
+                            <button id="cancel-btn">Cancel</button>
+                        </div>
+                    </form>
+                </dialog>
+                
+                <!-- main page content -->
+
+                <div id="users-header">
+                    <h1>Current Users</h1>
+                    <button id="new-user-btn">New User</button>
+                </div>
+                <div id="users-search">
+                    <span style="padding: 3px; background-color: darkgray; border-radius: 8px;" class="material-icons-round">
+                        manage_search
+                        </span>
+                    <input type="text" placeholder="Search For User">
+                    <button><span class="material-icons-round">swap_vert</span>Recently Added</button>
+                    <button><span class="material-icons-round">filter_alt</span>Filter By</button>
+                </div>
+                <div  id="users-title-content">
+                    <div class="users-title">
+                        <div class="list-pair-one">
+                            <p>Name</p>
+                            <p class="sub-title">Email Address</p>
+                        </div>
+                        <div class="list-pair-two">
+                            <p>Job / Postition</p>
+                            <p class="sub-title">Location</p>
+                        </div>
+                        <div class="list-pair-three">
+                            <p>Shift Timing</p>
+                            <p class="sub-title">Duration</p>
+                        </div>
+                        <div class="list-pair-four">
+                            <p>Member Status</p>
+                            <p class="sub-title">Ticket Count</p>
+                        </div>
+                        <div class="list-pair-five">
+                            <button style="display: none;"></button>
+                        </div>
+                    </div>
+                </div>
+                <div id="users-content">
+                    <div class="user">
+                        <div class="list-pair-one">
+                            <p>Dolan Klock</p>
+                            <p class="sub-title">dolank16@gmail.com</p>
+                        </div>
+                        <div class="list-pair-two">
+                            <p>Architect</p>
+                            <p class="sub-title">Ottawa, ON, CA</p>
+                        </div>
+                        <div class="list-pair-three">
+                            <p>9:00AM - 6:00PM</p>
+                            <p class="sub-title">DEC 12, 2022 - Present</p>
+                        </div>
+                        <div class="list-pair-four">
+                            <p class="active-user">Active</p>
+                            <p class="sub-title">10 Tickets</p>
+                        </div>
+                        <div class="list-pair-five">
+                            <button>View Details</button>
+                        </div>
+                    </div>
+                    <div class="user">
+                        <div class="list-pair-one">
+                            <p>Dolan Klock</p>
+                            <p class="sub-title">dolank16@gmail.com</p>
+                        </div>
+                        <div class="list-pair-two">
+                            <p>Architect</p>
+                            <p class="sub-title">Ottawa, ON, CA</p>
+                        </div>
+                        <div class="list-pair-three">
+                            <p>9:00AM - 6:00PM</p>
+                            <p class="sub-title">DEC 12, 2022 - Present</p>
+                        </div>
+                        <div class="list-pair-four">
+                            <p class="inactive-user">Inactive</p>
+                            <p class="sub-title">10 Tickets</p>
+                        </div>
+                        <div class="list-pair-five">
+                            <button>View Details</button>
+                        </div>
+                    </div>
+                    <div class="user">
+                        <div class="list-pair-one">
+                            <p>Dolan Klock</p>
+                            <p class="sub-title">dolank16@gmail.com</p>
+                        </div>
+                        <div class="list-pair-two">
+                            <p>Architect</p>
+                            <p class="sub-title">Ottawa, ON, CA</p>
+                        </div>
+                        <div class="list-pair-three">
+                            <p>9:00AM - 6:00PM</p>
+                            <p class="sub-title">DEC 12, 2022 - Present</p>
+                        </div>
+                        <div class="list-pair-four">
+                            <p class="pending-user">Pending</p>
+                            <p class="sub-title">10 Tickets</p>
+                        </div>
+                        <div class="list-pair-five">
+                            <button>View Details</button>
+                        </div>
+                    </div>
+                    <div class="user">
+                        <div class="list-pair-one">
+                            <p>Dolan Klock</p>
+                            <p class="sub-title">dolank16@gmail.com</p>
+                        </div>
+                        <div class="list-pair-two">
+                            <p>Architect</p>
+                            <p class="sub-title">Ottawa, ON, CA</p>
+                        </div>
+                        <div class="list-pair-three">
+                            <p>9:00AM - 6:00PM</p>
+                            <p class="sub-title">DEC 12, 2022 - Present</p>
+                        </div>
+                        <div class="list-pair-four">
+                            <p class="pending-user">Pending</p>
+                            <p class="sub-title">10 Tickets</p>
+                        </div>
+                        <div class="list-pair-five">
+                            <button>View Details</button>
+                        </div>
+                    </div>
+                    <div class="user">
+                        <div class="list-pair-one">
+                            <p>Dolan Klock</p>
+                            <p class="sub-title">dolank16@gmail.com</p>
+                        </div>
+                        <div class="list-pair-two">
+                            <p>Architect</p>
+                            <p class="sub-title">Ottawa, ON, CA</p>
+                        </div>
+                        <div class="list-pair-three">
+                            <p>9:00AM - 6:00PM</p>
+                            <p class="sub-title">DEC 12, 2022 - Present</p>
+                        </div>
+                        <div class="list-pair-four">
+                            <p class="pending-user">Pending</p>
+                            <p class="sub-title">10 Tickets</p>
+                        </div>
+                        <div class="list-pair-five">
+                            <button>View Details</button>
+                        </div>
+                    </div>
+                    <div class="user">
+                        <div class="list-pair-one">
+                            <p>Dolan Klock</p>
+                            <p class="sub-title">dolank16@gmail.com</p>
+                        </div>
+                        <div class="list-pair-two">
+                            <p>Architect</p>
+                            <p class="sub-title">Ottawa, ON, CA</p>
+                        </div>
+                        <div class="list-pair-three">
+                            <p>9:00AM - 6:00PM</p>
+                            <p class="sub-title">DEC 12, 2022 - Present</p>
+                        </div>
+                        <div class="list-pair-four">
+                            <p class="pending-user">Pending</p>
+                            <p class="sub-title">10 Tickets</p>
+                        </div>
+                        <div class="list-pair-five">
+                            <button>View Details</button>
+                        </div>
+                    </div>
+                    <div class="user">
+                        <div class="list-pair-one">
+                            <p>Dolan Klock</p>
+                            <p class="sub-title">dolank16@gmail.com</p>
+                        </div>
+                        <div class="list-pair-two">
+                            <p>Architect</p>
+                            <p class="sub-title">Ottawa, ON, CA</p>
+                        </div>
+                        <div class="list-pair-three">
+                            <p>9:00AM - 6:00PM</p>
+                            <p class="sub-title">DEC 12, 2022 - Present</p>
+                        </div>
+                        <div class="list-pair-four">
+                            <p class="pending-user">Pending</p>
+                            <p class="sub-title">10 Tickets</p>
+                        </div>
+                        <div class="list-pair-five">
+                            <button>View Details</button>
+                        </div>
+                    </div>
+                    <div class="user">
+                        <div class="list-pair-one">
+                            <p>Dolan Klock</p>
+                            <p class="sub-title">dolank16@gmail.com</p>
+                        </div>
+                        <div class="list-pair-two">
+                            <p>Architect</p>
+                            <p class="sub-title">Ottawa, ON, CA</p>
+                        </div>
+                        <div class="list-pair-three">
+                            <p>9:00AM - 6:00PM</p>
+                            <p class="sub-title">DEC 12, 2022 - Present</p>
+                        </div>
+                        <div class="list-pair-four">
+                            <p class="pending-user">Pending</p>
+                            <p class="sub-title">10 Tickets</p>
+                        </div>
+                        <div class="list-pair-five">
+                            <button>View Details</button>
+                        </div>
+                    </div>
+                    <div class="user">
+                        <div class="list-pair-one">
+                            <p>Dolan Klock</p>
+                            <p class="sub-title">dolank16@gmail.com</p>
+                        </div>
+                        <div class="list-pair-two">
+                            <p>Architect</p>
+                            <p class="sub-title">Ottawa, ON, CA</p>
+                        </div>
+                        <div class="list-pair-three">
+                            <p>9:00AM - 6:00PM</p>
+                            <p class="sub-title">DEC 12, 2022 - Present</p>
+                        </div>
+                        <div class="list-pair-four">
+                            <p class="pending-user">Pending</p>
+                            <p class="sub-title">10 Tickets</p>
+                        </div>
+                        <div class="list-pair-five">
+                            <button>View Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </main>
+    <script src="script-challenge.js"></script>
+</body>
+</html>
+
+

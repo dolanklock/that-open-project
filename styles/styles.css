@@ -1,0 +1,229 @@
+/* font style import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300&display=swap');
+
+:root {
+    --primary: #22272e;
+    --primary-200: #4a4946;
+    --action-btn: #27d128;
+    --font-xs: 10px;
+    --font-sm: 12px;
+    --font-base: 14px;
+    --font-lg: 16px;
+    --font-xl: 18px;
+    --font-2xl: 20px;
+    --font-3xl: 22px;
+    --card-width: 350px;
+}
+
+
+/* styling all font in html doc using 'Global selector' */
+* {
+    font-family: 'Inter' sans-serif;
+    font-weight: 100;
+    /* font-weight: 100 !important;  */
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+/* html {
+    height: 100vh !important;
+    /* height: 100% !important; */
+    /* height: fit-content; */
+/* } */
+
+
+body {
+    display: flex;
+    /* 300 specifies the first colo=umn width and the 1fr means the second column takes the rest of the width */
+    /* grid-template-columns: 300px 1fr;  */
+    /* this lets us assign a name to each column, first is called sidebar and the second column is content */
+    /* grid-template-areas: 'sidebar content';  */
+    height: 100vh !important;
+    /* min-height: 700px !important; */
+    width: 100vw !important;
+    /* background-color: #202124; */
+    background-color: transparent;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    font-size: var(--font-3xl);
+}
+
+h3 {
+    font-size: var(--font-2xl);
+}
+
+h4 {
+    font-size: var(--font-xl);
+}
+
+h5 {
+    font-size: var(--font-lg);
+}
+
+#main {
+    height: 100vh;
+    width: 100%;
+}
+
+.page-hidden {
+    display: none !important;
+}
+
+
+
+/******* ------------------------- below is testing only ------------------------- ********/
+
+
+/* .proj-details-header {
+    background-color: var(--primary-300);
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding-left: 25px;
+    justify-content: center;
+}
+
+.container-test {
+    background-color: var(--primary);
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+#viewer-test {
+    width: 100%;
+    height: 100%;
+    background-color: #b8bab9;
+} */
+
+
+/* ------------- percentage complete progress bar --------------- */
+
+
+.progress-bar-container {
+    width: 75%;
+    height: 30px;
+    border: 1px solid var(--primary-200);
+    border-radius: 15px;
+    display: flex;
+}
+
+
+.progress-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: green;
+    width: 35%;
+    height: 100%;
+    border-radius: 15px;
+}
+
+
+
+/* ------------- keyboard shortcuts --------------- */
+
+
+td {
+border: 2px solid black;
+padding: 0;
+margin: 0px;
+overflow: auto;
+}
+
+#shortcut-container {
+    display: grid;
+    height: 100%;
+    width: 100%;
+    background-color: #27d128;
+    /* height: 50px; */
+    grid-template: "header" auto
+    "assignments" 1fr
+}
+
+#shortcut-header {
+    grid-area: header;
+    background-color: #029AE0;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+/* #shortcut-assignments {
+    grid-area: assignments;
+    background-color: #27d128;
+    padding: 10px;
+    box-sizing: border-box;
+} */
+#shortcut-assignments {
+    grid-area: assignments;
+    background-color: #27d128;
+    padding: 10px;
+    display: flex;
+    justify-content: row;
+
+    box-sizing: border-box;
+}
+
+.commands {
+    display: flex;
+    flex-direction: column;
+    resize: horizontal;
+    overflow: auto;
+    width: 300px;
+    height: auto;
+    margin: 0px;
+    padding: 0px;
+    border: 1px solid black;
+    /* display:block; */
+}
+
+.shortcut {
+    display: flex;
+    flex-direction: column;
+    resize: horizontal;
+    overflow: auto;
+    width: 300px;
+    height: auto;
+    margin: 0px;
+    padding: 0px;
+    border: 1px solid black;
+}
+
+.command {
+    overflow-x: hidden;
+}
+
+.command-line {
+    /* resize:horizontal; */
+    margin: 10px;
+    padding: 0px;
+    border: 1px solid black;;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

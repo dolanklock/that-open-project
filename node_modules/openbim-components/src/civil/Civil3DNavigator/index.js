@@ -1,0 +1,108 @@
+import { CurveHighlighter } from "../CivilNavigator/src/curve-highlighter";
+import { Component, Event } from "../../base-types";
+import { Simple2DMarker, ToolComponent } from "../../core";
+export class Civil3DNavigator extends Component {
+    constructor(components) {
+        super(components);
+        this.onHighlight = new Event();
+        this.enabled = true;
+        this.onMarkerChange = new Event();
+        this.onMarkerHidden = new Event();
+        this._curves = [];
+        this.components.tools.add(Civil3DNavigator.uuid, this);
+        const scene = this.components.scene.get();
+        this.highlighter = new CurveHighlighter(scene, "absolute");
+        this.mouseMarkers = {
+            select: this.newMouseMarker("#ffffff"),
+            hover: this.newMouseMarker("#575757"),
+        };
+    }
+    get() {
+        return null;
+    }
+    draw(model) {
+        if (!model.civilData) {
+            throw new Error("Model must have civil data!");
+        }
+        const scene = this.components.scene.get();
+        for (const [_id, alignment] of model.civilData.alignments) {
+            for (const { mesh } of alignment.absolute) {
+                scene.add(mesh);
+                this._curves.push(mesh);
+            }
+        }
+    }
+    setup() {
+        const dom = this.components.renderer.get().domElement;
+        dom.addEventListener("click", async (event) => {
+            if (!this.enabled) {
+                return;
+            }
+            const camera = this.components.camera.get();
+            const found = this.highlighter.castRay(event, camera, dom, this._curves);
+            if (found) {
+                const curve = found.object;
+                this.highlighter.select(curve);
+                await this.updateMarker(found, "select");
+                const { point, index } = found;
+                if (index !== undefined) {
+                    await this.onHighlight.trigger({ curve, point, index });
+                }
+                return;
+            }
+            this.highlighter.unSelect();
+            this.mouseMarkers.hover.visible = false;
+            await this.onMarkerHidden.trigger({ type: "hover" });
+        });
+        dom.addEventListener("mousemove", async (event) => {
+            if (!this.enabled) {
+                return;
+            }
+            const camera = this.components.camera.get();
+            const found = this.highlighter.castRay(event, camera, dom, this._curves);
+            if (found) {
+                this.highlighter.hover(found.object);
+                await this.updateMarker(found, "hover");
+                return;
+            }
+            this.highlighter.unHover();
+        });
+    }
+    newMouseMarker(color) {
+        const scene = this.components.scene.get();
+        const root = document.createElement("div");
+        root.style.backgroundColor = color;
+        root.style.width = "1rem";
+        root.style.height = "1rem";
+        root.style.borderRadius = "1rem";
+        const mouseMarker = new Simple2DMarker(this.components, root, scene);
+        mouseMarker.visible = false;
+        return mouseMarker;
+    }
+    setMarker(alignment, percentage, type) {
+        const point = alignment.getPointAt(percentage, "absolute");
+        this.mouseMarkers[type].visible = true;
+        const marker = this.mouseMarkers[type].get();
+        marker.position.copy(point);
+    }
+    hideMarker(type) {
+        const marker = this.mouseMarkers[type].get();
+        marker.visible = false;
+    }
+    async updateMarker(intersects, type) {
+        const { point, object } = intersects;
+        const mesh = object;
+        const curve = mesh.curve;
+        const alignment = mesh.curve.alignment;
+        const percentage = alignment.getPercentageAt(point, "absolute");
+        this.mouseMarkers[type].visible = true;
+        const marker = this.mouseMarkers[type].get();
+        marker.position.copy(point);
+        if (percentage !== null) {
+            await this.onMarkerChange.trigger({ alignment, percentage, type, curve });
+        }
+    }
+}
+Civil3DNavigator.uuid = "0a59c09e-2b49-474a-9320-99f51f40f182";
+ToolComponent.libraryUUIDs.add(Civil3DNavigator.uuid);
+//# sourceMappingURL=index.js.map

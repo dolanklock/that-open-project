@@ -1,0 +1,52 @@
+import * as FRAGS from "bim-fragment";
+import * as THREE from "three";
+import CameraControls from "camera-controls";
+import { Components, Simple2DMarker, SimpleRenderer } from "../..";
+import { PostproductionRenderer } from "../../../navigation";
+type CivilLabels = "Station" | "Radius" | "Length" | "InitialKP" | "FinalKP" | "KP" | "Slope" | "Height" | "InitialKPV" | "FinalKPV";
+/**
+ * Class for Managing Markers along with creating different types of markers
+ * Every marker is a Simple2DMarker
+ * For every marker that needs to be added, you can use the Manager to add the marker and change its look and feel
+ */
+export declare class MarkerManager {
+    private components;
+    private renderer;
+    private controls;
+    private markers;
+    private clusterLabels;
+    private currentKeys;
+    private scene;
+    private _clusterOnZoom;
+    private _color;
+    private _markerKey;
+    private _clusterKey;
+    private _clusterThreeshold;
+    private isNavigating;
+    constructor(components: Components, renderer: SimpleRenderer | PostproductionRenderer, scene: THREE.Group | THREE.Scene, controls: CameraControls);
+    set clusterOnZoom(value: boolean);
+    get clusterOnZoom(): boolean;
+    set color(value: string);
+    set clusterThreeshold(value: number);
+    get clusterThreeshold(): number;
+    private setupEvents;
+    private resetMarkers;
+    private removeMergeMarkers;
+    private manageCluster;
+    getAveragePositionFromLabels(clusterGroup: string[]): THREE.Vector3;
+    private createClusterElement;
+    addMarker(text: string, mesh: THREE.Mesh): void;
+    addMarkerAtPoint(text: string, point: THREE.Vector3, type?: CivilLabels | undefined, isStatic?: boolean): void;
+    addKPStation(text: string, mesh: THREE.Line): void;
+    addCivilVerticalMarker(text: string, mesh: FRAGS.CurveMesh, type: CivilLabels, root: THREE.Object3D): Simple2DMarker;
+    addCivilMarker(text: string, mesh: FRAGS.CurveMesh, type: CivilLabels): Simple2DMarker;
+    private addMarkerToScene;
+    private getScreenPosition;
+    private distance;
+    private navigateToCluster;
+    private createBox3FromPoints;
+    clearMarkers(): void;
+    clearMarkersByType(type: CivilLabels): void;
+    dispose(): void;
+}
+export {};

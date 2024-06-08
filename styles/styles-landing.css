@@ -1,0 +1,96 @@
+:root {
+    --primary: #22272e;
+    --primary-btn: #5551ff
+}
+
+#project-landing {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    padding: 50px;
+    box-sizing: border-box;
+    height: 100vh;
+    background-color: var(--primary);
+}
+
+#project-landing-content {
+    display: flex;
+    flex-direction: column;
+    row-gap: 50px;
+    width: 60%;
+    height: 100%;
+    color: white;
+    background-color: transparent;
+    /* padding: 20px; */
+    padding-top: 30px;
+}
+
+#project-landing-content h1 {
+    font-size: 72px;
+}
+
+#project-landing-content button {
+    background-color: #5551ff;
+    padding: 15px;
+    width: 300px;
+    height: 80px;
+    border-radius: 40px;
+    border: none;
+    font-size: 25px;
+}
+
+#project-landing-content button:hover {
+    -webkit-transform: translateY(-2px);
+	transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    transition: transform .3s ease-in-out;
+
+}
+
+
+
+#navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 60%;
+    height: 50px;
+    /* padding: 30px; */
+    box-sizing: border-box;
+    padding-bottom: 30px;
+    /* background-color:#19191a; */
+    background-color: transparent;
+    /* border-bottom: 2px solid rgb(22, 20, 20); */
+}
+
+#navbar h1 {
+    font-size: 20px;
+}
+
+#navbar-btn {
+    display: flex;
+    justify-content:space-evenly;
+    column-gap: 30px;
+    align-items: center;
+    width: fit-content;
+    height: 50px;
+    padding: 20px;
+    box-sizing: border-box;
+ 
+}
+
+#navbar-btn button:hover  {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+
+
+.video-shadow {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 10px; /* Optional: Add rounded corners */
+    /* overflow: hidden; */
+  }
+  

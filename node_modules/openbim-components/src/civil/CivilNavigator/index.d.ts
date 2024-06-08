@@ -1,0 +1,51 @@
+import * as THREE from "three";
+import * as FRAGS from "bim-fragment";
+import { Alignment, FragmentsGroup } from "bim-fragment";
+import { Component, Event } from "../../base-types";
+import { Components, Simple2DMarker, Simple2DScene } from "../../core";
+import { CurveHighlighter } from "./src/curve-highlighter";
+import { KPManager } from "./src/kp-manager";
+export type CivilMarkerType = "hover" | "select";
+export declare abstract class CivilNavigator extends Component<any> {
+    enabled: boolean;
+    scene: Simple2DScene;
+    abstract view: "horizontal" | "vertical";
+    abstract highlighter: CurveHighlighter;
+    abstract kpManager: KPManager;
+    readonly onHighlight: Event<{
+        point: THREE.Vector3;
+        mesh: FRAGS.CurveMesh;
+    }>;
+    readonly onMarkerChange: Event<{
+        alignment: FRAGS.Alignment;
+        percentage: number;
+        type: CivilMarkerType;
+        curve: FRAGS.CivilCurve;
+    }>;
+    readonly onMarkerHidden: Event<{
+        type: CivilMarkerType;
+    }>;
+    private _curveMeshes;
+    private _previousAlignment;
+    mouseMarkers: {
+        hover: Simple2DMarker;
+        select: Simple2DMarker;
+    };
+    protected constructor(components: Components);
+    initialize(): void;
+    get(): any;
+    draw(model: FragmentsGroup, filter?: Iterable<FRAGS.Alignment>): Promise<void>;
+    setupEvents(): void;
+    dispose(): Promise<void>;
+    clear(): void;
+    setMarker(alignment: Alignment, percentage: number, type: CivilMarkerType): void;
+    setDefSegments(segmentsArray: any[]): {
+        defSegments: any;
+        slope: any;
+    };
+    hideMarker(type: CivilMarkerType): void;
+    private adjustRaycasterOnZoom;
+    private newMouseMarker;
+    private setMouseMarker;
+    private updateMarker;
+}

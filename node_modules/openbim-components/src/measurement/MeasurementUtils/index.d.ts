@@ -1,0 +1,20 @@
+import * as THREE from "three";
+export interface MeasureEdge {
+    distance: number;
+    points: THREE.Vector3[];
+}
+export declare class MeasurementUtils {
+    static getFace(mesh: THREE.InstancedMesh | THREE.Mesh, triangleIndex: number, instance?: number): {
+        edges: MeasureEdge[];
+        indices: Set<number>;
+    } | null;
+    static distanceFromPointToLine(point: THREE.Vector3, lineStart: THREE.Vector3, lineEnd: THREE.Vector3, clamp?: boolean): number;
+    private static getFaceData;
+    static getVerticesAndNormal(mesh: THREE.Mesh | THREE.InstancedMesh, faceIndex: number, instance: number | undefined): {
+        p1: THREE.Vector3;
+        p2: THREE.Vector3;
+        p3: THREE.Vector3;
+        faceNormal: THREE.Vector3;
+    };
+    private static round;
+}

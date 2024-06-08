@@ -1,0 +1,18 @@
+import { UI, UIElement } from "../../base-types";
+import { FloatingWindow } from "../../ui";
+import { Components } from "../../core";
+import { CivilNavigator } from "../CivilNavigator";
+import { PlanHighlighter } from "./src/plan-highlighter";
+import { KPManager } from "../CivilNavigator/src/kp-manager";
+export declare class CivilPlanNavigator extends CivilNavigator implements UI {
+    static readonly uuid: "3096dea0-5bc2-41c7-abce-9089b6c9431b";
+    readonly view = "horizontal";
+    uiElement: UIElement<{
+        floatingWindow: FloatingWindow;
+    }>;
+    highlighter: PlanHighlighter;
+    kpManager: KPManager;
+    constructor(components: Components);
+    private fitCameraToAlignment;
+    private setUI;
+}

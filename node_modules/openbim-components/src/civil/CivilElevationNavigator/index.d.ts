@@ -1,0 +1,21 @@
+import * as FRAGS from "bim-fragment";
+import { UI, UIElement } from "../../base-types";
+import { Drawer } from "../../ui";
+import { Components } from "../../core";
+import { CivilNavigator } from "../CivilNavigator";
+import { CurveHighlighter } from "../CivilNavigator/src/curve-highlighter";
+import { KPManager } from "../CivilNavigator/src/kp-manager";
+export declare class CivilElevationNavigator extends CivilNavigator implements UI {
+    static readonly uuid: "097eea29-2d5a-431a-a247-204d44670621";
+    readonly view = "vertical";
+    uiElement: UIElement<{
+        drawer: Drawer;
+    }>;
+    highlighter: CurveHighlighter;
+    kpManager: KPManager;
+    constructor(components: Components);
+    get(): any;
+    showKPStations(mesh: FRAGS.CurveMesh): void;
+    clearKPStations(): void;
+    private setUI;
+}
