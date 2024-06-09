@@ -10,6 +10,7 @@ import help from "./components/Panels/Help"
 import camera from "./components/Toolbars/Sections/Camera"
 import selection from "./components/Toolbars/Sections/Selection"
 import { AppManager } from "./bim-components"
+// import { AIRenderer } from "./bim-components/AIRenderer"
 
 export async function ThreeDViewer() {
   BUI.Manager.init()
@@ -105,6 +106,21 @@ export async function ThreeDViewer() {
     }, 50)
   })
   
+  const APIKey = "5Dc5hLuEiPd9ie3PKG6Tv51hXDLlhU52iTOwPhqL6FJZdj6OC5cCYrngMpEq"
+
+  // require('dotenv').config()
+  // console.log("API KEY HERE FROM ENV", process.env)
+
+
+  // dotenv.config();
+  // console.log("API KEY HERE FROM ENV", process.env.API_KEY); // or any specific key
+
+  // const processURL = "https://modelslab.com/api/v6/realtime/img2img";
+  // const proxyURL = "https://cors-anywhere.herokuapp.com/"; // Avoids CORS locally
+  // const uploadURL = "https://modelslab.com/api/v3/base64_crop";
+  // const aiRenderer = new AIRenderer(components, APIKey, proxyURL, uploadURL, processURL)
+  // aiRenderer.uiElement.get("RibbonUIComponent").get()
+
   const projectInformationPanel = projectInformation(components)
   const elementDataPanel = elementData(components)
   
@@ -129,6 +145,9 @@ export async function ThreeDViewer() {
         </bim-tab>
         <bim-tab name="help" label="Help" icon="material-symbols:help">
           ${help}
+        </bim-tab>
+        <bim-tab name="AI Renderer" label="AI Renderer" icon="material-symbols:help">
+          
         </bim-tab>
       </bim-tabs> 
     `
