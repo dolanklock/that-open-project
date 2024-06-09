@@ -137,3 +137,5 @@ export class LibraryUIComponent extends OBC.SimpleUIComponent {
         this._gallery.clear()
     }
 }
+
+

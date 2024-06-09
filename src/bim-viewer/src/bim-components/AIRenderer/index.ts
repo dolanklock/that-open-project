@@ -1,3 +1,5 @@
+import * as OBC from "@thatopen/components"
+import * as BUI from "@thatopen/ui"
 
 import { v4 as uuidv4 } from 'uuid'
 import * as OBC from "@thatopen/components"
@@ -53,18 +55,18 @@ export class AIRenderer extends OBC.Component {
                 alert("Enter a prompt!")
             } else {
                 form.visible = false
-                this._spinner.visible = true
+                // this._spinner.visible = true
                 try {
                     const renderedImages = await this.renderer.render(this._APIKey, prompt)
                     if (!renderedImages) {
-                        this._spinner.visible = false
+                        // this._spinner.visible = false
                         throw new Error("Something went wrong, render images is undefined")
                     } else {
                         for ( const imageURL of renderedImages ) {
                             await this._libraryUI.addRenderCard(imageURL, "testing")
                         }
                     }
-                    this._spinner.visible = false
+                    // this._spinner.visible = false
                 } catch (error) {
                     this._spinner.visible = false
                     throw new Error(`Unable to complete render: ${error}`)
@@ -125,6 +127,71 @@ export class AIRenderer extends OBC.Component {
         return undefined
     }
 }
+
+export default (components: OBC.Components) => {
+
+
+
+
+
+    return BUI.Component.create<BUI.Panel>(() => {
+        return BUI.html `
+        <bim-panel>
+    
+            <bim-panel-section style="background-color: #22272e;" label="AI Render" icon="tabler:world">
+                <div style="display: flex; gap: 0.375rem;">
+                    <bim-label icon="mingcute:rocket-fill">Prompt</bim-label>
+                    <bim-text-input @input= vertical placeholder="Search..." debounce="200"></bim-text-input>
+                </div>
+                <bim-button style="flex: 0;" label="Render" @click= icon="eva:expand-fill"></bim-button>
+            </bim-panel-section>
+    
+            <bim-panel-section style="background-color: #22272e;" label="Settings" icon="tabler:world">
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <div style="display: flex; flex-direction: column; gap: .5rem;">
+                <bim-label style="display: flex" icon="mingcute:rocket-fill">Negative prompt</bim-label>
+                <bim-text-input @input= vertical placeholder="Search..." debounce="200"></bim-text-input>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: .5rem;">
+                <bim-label style="display: flex" icon="mingcute:rocket-fill">Wifth</bim-label>
+                <bim-text-input @input= vertical placeholder="Search..." debounce="200"></bim-text-input>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: .5rem;">
+                <bim-label style="display: flex" icon="mingcute:rocket-fill">Height</bim-label>
+                <bim-text-input @input= vertical placeholder="Search..." debounce="200"></bim-text-input>
+                </div>
+            </div>
+            <br>
+            <bim-button style="flex: 0;" label="Update" @click= icon="eva:expand-fill"></bim-button>
+            </bim-panel-section>
+    
+            <bim-panel-section style="background-color: #22272e;" label="Gallery" icon="tabler:world">
+                <div style="width: 100%; height: fit-content; display: flex; flex-direction: column; border: 1px solid black; border-radius: 10px;">
+                    <img style="border-radius: 10px 10px 0px 0px" src="https://img.freepik.com/free-vector/tiny-people-developers-computer-working-core-system-core-system-development-all-one-software-solution-core-system-modernization-concept_335657-896.jpg?t=st=1717943201~exp=1717946801~hmac=b3d4fa56af20ddb28f508a58b22a14a035ac7678bda9a873f409aa2b489858e2&w=2000" alt="...">
+                    <div style="color: white; width: 100%; height: fit-content; display: flex; flex-direction: column; padding: 10px;">
+                    <bim-label icon="">Urban Rendering</bim-label>
+                    <bim-label icon="">modern home in urban environment</bim-label>
+                    <bim-label icon="">Nov 23, 2024</bim-label>            
+                    </div>
+                </div>
+        
+                <div style="width: 100%; height: fit-content; display: flex; flex-direction: column; border: 1px solid black; border-radius: 10px;">
+                    <img style="border-radius: 10px 10px 0px 0px" src="https://img.freepik.com/free-vector/tiny-people-developers-computer-working-core-system-core-system-development-all-one-software-solution-core-system-modernization-concept_335657-896.jpg?t=st=1717943201~exp=1717946801~hmac=b3d4fa56af20ddb28f508a58b22a14a035ac7678bda9a873f409aa2b489858e2&w=2000" alt="...">
+                    <div style="color: white; width: 100%; height: fit-content; display: flex; flex-direction: column; padding: 10px;">
+                    <bim-label icon="">Urban Rendering</bim-label>
+                    <bim-label icon="">modern home in urban environment</bim-label>
+                    <bim-label icon="">Nov 23, 2024</bim-label>            
+                    </div>
+                </div>
+            </bim-panel-section>
+    
+        </bim-panel>
+    
+    
+        `
+    })
+}
+
 
 
 // TODO: need to update so API key is not in code base - refer to open companny master class for how to avoid it

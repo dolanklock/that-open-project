@@ -1,5 +1,6 @@
 // import * as OBC from "openbim-components"
 import * as OBC from "@thatopen/components"
+import * as BUI from "@thatopen/ui"
 
 export class RibbonUIComponent {
     onRenderclick = new OBC.Event()
@@ -25,4 +26,13 @@ export class RibbonUIComponent {
         })
         this.get().style.backgroundColor = "#22272e"
     }
+}
+
+
+export default () => {
+    return BUI.Component.create<BUI.Panel>(() => {
+        return BUI.html`
+        
+        `
+    })
 }
