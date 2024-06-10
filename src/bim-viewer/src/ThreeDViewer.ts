@@ -9,6 +9,7 @@ import load from "./components/Toolbars/Sections/Import"
 import help from "./components/Panels/Help"
 import camera from "./components/Toolbars/Sections/Camera"
 import selection from "./components/Toolbars/Sections/Selection"
+import AIRenderer from "./bim-components/AIRenderer/AIRenderer"
 import { AppManager } from "./bim-components"
 // import { AIRenderer } from "./bim-components/AIRenderer"
 
@@ -133,6 +134,9 @@ export async function ThreeDViewer() {
       </bim-toolbar>
     `
   })
+
+  const aiRenderer = AIRenderer(components)
+  console.log(aiRenderer)
   
   const leftPanel = BUI.Component.create(() => {
     return BUI.html`
@@ -197,8 +201,13 @@ export async function ThreeDViewer() {
 
             </bim-panel-section>
 
+
           </bim-panel>
         </bim-tab>
+        <bim-tab name="AI" label="AI" icon="material-symbols:help">
+          ${aiRenderer}
+        </bim-tab>
+
       </bim-tabs> 
     `
   })
