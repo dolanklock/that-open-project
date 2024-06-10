@@ -2,14 +2,15 @@ import * as BUI from "@thatopen/ui"
 import * as CUI from "@thatopen/ui-obc"
 import * as OBC from "@thatopen/components"
 import {Gallery} from "./DataBase/RenderLibraryDB"
+import { v4 as uuidv4 } from 'uuid'
 
 export class LibraryComponent {
     private _components: OBC.Components
-    private _galleryDB: Gallery
+    galleryDB: Gallery
     bimPanelSection: HTMLElement
     constructor(components: OBC.Components) {
         this._components = components
-        this._galleryDB = new Gallery()
+        this.galleryDB = new Gallery()
         // this.bimPanelSection = document.createElement(`
         // <bim-panel-section style="background-color: #22272e;" label="Gallery" icon="tabler:world">
 
@@ -24,13 +25,14 @@ export class LibraryComponent {
 
     async render() {
         this.bimPanelSection.innerHTML = ""
-        const allRenders = await this._galleryDB.db.renders.toArray()
+        const allRenders = await this.galleryDB.db.renders.toArray()
         for (const render of allRenders ) {
             const file = new File([new Blob([render.buffer])], render.id!.toString())
             const src = URL.createObjectURL(file)
             const card = document.createElement("div") as HTMLDivElement
+            const id = uuidv4()
             card.innerHTML = `
-            <div class="render-card" style="width: 100%; height: fit-content; display: flex; flex-direction: column; border: 1px solid black; border-radius: 10px;">
+            <div data-id="${id}" class="render-card" style="width: 100%; height: fit-content; display: flex; flex-direction: column; border: 1px solid black; border-radius: 10px;">
                 <img style="border-radius: 10px 10px 0px 0px" src="${src}">
                 <div style="color: white; width: 100%; height: fit-content; display: flex; flex-direction: column; padding: 10px;">
                     <bim-label icon="">*Card title*</bim-label>
@@ -58,8 +60,8 @@ export class LibraryComponent {
         card.remove()
     }
 
-    deleteCardDB() {
-
+    deleteCardDB(key: number) {
+        this.galleryDB.deleteRender((key) as number)
     }
 
 }

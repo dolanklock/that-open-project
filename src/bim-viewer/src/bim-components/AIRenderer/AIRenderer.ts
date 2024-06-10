@@ -2,6 +2,7 @@ import * as OBC from "@thatopen/components"
 import * as BUI from "@thatopen/ui"
 import {Gallery} from "./src/DataBase/RenderLibraryDB"
 import { LibraryComponent } from "./src/LibraryComponent"
+import {StableDiffusionRender} from "./src/StableDiffusionRender"
 
 // import { v4 as uuidv4 } from 'uuid'
 // import * as OBC from "@thatopen/components"
@@ -130,14 +131,37 @@ import { LibraryComponent } from "./src/LibraryComponent"
 //     }
 // }
 
-export default (components: OBC.Components) => {
-    const galleryDB = new Gallery()
+export default (components: OBC.Components, proxyURL: string, uploadURL: string, processURL: string) => {
+    const APIKEY = "5Dc5hLuEiPd9ie3PKG6Tv51hXDLlhU52iTOwPhqL6FJZdj6OC5cCYrngMpEq"
+    const renderer = new StableDiffusionRender(components, proxyURL, uploadURL, processURL)
     const library = new LibraryComponent(components)
-    const onRenderClick = () => {
-
+    let prompt: string
+    const onRenderClick = async () => {
+        console.log("PROMPT", prompt)
+        try {
+            const renderedImages = await renderer.render(APIKEY, prompt)
+            if (!renderedImages) {
+                // this._spinner.visible = false
+                throw new Error("Something went wrong, render images is undefined")
+            } else {
+                for ( const imageURL of renderedImages ) {
+                    await library.galleryDB.save(imageURL, "testing", new Date().toDateString())
+                }
+                library.render()
+            }
+            // this._spinner.visible = false
+        } catch (error) {
+            // this._spinner.visible = false
+            throw new Error(`Unable to complete render: ${error}`)
+        }
+    }
+    const onPrompt = (e: Event) => {
+        const target = e.target as BUI.TextInput
+        prompt = target.value
+        console.log(prompt)
     }
 
-
+    // TODO: get prompt value from the input html element and pass to onRenderCLick
     return BUI.Component.create<BUI.Tab>(() => {
         return BUI.html `
         bim-tab name="AI Renderer Tool" label="AI Renderer Tool" icon="material-symbols:help"
@@ -145,9 +169,9 @@ export default (components: OBC.Components) => {
                 <bim-panel-section style="background-color: #22272e;" label="AI Render" icon="tabler:world">
                     <div style="display: flex; gap: 0.375rem;">
                         <bim-label icon="mingcute:rocket-fill">Prompt</bim-label>
-                        <bim-text-input @input= vertical placeholder="Search..." debounce="200"></bim-text-input>
+                        <bim-text-input @input=${onPrompt} vertical placeholder="Search..." debounce="200"></bim-text-input>
                     </div>
-                    <bim-button style="flex: 0;" label="Render" @click= icon="eva:expand-fill"></bim-button>
+                    <bim-button style="flex: 0;" label="Render" @click=${onRenderClick} icon="eva:expand-fill"></bim-button>
                 </bim-panel-section>
         
                 <bim-panel-section style="background-color: #22272e;" label="Settings" icon="tabler:world">

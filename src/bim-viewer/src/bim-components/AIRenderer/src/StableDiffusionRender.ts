@@ -1,4 +1,7 @@
-import  *  as OBC from "openbim-components"
+// import  *  as OBC from "openbim-components"
+import * as OBC from "@thatopen/components"
+import * as OBF from "@thatopen/components-front"
+import * as BUI from "@thatopen/ui"
 
 export class StableDiffusionRender {
     proxyURL: string
@@ -23,8 +26,12 @@ export class StableDiffusionRender {
      * @returns 
      */
     private _takeScreenshot() {
-        const postproductionRenderer = this._components.renderer as OBC.PostproductionRenderer
-        console.log("HERE", postproductionRenderer)
+        BUI.Manager.init()
+        // TODO: need to fix how i am getting post production renderer for taking screen shots
+        // const postproductionRenderer = this._components.renderer as OBC.PostproductionRenderer
+        const world = this._components.get(OBC.Worlds)
+        const postproductionRenderer = world.renderer
+        // console.log("HERE", postproductionRenderer)
         postproductionRenderer.postproduction.composer.render()
         const renderer = postproductionRenderer.get();
         const image = renderer.domElement.toDataURL("image/png");
