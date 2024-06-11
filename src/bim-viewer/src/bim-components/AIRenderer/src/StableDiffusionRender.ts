@@ -25,18 +25,20 @@ export class StableDiffusionRender {
      * takes a screen shot of the viewer scene and returns the image as png
      * @returns 
      */
-    private _takeScreenshot() {
-        BUI.Manager.init()
-        // TODO: need to fix how i am getting post production renderer for taking screen shots
+    private async _takeScreenshot() {
         // const postproductionRenderer = this._components.renderer as OBC.PostproductionRenderer
-        // const worlds = this._components.get(OBC.Worlds)
-        // const worlds = this._components.get(OBF.PostproductionRenderer)
-        // // const world = this._components.get(OBC.Worlds)
-        // const postproductionRenderer = worlds.renderer
-        // console.log("HERE", postproductionRenderer)
-        this.renderer.update()
-        const renderer = this.renderer.postproduction
-        const image = renderer.domElement.toDataURL("image/png");
+        // postproductionRenderer.postproduction.composer.render()
+        // const renderer = postproductionRenderer.get();
+        // const image = renderer.domElement.toDataURL("image/png");
+
+        const worlds = this._components.get(OBC.Worlds)
+        await worlds.update()
+        const world = worlds.list.entries().next().value[1] as OBC.SimpleWorld
+        console.log("WORLD", world)
+        const {postproduction} = world.renderer as OBF.PostproductionRenderer
+        postproduction.composer.render()
+        const image = world.renderer?.three.domElement.toDataURL("image/png")
+        console.log("image here", image)
         return image
     }
     /**
@@ -82,7 +84,7 @@ export class StableDiffusionRender {
      * @returns 
      */
     async render(APIKey: string, prompt: string) {
-        const image = this._takeScreenshot()
+        const image = await this._takeScreenshot() as string
         // console.log("image", image)
         const uploadedImageURL = await this._uploadRender(APIKey, image)
         console.log("upload images", uploadedImageURL)
@@ -129,10 +131,16 @@ export class StableDiffusionRender {
                         throw new Error(`Bad response fetching final image url: ${response.status}`)  
                 }
             } else {
-                const responseURLs = await response.json()
+                const responseURLs: string[] = await response.json()
+                .then((res) => {
+                    console.log("finished", res)
+                    if ( res.status !== "success" ) throw new Error(`Error getting JSON from response: ${res.message}`)
+                    return res.output as string[]
+                })
                 console.log("responseURLs", responseURLs)
-                if ( responseURLs.status !== "success" ) throw new Error(`Error getting JSON from response: ${responseURLs.message}`)
-                return responseURLs.output as string[]
+                // if ( responseURLs.status !== "success" ) throw new Error(`Error getting JSON from response: ${responseURLs.message}`)
+                // return responseURLs.output as string[]
+                return responseURLs
             }
         } catch (error) {
             throw new Error(`Error making request to get rendered image from SD: ${error}`)

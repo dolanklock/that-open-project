@@ -117,9 +117,9 @@ export async function ThreeDViewer() {
   // dotenv.config();
   // console.log("API KEY HERE FROM ENV", process.env.API_KEY); // or any specific key
 
-  // const processURL = "https://modelslab.com/api/v6/realtime/img2img";
-  // const proxyURL = "https://cors-anywhere.herokuapp.com/"; // Avoids CORS locally
-  // const uploadURL = "https://modelslab.com/api/v3/base64_crop";
+  const processURL = "https://modelslab.com/api/v6/realtime/img2img";
+  const proxyURL = "https://cors-anywhere.herokuapp.com/"; // Avoids CORS locally
+  const uploadURL = "https://modelslab.com/api/v3/base64_crop";
   // const aiRenderer = new AIRenderer(components, APIKey, proxyURL, uploadURL, processURL)
   // aiRenderer.uiElement.get("RibbonUIComponent").get()
 
@@ -136,7 +136,7 @@ export async function ThreeDViewer() {
     `
   })
 
-  const aiRenderer = AIRenderer(components)
+  const aiRenderer = AIRenderer(components, proxyURL, uploadURL, processURL)
   console.log(aiRenderer)
   
   const leftPanel = BUI.Component.create(() => {
