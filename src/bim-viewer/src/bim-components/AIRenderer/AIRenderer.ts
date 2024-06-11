@@ -1,8 +1,10 @@
 import * as OBC from "@thatopen/components"
 import * as BUI from "@thatopen/ui"
+import * as OBF from "@thatopen/components-front"
 import {Gallery} from "./src/DataBase/RenderLibraryDB"
 import { LibraryComponent } from "./src/LibraryComponent"
 import {StableDiffusionRender} from "./src/StableDiffusionRender"
+import { v4 as uuidv4 } from 'uuid'
 
 // import { v4 as uuidv4 } from 'uuid'
 // import * as OBC from "@thatopen/components"
@@ -131,6 +133,11 @@ import {StableDiffusionRender} from "./src/StableDiffusionRender"
 //     }
 // }
 
+// TODO: not getting renderer properly for screenshot in SD file
+// TODO: existing DB items dont have uuid attrbute so the method deleteItems in renderlivrarydb file cant find
+// the uuid so im trying to update existing db items with the uuid key matching the uuid fromm the card jtml
+// item but doesnt see to be working (in librarycomponents file)
+
 export default (components: OBC.Components, proxyURL: string, uploadURL: string, processURL: string) => {
     const APIKEY = "5Dc5hLuEiPd9ie3PKG6Tv51hXDLlhU52iTOwPhqL6FJZdj6OC5cCYrngMpEq"
     const renderer = new StableDiffusionRender(components, proxyURL, uploadURL, processURL)
@@ -145,9 +152,9 @@ export default (components: OBC.Components, proxyURL: string, uploadURL: string,
                 throw new Error("Something went wrong, render images is undefined")
             } else {
                 for ( const imageURL of renderedImages ) {
-                    await library.galleryDB.save(imageURL, "testing", new Date().toDateString())
+                    await library.galleryDB.save(imageURL, "testing", new Date().toDateString(), uuidv4())
                 }
-                library.render()
+                await library.render()
             }
             // this._spinner.visible = false
         } catch (error) {
@@ -156,9 +163,14 @@ export default (components: OBC.Components, proxyURL: string, uploadURL: string,
         }
     }
     const onPrompt = (e: Event) => {
+        // const world = components.get(OBC.Worlds)
+        // console.log("world components", world.components)
+        // console.log("world list", components.list)
         const target = e.target as BUI.TextInput
         prompt = target.value
         console.log(prompt)
+        library.updateItems()
+        console.log(library.galleryDB.db.renders.toArray())
     }
 
     // TODO: get prompt value from the input html element and pass to onRenderCLick

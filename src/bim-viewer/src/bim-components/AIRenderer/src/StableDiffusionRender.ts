@@ -29,11 +29,13 @@ export class StableDiffusionRender {
         BUI.Manager.init()
         // TODO: need to fix how i am getting post production renderer for taking screen shots
         // const postproductionRenderer = this._components.renderer as OBC.PostproductionRenderer
-        const world = this._components.get(OBC.Worlds)
-        const postproductionRenderer = world.renderer
+        // const worlds = this._components.get(OBC.Worlds)
+        // const worlds = this._components.get(OBF.PostproductionRenderer)
+        // // const world = this._components.get(OBC.Worlds)
+        // const postproductionRenderer = worlds.renderer
         // console.log("HERE", postproductionRenderer)
-        postproductionRenderer.postproduction.composer.render()
-        const renderer = postproductionRenderer.get();
+        this.renderer.update()
+        const renderer = this.renderer.postproduction
         const image = renderer.domElement.toDataURL("image/png");
         return image
     }

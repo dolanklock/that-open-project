@@ -21,7 +21,7 @@ export async function ThreeDViewer() {
   
   const world = worlds.create<OBC.SimpleScene, OBC.OrthoPerspectiveCamera, OBF.PostproductionRenderer>()
   world.name = "Main"
-
+  
   world.scene = new OBC.SimpleScene(components)
   world.scene.setup()
   world.scene.three.background = null
@@ -36,7 +36,8 @@ export async function ThreeDViewer() {
   
   world.renderer = new OBF.PostproductionRenderer(components, viewport)
   const { postproduction } = world.renderer;
-  
+  // postproduction.postproduction.composer.render()
+  postproduction.composer.render()
   world.camera = new OBC.OrthoPerspectiveCamera(components)
   
   const worldGrid = components.get(OBC.Grids).create(world)

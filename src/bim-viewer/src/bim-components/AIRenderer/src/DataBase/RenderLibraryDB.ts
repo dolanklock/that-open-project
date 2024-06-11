@@ -1,10 +1,12 @@
+import { error } from "console";
 import Dexie from "dexie";
 
 interface IRender {
     id?: number,
     buffer: ArrayBuffer,
     title: string,
-    date: string
+    date: string,
+    uuid: string
   }
 
 class GalleryDB extends Dexie {
@@ -13,7 +15,7 @@ class GalleryDB extends Dexie {
   constructor() {
     super("GalleryDB");
     this.version(1).stores({
-      renders: "++id, title, date, buffer",
+      renders: "++id, title, date, buffer, uuid",
     });
   }
 }
@@ -23,7 +25,7 @@ export class Gallery {
   constructor() {
     this.db = new GalleryDB();
     this.db.version(1).stores({
-        renders: "++id, title, date, buffer",
+        renders: "++id, title, date, buffer, uuid",
     });
   }
 
@@ -31,7 +33,7 @@ export class Gallery {
     await this.db.open();
   }
 
-  async save(url: string, title: string, date: string) {
+  async save(url: string, title: string, date: string, uuid: string) {
     try {
       const response = await fetch(url);
       console.log("response here", response)
@@ -50,7 +52,7 @@ export class Gallery {
         }
     } else {
       const buffer = await response.arrayBuffer();
-      return await this.db.renders.add({ buffer, title, date });
+      return await this.db.renders.add({ buffer, title, date, uuid});
       }
     } catch (error) {
       console.log("url", url)
@@ -62,7 +64,25 @@ export class Gallery {
     await this.db.renders.clear();
   }
 
-  deleteRender(key: number) {
+  // async updateItems() {
+  //   await this.db.renders.toArray(items => {
+  //     items.forEach(async item => {
+  //       const id = item.id as number
+  //       await this.db.renders.update(id, { newKey: 'newValue' });
+  //     });
+  //   });
+  // }
+
+  async deleteItem(uuid: string) {
+    const items = await this.db.renders.toArray()
+    const itemDelete = items.find((item) => {
+      console.log(item.uuid, uuid)
+      return item.uuid === uuid
+    }) as IRender
+    if (!itemDelete) {
+      throw new Error(`Could not find matching uuid in data base`)
+    }
+    const key = itemDelete.id as number
     this.db.renders.delete(key)
   }
 }

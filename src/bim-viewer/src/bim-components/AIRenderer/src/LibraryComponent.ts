@@ -21,29 +21,31 @@ export class LibraryComponent {
         this.bimPanelSection.setAttribute('icon', 'tabler:world')
         this.bimPanelSection.style.backgroundColor = "#22272e"
         this.render()
+        this.updateItems()
     }
 
     async render() {
         this.bimPanelSection.innerHTML = ""
         const allRenders = await this.galleryDB.db.renders.toArray()
+        console.log("testing", allRenders)
         for (const render of allRenders ) {
             const file = new File([new Blob([render.buffer])], render.id!.toString())
             const src = URL.createObjectURL(file)
             const card = document.createElement("div") as HTMLDivElement
-            const id = uuidv4()
             card.innerHTML = `
-            <div data-id="${id}" class="render-card" style="width: 100%; height: fit-content; display: flex; flex-direction: column; border: 1px solid black; border-radius: 10px;">
+            <div data-id="${render.uuid}" class="render-card" style="width: 100%; height: fit-content; display: flex; flex-direction: column; border: 1px solid black; border-radius: 10px;">
                 <img style="border-radius: 10px 10px 0px 0px" src="${src}">
                 <div style="color: white; width: 100%; height: fit-content; display: flex; flex-direction: column; padding: 10px;">
                     <bim-label icon="">*Card title*</bim-label>
                     <bim-label icon="">*Prompt used*</bim-label>
                     <bim-label icon="">*date used*</bim-label>            
-                    <button>delete</button>            
+                    <button class="delete-render">delete</button>            
                 </div>
             </div>
         `
-        const deleteBtn = card.querySelector("button") as HTMLButtonElement
-        deleteBtn.onclick = this.onCardDelete
+        const deleteBtn = card.querySelector(".delete-render") as HTMLButtonElement
+        console.log(deleteBtn)
+        deleteBtn.onclick = this.onCardDelete.bind(this)
         this.bimPanelSection.insertAdjacentElement("beforeend", card)
             // card.onDeleteEvent.add(async (dbKey) => {
             //     this._gallery.deleteRender((dbKey) as number)
@@ -52,55 +54,37 @@ export class LibraryComponent {
         }
     }
 
-    onCardDelete(e: Event) {
+    async onCardDelete(e: Event) {
         const btnClicked = e.target as HTMLButtonElement
         console.log(btnClicked)
         const card = btnClicked.closest(".render-card") as HTMLDivElement
         console.log("card delete", card)
+        const cardId = card.dataset.id as string
+        console.log(this.galleryDB)
+        await this.galleryDB.deleteItem(cardId)
+        // this.delete(cardId)
         card.remove()
     }
+    // async delete(uuid: string) {
+    //     await this.galleryDB.deleteItem(uuid)
+    // }
 
-    deleteCardDB(key: number) {
-        this.galleryDB.deleteRender((key) as number)
-    }
+    async updateItems() {
+        const allDBItems = await this.galleryDB.db.renders.toArray()
+        const allNodes = Array.from(this.bimPanelSection.childNodes) as HTMLElement[]
+        allNodes.forEach(async (item, index) => {
+            const uuiD = item.dataset.id
+            const key = allDBItems[index].id as number
+            const test = await this.galleryDB.db.renders.update(key, { uuid: uuiD });
+            console.log(test)
+          });
+
+        // await this.db.renders.toArray(items => {
+        //   items.forEach(async item => {
+        //     const id = item.id as number
+        //     await this.db.renders.update(id, { newKey: 'newValue' });
+        //   });
+        // });
+      }
 
 }
-
-// export default (components: OBC.Components) => {
-//     const galleryDB = new Gallery()
-
-//     const update = () => {
-//         const allRenders = await galleryDB.db.renders.toArray()
-//         for (const render of allRenders ) {
-//             const file = new File([new Blob([render.buffer])], render.id!.toString())
-//             const src = URL.createObjectURL(file);;
-//             const card = new LibraryCard(this._components, src, render.title, render.date, render.id!)
-//             this.get().insertAdjacentElement("beforeend", card.get())
-//             card.onDeleteEvent.add(async (dbKey) => {
-//                 this._gallery.deleteRender((dbKey) as number)
-//                 this._deleteLibraryCard(render.id!.toString())
-//             })
-//         }
-//     }
-
-//     const addGalleryCard = (cardTitle: string, cardPrompt: string) => {
-//         galleryDB.save()
-//         const galleryCard = `
-//             <div style="width: 100%; height: fit-content; display: flex; flex-direction: column; border: 1px solid black; border-radius: 10px;">
-//                 <img style="border-radius: 10px 10px 0px 0px" src="https://img.freepik.com/free-vector/tiny-people-developers-computer-working-core-system-core-system-development-all-one-software-solution-core-system-modernization-concept_335657-896.jpg?t=st=1717943201~exp=1717946801~hmac=b3d4fa56af20ddb28f508a58b22a14a035ac7678bda9a873f409aa2b489858e2&w=2000" alt="...">
-//                 <div style="color: white; width: 100%; height: fit-content; display: flex; flex-direction: column; padding: 10px;">
-//                     <bim-label icon="">${cardTitle}</bim-label>
-//                     <bim-label icon="">${cardPrompt}</bim-label>
-//                     <bim-label icon="">${new Date().toDateString()}</bim-label>            
-//                 </div>
-//             </div>
-//         `
-//         return galleryCard
-//     }
-
-//     return BUI.Component.create<HTMLDivElement>(() => {
-//         return BUI.html`
-//         ${}
-//         `
-//     })
-// }
