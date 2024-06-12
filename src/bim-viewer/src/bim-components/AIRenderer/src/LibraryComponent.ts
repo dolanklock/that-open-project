@@ -11,23 +11,20 @@ export class LibraryComponent {
     constructor(components: OBC.Components) {
         this._components = components
         this.galleryDB = new Gallery()
-        // this.bimPanelSection = document.createElement(`
-        // <bim-panel-section style="background-color: #22272e;" label="Gallery" icon="tabler:world">
-
-        // </bim-panel-section>
-        // `)
+        this.galleryDB.init()
         this.bimPanelSection = document.createElement('bim-panel-section') as BUI.PanelSection
         this.bimPanelSection.setAttribute('label', 'Gallery')
         this.bimPanelSection.setAttribute('icon', 'tabler:world')
         this.bimPanelSection.style.backgroundColor = "#22272e"
         this.render()
-        this.updateItems()
+   
     }
-
+    /**
+     * iterates through the DB and adds HTML to the bim panel section
+     */
     async render() {
         this.bimPanelSection.innerHTML = ""
         const allRenders = await this.galleryDB.db.renders.toArray()
-        console.log("testing", allRenders)
         for (const render of allRenders ) {
             const file = new File([new Blob([render.buffer])], render.id!.toString())
             const src = URL.createObjectURL(file)
@@ -42,49 +39,33 @@ export class LibraryComponent {
                     <button class="delete-render">delete</button>            
                 </div>
             </div>
-        `
-        const deleteBtn = card.querySelector(".delete-render") as HTMLButtonElement
-        console.log(deleteBtn)
-        deleteBtn.onclick = this.onCardDelete.bind(this)
-        this.bimPanelSection.insertAdjacentElement("beforeend", card)
-            // card.onDeleteEvent.add(async (dbKey) => {
-            //     this._gallery.deleteRender((dbKey) as number)
-            //     this._deleteLibraryCard(render.id!.toString())
-            // })
+            `
+            const deleteBtn = card.querySelector(".delete-render") as HTMLButtonElement
+            deleteBtn.onclick = this.onCardDelete.bind(this)
+            this.bimPanelSection.insertAdjacentElement("beforeend", card)
         }
     }
-
+    /**
+     * saves the image to DB and then runs the render function to update UI
+     * @param imageURL 
+     */
+    async update(imageURL: string) {
+        setTimeout(async () => {
+            await this.galleryDB.save(imageURL, "testing", new Date().toDateString(), uuidv4())
+            await this.render()
+        }, 10000);
+    }
+    /**
+     * delete button event listener callback fucntion. removes html card from UI and 
+     * gets the uuid of the card clicked on for delete
+     * and then passes that uuid to the deleteItem method and that deletes item from database
+     * @param e 
+     */
     async onCardDelete(e: Event) {
         const btnClicked = e.target as HTMLButtonElement
-        console.log(btnClicked)
         const card = btnClicked.closest(".render-card") as HTMLDivElement
-        console.log("card delete", card)
         const cardId = card.dataset.id as string
-        console.log(this.galleryDB)
         await this.galleryDB.deleteItem(cardId)
-        // this.delete(cardId)
         card.remove()
     }
-    // async delete(uuid: string) {
-    //     await this.galleryDB.deleteItem(uuid)
-    // }
-
-    async updateItems() {
-        const allDBItems = await this.galleryDB.db.renders.toArray()
-        const allNodes = Array.from(this.bimPanelSection.childNodes) as HTMLElement[]
-        allNodes.forEach(async (item, index) => {
-            const uuiD = item.dataset.id
-            const key = allDBItems[index].id as number
-            const test = await this.galleryDB.db.renders.update(key, { uuid: uuiD });
-            console.log(test)
-          });
-
-        // await this.db.renders.toArray(items => {
-        //   items.forEach(async item => {
-        //     const id = item.id as number
-        //     await this.db.renders.update(id, { newKey: 'newValue' });
-        //   });
-        // });
-      }
-
 }

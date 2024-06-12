@@ -27,16 +27,23 @@ export class Gallery {
     this.db.version(1).stores({
         renders: "++id, title, date, buffer, uuid",
     });
+    // this.clear()
   }
 
   async init() {
     await this.db.open();
   }
-
+  /**
+   * saves the image and all associated data to the DB
+   * @param url 
+   * @param title 
+   * @param date 
+   * @param uuid 
+   * @returns 
+   */
   async save(url: string, title: string, date: string, uuid: string) {
     try {
       const response = await fetch(url);
-      console.log("response here", response)
       if (!response.ok) {
         switch(response.status) {
             case 400:
@@ -55,28 +62,16 @@ export class Gallery {
       return await this.db.renders.add({ buffer, title, date, uuid});
       }
     } catch (error) {
-      console.log("url", url)
       throw new Error(`Error saving image to DB: ${error}`)
     }
   }
-
-  async clear() {
-    await this.db.renders.clear();
-  }
-
-  // async updateItems() {
-  //   await this.db.renders.toArray(items => {
-  //     items.forEach(async item => {
-  //       const id = item.id as number
-  //       await this.db.renders.update(id, { newKey: 'newValue' });
-  //     });
-  //   });
-  // }
-
+  /**
+   * finds item in DB based on uuid passed in and deletes item from DB
+   * @param uuid 
+   */
   async deleteItem(uuid: string) {
     const items = await this.db.renders.toArray()
     const itemDelete = items.find((item) => {
-      console.log(item.uuid, uuid)
       return item.uuid === uuid
     }) as IRender
     if (!itemDelete) {
@@ -84,5 +79,11 @@ export class Gallery {
     }
     const key = itemDelete.id as number
     this.db.renders.delete(key)
+  }
+  /**
+   * clears all DB data * ONLY IF NEEDED*
+   */
+  async clear() {
+    await this.db.renders.clear();
   }
 }

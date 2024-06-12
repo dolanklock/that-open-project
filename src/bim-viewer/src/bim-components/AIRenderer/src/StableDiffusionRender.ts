@@ -2,6 +2,7 @@
 import * as OBC from "@thatopen/components"
 import * as OBF from "@thatopen/components-front"
 import * as BUI from "@thatopen/ui"
+import { Console } from "console"
 
 export class StableDiffusionRender {
     proxyURL: string
@@ -85,9 +86,9 @@ export class StableDiffusionRender {
      */
     async render(APIKey: string, prompt: string) {
         const image = await this._takeScreenshot() as string
-        // console.log("image", image)
         const uploadedImageURL = await this._uploadRender(APIKey, image)
         console.log("upload images", uploadedImageURL)
+
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         const raw = JSON.stringify({
@@ -95,8 +96,8 @@ export class StableDiffusionRender {
             prompt: prompt,
             negative_prompt: "Bad quality, Worst quality, Normal quality, Low quality, Low resolution, Blurry, Jpeg artifacts, Grainy.",
             init_image: uploadedImageURL,
-            width: "800",
-            height: "800",
+            width: "512",
+            height: "512",
             samples: "1",
             temp: false,
             safety_checker: false,
@@ -138,8 +139,6 @@ export class StableDiffusionRender {
                     return res.output as string[]
                 })
                 console.log("responseURLs", responseURLs)
-                // if ( responseURLs.status !== "success" ) throw new Error(`Error getting JSON from response: ${responseURLs.message}`)
-                // return responseURLs.output as string[]
                 return responseURLs
             }
         } catch (error) {

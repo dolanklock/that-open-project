@@ -144,18 +144,18 @@ export default (components: OBC.Components, proxyURL: string, uploadURL: string,
     const library = new LibraryComponent(components)
     let prompt: string
     const onRenderClick = async () => {
-        console.log("PROMPT", prompt)
+        // console.log("PROMPT", prompt)
         try {
-            const renderedImages = await renderer.render(APIKEY, "A futuristic and stunningly beautiful high-rise shopping center architectural structure with bold, futuristic design elements, blending seamlessly into the art form of digital illustration. Inspired by the works of Zaha Hadid. The scene showcases the center amidst a bustling city, its sleek lines contrasting with the urban environment. A warm color temperature adds vibrancy, highlighting the architectural details. Shoppers and visitors exhibit expressions of awe and excitement. Illuminated by soft, diffused lighting, the atmosphere exudes sophistication and promise of tomorrow")
+            const renderedImages = await renderer.render(APIKEY, "image of cat")
             if (!renderedImages) {
                 // this._spinner.visible = false
                 throw new Error("Something went wrong, render images is undefined")
             } else {
                 for ( const imageURL of renderedImages ) {
                     console.log("IMAGE BEING SAVED...", imageURL)
-                    await library.galleryDB.save(imageURL, "testing", new Date().toDateString(), uuidv4())
+                    await library.update(imageURL)
+                    // await library.galleryDB.save(imageURL, "testing", new Date().toDateString(), uuidv4())
                 }
-                await library.render()
             }
             // this._spinner.visible = false
         } catch (error) {
@@ -169,8 +169,8 @@ export default (components: OBC.Components, proxyURL: string, uploadURL: string,
         // console.log("world list", components.list)
         const target = e.target as BUI.TextInput
         prompt = target.value
-        console.log(prompt)
-        library.updateItems()
+        // console.log(prompt)
+        // library.updateItems()
         console.log(library.galleryDB.db.renders.toArray())
     }
 
