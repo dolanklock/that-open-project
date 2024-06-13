@@ -2,7 +2,6 @@
 import * as OBC from "@thatopen/components"
 import * as OBF from "@thatopen/components-front"
 import * as BUI from "@thatopen/ui"
-import { Console } from "console"
 
 export class StableDiffusionRender {
     proxyURL: string
@@ -145,5 +144,10 @@ export class StableDiffusionRender {
         } catch (error) {
             throw new Error(`Error making request to get rendered image from SD: ${error}`)
         }
+    }
+    init(negPrompt: string, width: string, height: string) {
+        this.negPrompt = negPrompt
+        this.width = width
+        this.height = height
     }
 }
