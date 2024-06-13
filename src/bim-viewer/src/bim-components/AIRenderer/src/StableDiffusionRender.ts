@@ -18,7 +18,7 @@ export class StableDiffusionRender {
         this.processURL = processURL
         this.proxyURL = proxyURL
         this.uploadURL = uploadURL
-        this.negPrompt = "bad quality, blurry"
+        this.negPrompt = "Bad quality, Worst quality, Normal quality, Low quality, Low resolution, Blurry, Jpeg artifacts, Grainy."
         this.width = "800"
         this.height = "800"
     }
@@ -91,13 +91,14 @@ export class StableDiffusionRender {
 
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
+        console.log("prompt used", prompt)
         const raw = JSON.stringify({
             key: APIKey,
             prompt: prompt,
-            negative_prompt: "Bad quality, Worst quality, Normal quality, Low quality, Low resolution, Blurry, Jpeg artifacts, Grainy.",
+            negative_prompt: this.negPrompt,
             init_image: uploadedImageURL,
-            width: "512",
-            height: "512",
+            width: this.width,
+            height: this.height,
             samples: "1",
             temp: false,
             safety_checker: false,

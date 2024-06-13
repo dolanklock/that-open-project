@@ -17,6 +17,7 @@ export class LibraryComponent {
         this.bimPanelSection.setAttribute('icon', 'tabler:world')
         this.bimPanelSection.style.backgroundColor = "#22272e"
         this.render()
+        console.log(this.galleryDB.db.renders.toArray())
    
     }
     /**
