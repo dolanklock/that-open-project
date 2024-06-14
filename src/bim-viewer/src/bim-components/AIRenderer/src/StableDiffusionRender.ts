@@ -2,21 +2,20 @@
 import * as OBC from "@thatopen/components"
 import * as OBF from "@thatopen/components-front"
 import * as BUI from "@thatopen/ui"
+import Dexie from "dexie"
 
 export class StableDiffusionRender {
-    proxyURL: string
-    uploadURL: string
-    processURL: string
+    private _APIKEY = "5Dc5hLuEiPd9ie3PKG6Tv51hXDLlhU52iTOwPhqL6FJZdj6OC5cCYrngMpEq"
+    private _proxyURL = "https://cors-anywhere.herokuapp.com/"; // Avoids CORS locally
+    private _uploadURL = "https://stablediffusionapi.com/api/v3/base64_crop";
+    private _processURL = "https://stablediffusionapi.com/api/v3/img2img";
     negPrompt: string
     width: string
     height: string
     private _components: OBC.Components
 
-    constructor(components: OBC.Components, proxyURL: string, uploadURL: string, processURL: string) {
+    constructor(components: OBC.Components) {
         this._components = components
-        this.processURL = processURL
-        this.proxyURL = proxyURL
-        this.uploadURL = uploadURL
         this.negPrompt = "Bad quality, Worst quality, Normal quality, Low quality, Low resolution, Blurry, Jpeg artifacts, Grainy."
         this.width = "800"
         this.height = "800"
@@ -48,7 +47,7 @@ export class StableDiffusionRender {
      * @returns 
      */
     private async _uploadRender(key: string, image: string) {
-        const url = this.proxyURL + this.uploadURL;
+        const url = this._proxyURL + this._uploadURL;
         const crop = "false";
         try {
             const rawUploadResponse = await fetch(url, {
@@ -83,16 +82,16 @@ export class StableDiffusionRender {
      * @param prompt 
      * @returns 
      */
-    async render(APIKey: string, prompt: string) {
+    async render(prompt: string) {
         const image = await this._takeScreenshot() as string
-        const uploadedImageURL = await this._uploadRender(APIKey, image)
+        const uploadedImageURL = await this._uploadRender(this._APIKEY, image)
         console.log("upload images", uploadedImageURL)
 
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         console.log("prompt used", prompt)
         const raw = JSON.stringify({
-            key: APIKey,
+            key: this._APIKEY,
             prompt: prompt,
             negative_prompt: this.negPrompt,
             init_image: uploadedImageURL,
@@ -112,7 +111,7 @@ export class StableDiffusionRender {
         body: raw,
         redirect: 'follow',
         };
-        const url = this.proxyURL + this.processURL
+        const url = this._proxyURL + this._processURL
         try {
             const response = await fetch(url, requestOptions)
             console.log("response", response)
@@ -145,9 +144,13 @@ export class StableDiffusionRender {
             throw new Error(`Error making request to get rendered image from SD: ${error}`)
         }
     }
-    init(negPrompt: string, width: string, height: string) {
-        this.negPrompt = negPrompt
-        this.width = width
-        this.height = height
+    async init(settingsDb: any) {
+        const settings = await settingsDb.db.settings.toArray()
+        console.log(settings)
+        this.negPrompt = settings[0].negativePrompt
+        this.width = settings[0].width
+        this.height = settings[0].height
+        console.log(this.negPrompt)
+        console.log(settings[0])
     }
 }
