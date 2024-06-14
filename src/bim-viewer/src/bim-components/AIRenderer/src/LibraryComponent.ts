@@ -15,10 +15,11 @@ export class LibraryComponent {
         this.bimPanelSection = document.createElement('bim-panel-section') as BUI.PanelSection
         this.bimPanelSection.setAttribute('label', 'Gallery')
         this.bimPanelSection.setAttribute('icon', 'tabler:world')
-        this.bimPanelSection.style.backgroundColor = "#22272e"
+        this.bimPanelSection.style.display = "grid"
+        this.bimPanelSection.style.gridTemplateColumns = "repeat(auto-fill, minmax(200px, 200px))"
+        this.bimPanelSection.style.gap = "30px 30px"
+        this.bimPanelSection.style.padding = "20px 20px 20px 0"
         this.render()
-        console.log(this.galleryDB.db.renders.toArray())
-   
     }
     /**
      * iterates through the DB and adds HTML to the bim panel section
@@ -31,16 +32,19 @@ export class LibraryComponent {
             const src = URL.createObjectURL(file)
             const card = document.createElement("div") as HTMLDivElement
             card.innerHTML = `
-            <div data-id="${render.uuid}" class="render-card" style="width: 100%; height: fit-content; display: flex; flex-direction: column; border: 1px solid black; border-radius: 10px;">
+            <div data-id="${render.uuid}" class="render-card" style="width: 150px; height: fit-content; display: flex;
+             flex-direction: column; border-radius: 10px; border: 1px solid rgba(0, 0, 0, 0.5)">
                 <img style="border-radius: 10px 10px 0px 0px" src="${src}">
                 <div style="color: white; width: 100%; height: fit-content; display: flex; flex-direction: column; padding: 10px;">
-                    <bim-label icon="">*Card title*</bim-label>
-                    <bim-label icon="">*Prompt used*</bim-label>
-                    <bim-label icon="">*date used*</bim-label>            
-                    <button class="delete-render">delete</button>            
+                    <bim-label icon="">${render.date}</bim-label>
+                    <div style="margin-top: 10px; width: 100%; height: fit-content; display: flex; flex-direction: row; justify-content: space-between; column-gap: 6px;">
+                        <bim-button style="width: 50px; min-width: 80px" class="delete-render" label="Delete" icon="mdi:garbage-can-outline"></bim-button>
+                        <bim-button style="width: 10px;" label="" icon="icomoon-free:enlarge"></bim-button>
+                    </div>            
                 </div>
             </div>
             `
+            card.style.boxShadow = "0 16px 32px rgba(0, 0, 0, 0)"
             const deleteBtn = card.querySelector(".delete-render") as HTMLButtonElement
             deleteBtn.onclick = this.onCardDelete.bind(this)
             this.bimPanelSection.insertAdjacentElement("beforeend", card)

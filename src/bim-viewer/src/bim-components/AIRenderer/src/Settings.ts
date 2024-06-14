@@ -32,7 +32,7 @@ export default (components: OBC.Components) => {
     }
     return BUI.Component.create<BUI.PanelSection>(() => {
         return BUI.html `
-            <bim-panel-section style="background-color: #22272e;" label="Settings" icon="tabler:world">
+            <bim-panel-section label="Settings" icon="tabler:world">
                 <div style="display: flex; flex-direction: column; gap: 1.5rem;">
                     <div style="display: flex; flex-direction: column; gap: .5rem;">
                         <bim-label style="display: flex" icon="mingcute:rocket-fill">Negative prompt</bim-label>
