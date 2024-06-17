@@ -11,18 +11,15 @@ export default (components: OBC.Components) => {
     const library = new LibraryComponent(components)
     const renderer = new StableDiffusionRender(components)
     let prompt: string
-
+    
     const onRenderClick = async () => {
         try {
             spinner.classList.toggle("hide")
             const renderedImages = await renderer.render(prompt)
-            if (!renderedImages) {
-                throw new Error("Something went wrong, render images is undefined")
-            } else {
-                for ( const imageURL of renderedImages ) {
-                    console.log("IMAGE BEING SAVED...", imageURL)
-                    await library.update(imageURL)
-                }
+            if (!renderedImages) throw new Error("Something went wrong, render images is undefined")
+            for ( const imageURL of renderedImages ) {
+                console.log("IMAGE BEING SAVED...", imageURL)
+                await library.update(imageURL)
             }
         } catch (error) {
             throw new Error(`Unable to complete render: ${error}`)
@@ -63,23 +60,5 @@ export default (components: OBC.Components) => {
 // TODO: need to make expand button on render card functional
 // TODO: figure out API key in environment variables functional
 // TODO: make so that spinner is built in to tool
-
-// TODO: the SettingsComponent module should not have the negprompt width and height settings
-// that should come from the sstable diffusion module
-
-// TODO: not getting renderer properly for screenshot in SD file
-// TODO: existing DB items dont have uuid attrbute so the method deleteItems in renderlivrarydb file cant find
-// the uuid so im trying to update existing db items with the uuid key matching the uuid fromm the card jtml
-// item but doesnt see to be working (in librarycomponents file)
-
-
-// TODO: get prompt value from the input html element and pass to onRenderCLick
-
-// TODO: need to update so API key is not in code base - refer to open companny master class for how to avoid it
-// "This shouldn't be in your code on production, but on an environment variable"
-
-// should have a button for generate which will open dialog for user to input text.
-// what is showing in the scene is what will be sent to SD API
-
-// library should have thumbnail of small image with time stamp underneath and descirption of render. should
-// be able to click on thumbnail and enlarge image to view
+// TODO: need to add more setting options?
+// TODO: tweak whatever i need to in order to make renders look amazing
