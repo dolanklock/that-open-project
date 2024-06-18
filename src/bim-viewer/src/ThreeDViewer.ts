@@ -10,6 +10,7 @@ import help from "./components/Panels/Help"
 import camera from "./components/Toolbars/Sections/Camera"
 import selection from "./components/Toolbars/Sections/Selection"
 import AIRenderer from "./bim-components/AIRenderer/AIRenderer"
+import AIRendererTab from "./bim-components/AIRendererTab/AIRendererTab"
 import { AppManager } from "./bim-components"
 // import { AIRenderer } from "./bim-components/AIRenderer"
 
@@ -117,18 +118,21 @@ export async function ThreeDViewer() {
 
   const projectInformationPanel = projectInformation(components)
   const elementDataPanel = elementData(components)
-  
+  // const aiRendererTab = AIRendererTab(components)
   const toolbar = BUI.Component.create(() => {
     return BUI.html`
       <bim-toolbar>
         ${load(components)}
         ${camera(world)}
         ${selection(components, world)}
+        ${AIRendererTab(components)}
+     
       </bim-toolbar>
     `
   })
 
   const aiRenderer = AIRenderer(components)
+
   
   const leftPanel = BUI.Component.create(() => {
     return BUI.html`
