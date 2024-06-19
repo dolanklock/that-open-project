@@ -4,33 +4,22 @@ import * as OBF from "@thatopen/components-front"
 import { LibraryComponent } from "./src/LibraryComponent"
 import {StableDiffusionRender} from "./src/StableDiffusionRender"
 import Settings from "./src/Settings"
+// import Settings from "../../components/Panels/Settings"
 
-export class Renderer extends OBC.Component {
-    static readonly uuid: string = "34c2550f-b481-45c4-af5b-891e5e88c17a"
-    private _library: LibraryComponent
-    private _components: OBC.Components
-    private _renderer: StableDiffusionRender
-    enabled = true
-    viewer: HTMLDivElement
-
-    constructor(components: OBC.Components, viewer: HTMLDivElement) {
-        super(components)
-        components.add(Renderer.uuid, this)
-        this._components = components
-        this.viewer = document.getElementById("bim-container") as HTMLDivElement
-        this._library = new LibraryComponent(components, viewer)
-        this._renderer = new StableDiffusionRender(components)
-    }
-    async onRenderClick() {
-        const spinner = document.querySelector(".loader") as HTMLDivElement
+export default (components: OBC.Components) => {
+    const spinner = document.querySelector(".loader") as HTMLDivElement
+    const library = new LibraryComponent(components)
+    const renderer = new StableDiffusionRender(components)
+    let prompt: string
+    
+    const onRenderClick = async () => {
         try {
             spinner.classList.toggle("hide")
-            // TODO: need to add correct prompt
-            const renderedImages = await this._renderer.render("modern home")
+            const renderedImages = await renderer.render(prompt)
             if (!renderedImages) throw new Error("Something went wrong, render images is undefined")
             for ( const imageURL of renderedImages ) {
                 console.log("IMAGE BEING SAVED...", imageURL)
-                await this._library.update(imageURL)
+                await library.update(imageURL)
             }
         } catch (error) {
             throw new Error(`Unable to complete render: ${error}`)
@@ -38,17 +27,11 @@ export class Renderer extends OBC.Component {
             spinner.classList.toggle("hide")
         }
     }
-    get() {
-        return BUI.Component.create<BUI.PanelSection>(() => {
-            return BUI.html`
-              <bim-toolbar-section label="AI Renderer" icon="ph:cursor-fill">
-                ${this._library.get()}
-                
-              </bim-toolbar-section> 
-            `
-          })
+
+    const onPrompt = (e: Event) => {
+        const target = e.target as BUI.TextInput
+        prompt = target.value
     }
-}
 
     // return BUI.Component.create<BUI.Tab>(() => {
     //     return BUI.html `
@@ -71,6 +54,15 @@ export class Renderer extends OBC.Component {
     
     //     `
     // })
+    return BUI.Component.create<BUI.PanelSection>(() => {
+        return BUI.html`
+            <bim-toolbar-section label="AI Renderer V3" icon="ph:cursor-fill">
+                <bim-button label="Prompt" icon="tabler:eye-filled" tooltip-title="Prompt" tooltip-text="Shows all elements in all models."></bim-button>
+                ${Settings(components)}
+            </bim-toolbar-section> 
+        `
+      })
+    }
 
 
 // TODO: make so that renders are side by side in gallery at least two
