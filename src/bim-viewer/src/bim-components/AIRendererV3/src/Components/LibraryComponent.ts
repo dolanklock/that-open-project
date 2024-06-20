@@ -1,7 +1,7 @@
 import * as BUI from "@thatopen/ui"
 import * as CUI from "@thatopen/ui-obc"
 import * as OBC from "@thatopen/components"
-import {Gallery} from "./DataBase/RenderLibraryDB"
+import {Gallery} from "../DataBase/RenderLibraryDB"
 import { v4 as uuidv4 } from 'uuid'
 
 export class LibraryComponent {
@@ -15,12 +15,21 @@ export class LibraryComponent {
         this.bimPanelSection = document.createElement('bim-panel-section') as BUI.PanelSection
         this.bimPanelSection.setAttribute('label', 'Gallery')
         this.bimPanelSection.setAttribute('icon', 'tabler:world')
-        this.render()
+        this.updateUI()
+    }
+    /**
+     * saves the image to the libraries data base 
+     * @param imageURL 
+     */
+    async saveRender(imageURL: string) {
+        setTimeout(async () => {
+            await this.galleryDB.save(imageURL, "testing", new Date().toDateString(), uuidv4())
+        }, 10000);
     }
     /**
      * iterates through the DB and adds HTML to the bim panel section
      */
-    async render() {
+     async updateUI() {
         this.bimPanelSection.innerHTML = ""
         const cardContainer = document.createElement("div") as HTMLDivElement
         cardContainer.style.width = "100%"
@@ -55,16 +64,6 @@ export class LibraryComponent {
             cardContainer.insertAdjacentElement("beforeend", card)
         }
         this.bimPanelSection.insertAdjacentElement("beforeend", cardContainer)
-    }
-    /**
-     * saves the image to DB and then runs the render function to update UI
-     * @param imageURL 
-     */
-    async update(imageURL: string) {
-        setTimeout(async () => {
-            await this.galleryDB.save(imageURL, "testing", new Date().toDateString(), uuidv4())
-            await this.render()
-        }, 10000);
     }
     /**
      * delete button event listener callback fucntion. removes html card from UI and 
