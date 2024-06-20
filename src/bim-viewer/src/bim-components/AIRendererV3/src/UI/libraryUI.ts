@@ -1,8 +1,6 @@
 import * as BUI from "@thatopen/ui"
 import * as CUI from "@thatopen/ui-obc"
 import * as OBC from "@thatopen/components"
-import { LibraryComponent } from "../Components/LibraryComponent"
-import { StableDiffusionRender } from "../Components/StableDiffusionRender"
 import {Gallery} from "../DataBase/RenderLibraryDB"
 
 export default (components: OBC.Components, galleryDb: Gallery) => {
@@ -91,34 +89,32 @@ export default (components: OBC.Components, galleryDb: Gallery) => {
 
 
     }
-    const showLibrary = () => {
-        modal.style.display = "flex"
-    }
-    const hideLibrary = () => {
-        modal.style.display = "none"
-    }
-
+    
     const modal = BUI.Component.create<HTMLDialogElement>(() => {
         return BUI.html `
-            <div>
+            <dialog>
                 <bim-panel> 
                     <div style="display: flex; flex-direction: column; gap: 1.5rem; padding: 20px;">
                         <div style="display: flex; flex-direction: column; gap: .5rem;">
                             <bim-label style="display: flex" icon="mingcute:rocket-fill">Height</bim-label>
-                            <bim-text-input value="${settings.height}" @input=${onHeightChange} vertical placeholder="Search..." debounce="200"></bim-text-input>
+                            <bim-text-input value=""  vertical placeholder="Search..." debounce="200"></bim-text-input>
                         </div>
                         <div style="display: flex; flex-direction: row; gap: .5rem;">
-                            <bim-button @click=${() => modal.close()} label="Accept" icon=""></bim-button>
+                            <bim-button @click=${() => modal.close()} label="Done" icon=""></bim-button>
                         </div>
                     </div>
                 </bim-panel>
-            </div>
+            </dialog>
         `
     })
-
+    document.body.append(modal)
+    const onLibraryClick = () => {
+        // updateUI()
+        modal.showModal()
+    }
     return BUI.Component.create<BUI.PanelSection>(() => {
         return BUI.html `
-            <bim-button @click=${() => showLibrary} label="Settings" icon="tabler:eye-filled" tooltip-title="Show All" tooltip-text="Shows all elements in all models."></bim-button>
+            <bim-button @click=${onLibraryClick} label="Gallery" icon="tabler:eye-filled" tooltip-title="Show All" tooltip-text="Shows all elements in all models."></bim-button>
         `
     })
 }

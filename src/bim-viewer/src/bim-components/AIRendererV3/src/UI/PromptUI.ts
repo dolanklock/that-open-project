@@ -35,7 +35,7 @@ export default (components: OBC.Components, galleryDb: Gallery) => {
 
     const modal = BUI.Component.create<HTMLDialogElement>(() => {
         return BUI.html `
-            <dialog>
+            <dialog style="resize: both;">
                 <bim-panel> 
                     <div style="display: flex; flex-direction: column; gap: 1.5rem; padding: 20px;">
                         <div style="display: flex; flex-direction: column; gap: .5rem;">

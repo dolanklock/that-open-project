@@ -5,6 +5,7 @@ import { LibraryComponent } from "./src/Components/LibraryComponent"
 import {StableDiffusionRender} from "./src/Components/StableDiffusionRender"
 import Settings from "./src/UI/SettingsUI"
 import Prompt from "./src/UI/PromptUI"
+import Library from "./src/UI/libraryUI"
 import {Gallery} from "./src/DataBase/RenderLibraryDB"
 
 
@@ -17,8 +18,8 @@ export default (components: OBC.Components) => {
         return BUI.html`
             <bim-toolbar-section label="AI Renderer V3" icon="ph:cursor-fill">
                 ${Prompt(components, galleryDB)}
-                <bim-button label="Prompt" icon="tabler:eye-filled" tooltip-title="Prompt" tooltip-text="Shows all elements in all models."></bim-button>
                 ${Settings(components)}
+                ${Library(components, galleryDB)}
             </bim-toolbar-section> 
         `
       })
