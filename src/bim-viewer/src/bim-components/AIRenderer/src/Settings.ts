@@ -18,7 +18,6 @@ export default (components: OBC.Components) => {
         const target = e.target as BUI.TextInput
         const negPrompt = target.value
         localStorage.setItem("negPrompt", negPrompt)
-
     }
     const onWidthChange = (e: Event) => {
         const target = e.target as BUI.TextInput

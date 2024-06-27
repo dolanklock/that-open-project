@@ -89,7 +89,10 @@ export default (components: OBC.Components, galleryDb: Gallery) => {
 
 
     }
-    
+    const getRenderedImages = async () => {
+        const images = await galleryDb.db.renders.toArray()
+        return images
+    }
     const modal = BUI.Component.create<HTMLDialogElement>(() => {
         return BUI.html `
             <dialog>

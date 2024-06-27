@@ -13,6 +13,8 @@ import AIRenderer from "./bim-components/AIRenderer/AIRenderer"
 import {Renderer} from "./bim-components/AIRendererTab/AIRendererTab"
 import AIRendererVThree from "./bim-components/AIRendererV3/AIRendererVThree"
 import { AppManager } from "./bim-components"
+import { DiscordIntegration } from "./bim-components/DiscordIntegration"
+import { DiscordIntegrationUI } from "./bim-components/DiscordIntegration/user-interface"
 // import { AIRenderer } from "./bim-components/AIRenderer"
 
 export async function ThreeDViewer() {
@@ -123,6 +125,9 @@ export async function ThreeDViewer() {
   const viewer = document.getElementById("bim-container") as HTMLDivElement
   // const renderer = new Renderer(components, viewer)
 
+  const discordIntegration = new DiscordIntegration(components)
+  discordIntegration.setup()
+
   const toolbar = BUI.Component.create(() => {
     return BUI.html`
       <bim-toolbar>
@@ -130,7 +135,7 @@ export async function ThreeDViewer() {
         ${camera(world)}
         ${selection(components, world)}
         ${AIRendererVThree(components)}
-     
+        ${DiscordIntegrationUI(components, world)}
       </bim-toolbar>
     `
   })

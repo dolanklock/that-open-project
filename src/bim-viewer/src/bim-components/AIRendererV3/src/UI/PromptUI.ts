@@ -15,7 +15,9 @@ export default (components: OBC.Components, galleryDb: Gallery) => {
         prompt = target.value
     }
     const onRenderClick = async () => {
+        console.log("running render")
         try {
+            modal.close()
             spinner.classList.toggle("hide")
             const renderedImages = await renderer.render(prompt)
             if (!renderedImages) throw new Error("Something went wrong, render images is undefined")
@@ -30,6 +32,7 @@ export default (components: OBC.Components, galleryDb: Gallery) => {
             throw new Error(`Unable to complete render: ${error}`)
         } finally {
             spinner.classList.toggle("hide")
+            modal.close()
         }
     }
 

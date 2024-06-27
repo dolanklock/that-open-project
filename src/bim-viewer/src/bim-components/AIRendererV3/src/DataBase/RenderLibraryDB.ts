@@ -43,7 +43,9 @@ export class Gallery {
    */
   async save(url: string, title: string, date: string, uuid: string) {
     try {
+      console.log("saving rendered image", url)
       const response = await fetch(url);
+      console.log(response)
       if (!response.ok) {
         switch(response.status) {
             case 400:
