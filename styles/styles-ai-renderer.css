@@ -1,0 +1,38 @@
+.library-container {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    background-color: yellow;
+    grid-template-areas: 
+        "header header"
+        "main sidebar"
+        "main sidebar";
+    grid-template-rows: 75px 1fr;
+    grid-template-columns: 1fr 200px;
+    height: 100%;
+    width: 100%;
+}
+
+.library-header {
+    grid-area: header;
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+}
+
+.library-sidebar {
+    grid-area: sidebar;
+    background-color: #ac3939;
+}
+
+.library-main {
+    grid-area: main;
+    background-color: rgb(204, 57, 123);
+}
+
+/* .footer {
+    grid-area: footer;
+    background-color: #333;
+    color: white;
+    text-align: center;
+} */

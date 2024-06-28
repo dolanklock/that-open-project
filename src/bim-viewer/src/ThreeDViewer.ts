@@ -12,6 +12,7 @@ import selection from "./components/Toolbars/Sections/Selection"
 import AIRenderer from "./bim-components/AIRenderer/AIRenderer"
 import {Renderer} from "./bim-components/AIRendererTab/AIRendererTab"
 import AIRendererVThree from "./bim-components/AIRendererV3/AIRendererVThree"
+import AIRendererVFour from "./bim-components/AIRendererV4/AIRendererVFour"
 import { AppManager } from "./bim-components"
 import { DiscordIntegration } from "./bim-components/DiscordIntegration"
 import { DiscordIntegrationUI } from "./bim-components/DiscordIntegration/user-interface"
@@ -134,7 +135,7 @@ export async function ThreeDViewer() {
         ${load(components)}
         ${camera(world)}
         ${selection(components, world)}
-        ${AIRendererVThree(components)}
+        ${AIRendererVFour(components)}
         ${DiscordIntegrationUI(components, world)}
       </bim-toolbar>
     `
