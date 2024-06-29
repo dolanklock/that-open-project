@@ -1,0 +1,2 @@
+// allows to make rest request inside vscode
+GET http://localhost:5174/users

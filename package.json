@@ -8,11 +8,13 @@
     "@thatopen/components-front": "^2.0.9",
     "@thatopen/ui": "^2.0.8",
     "@thatopen/ui-obc": "^2.0.9",
+    "bcrypt": "^5.1.1",
     "bim-fragment": "^1.0.22",
     "bootstrap": "^5.3.3",
     "dexie": "^4.0.7",
     "esbuild": "^0.19.9",
     "exact": "^0.8.0",
+    "express": "^4.19.2",
     "fsevents": "^2.3.3",
     "jszip": "^3.10.1",
     "nanoid": "^3.3.7",
@@ -30,11 +32,13 @@
     "@types/node": "^20.14.2",
     "@types/three": "0.156.0",
     "dotenv": "^16.4.5",
+    "nodemon": "^3.1.4",
     "typescript": "^5.3.3",
     "vite": "^5.0.7"
   },
   "scripts": {
-    "dev": "vite"
+    "dev": "vite",
+    "devStart": "nodemon server.ts"
   },
   "keywords": [],
   "author": "",

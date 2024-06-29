@@ -2,6 +2,9 @@ import * as BUI from "@thatopen/ui"
 import * as CUI from "@thatopen/ui-obc"
 import * as OBC from "@thatopen/components"
 import {Gallery} from "../DataBase/RenderLibraryDB"
+import PromptUI from "./PromptUI"
+import Renders from "./src/Renders"
+import Screenshots from "./src/Screenshots"
 
 export default (components: OBC.Components, galleryDb: Gallery) => {
     const bimPanelSection = document.createElement('bim-panel-section') as BUI.PanelSection
@@ -87,31 +90,61 @@ export default (components: OBC.Components, galleryDb: Gallery) => {
         const viewer = document.getElementById("bim-container")
         viewer?.insertAdjacentElement("beforeend", imageForm)
 
-
     }
     const getRenderedImages = async () => {
         const images = await galleryDb.db.renders.toArray()
         return images
     }
+
+
+
     const modal = BUI.Component.create<HTMLDialogElement>(() => {
         return BUI.html `
             <dialog>
-                <div style="background-color: aqua; width: 1000px; height: 800px; display: flex;">
+                <div style="background-color: aqua; width: 1100px; height: 800px; display: flex;">
                     <div class="library-container">
-                    
+
                         <header class="library-header">
                     
                         </header>
 
                         <aside class="library-sidebar">
                             <bim-tabs style="grid-area: library-sidebar;">
-                                <bim-tab label="Library"></bim-tab>
-                                <bim-tab label="settings"></bim-tab>
+                                <bim-tab label="Renders" style="height: 100%;">
+                                    ${Renders(components, galleryDb)}
+                                    </bim-tab>
+                                <bim-tab label="Screenshots">
+                                    ${Screenshots(components, galleryDb)}
+                                </bim-tab>
+                                <bim-tab label="Imported">
+                                    <button class="render-btn">Render</button>
+                                </bim-tab>
                             </bim-tabs>
                         </aside>
 
                         <main class="library-main">
-                
+                            <div class="slider">
+                                <div class="slide slide--1">
+                                <div class="testimonial">
+                                    <h5 class="testimonial__header">Best financial decision ever!</h5>
+                                    <blockquote class="testimonial__text">
+                                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                                    Accusantium quas quisquam non? Quas voluptate nulla minima
+                                    deleniti optio ullam nesciunt, numquam corporis et asperiores
+                                    laboriosam sunt, praesentium suscipit blanditiis. Necessitatibus
+                                    id alias reiciendis, perferendis facere pariatur dolore veniam
+                                    autem esse non voluptatem saepe provident nihil molestiae.
+                                    </blockquote>
+                                    <address class="testimonial__author">
+                                    <img src="img/user-1.jpg" alt="" class="testimonial__photo" />
+                                    <h6 class="testimonial__name">Aarav Lynn</h6>
+                                    <p class="testimonial__location">San Francisco, USA</p>
+                                    </address>
+                                </div>
+                                <button class="slider__btn slider__btn--left">&larr;</button>
+                                <button class="slider__btn slider__btn--right">&rarr;</button>
+                                <div class="dots"></div>
+                            </div>
                         </main>
 
                     </div>
@@ -130,3 +163,28 @@ export default (components: OBC.Components, galleryDb: Gallery) => {
         `
     })
 }
+
+// <dialog>
+// <div style="background-color: aqua; width: 1000px; height: 800px; display: flex;">
+//     <div class="library-container">
+
+//         <header class="library-header">
+    
+//         </header>
+
+//         <aside class="library-sidebar">
+//             <bim-tabs style="grid-area: library-sidebar;">
+//                 <bim-tab label="Library">
+//                     <button>Render</button>
+//                 </bim-tab>
+//                 <bim-tab label="settings"></bim-tab>
+//             </bim-tabs>
+//         </aside>
+
+//         <main class="library-main">
+//             <button></button>
+//         </main>
+
+//     </div>
+// </div>
+// </dialog>
