@@ -41,7 +41,20 @@ export async function CreateUser(auth: Auth, email: string, password: string) {
   }
 
 export async function signInUser(auth: Auth, email: string, password: string) {
-    signInWithEmailAndPassword(auth, email, password)
+  signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    console.log(userCredential)
+  })
+  .catch((error) => {
+    if (error.code === "auth/invalid-credential") {
+      alert("Incorrect email address")
+    }
+  })
+  // try {
+  // } catch(error) {
+  //   console.log(error)
+    
+  // }
 }
 
 export async function signOutUser(auth: Auth) {
