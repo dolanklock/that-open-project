@@ -7,6 +7,8 @@ import { Project, IProject, projectRole, projectStatus, ToDo } from "./Projects"
 import { ProjectsManager } from "./ProjectsManager"
 import { showWarnModalForm, showModalForm, updateProjectDetailsContent, updateProjectCardContent } from "./ProjectFunctions"
 // import {ThreeDViewer} from "./ThreeDViewer"
+import { onAuthStateChanged } from "firebase/auth"
+import { CreateUser, signInUser, signOutUser, auth } from "./firebase/index"
 import { ThreeDViewer } from "./bim-viewer/src/threeDViewer";
 import * as THREE from "three"
 import * as OBC from "openbim-components"
@@ -596,8 +598,29 @@ if ( todoBody ) {
     })
 }
 
-
 ThreeDViewer()
+
+
+// ------------- Authentication ----------------- //
+
+const loginDialog = document.getElementById("login-dialog") as HTMLDialogElement
+// onAuthStateChanged(auth, )
+const loginBtn = document.getElementById("login-btn")
+loginBtn?.addEventListener("click", () => {
+    loginDialog.showModal()
+})
+
+const loginForm = document.getElementById("login-form") as HTMLFormElement
+loginForm.addEventListener("submit", (e: Event) => {
+    event?.preventDefault()
+    const formData = new FormData(loginForm)
+    const email = formData.get("email") as string
+    const password = formData.get("password") as string
+    console.log(email, password)
+    signInUser(auth, email, password)
+    loginDialog.close()
+    
+})
 
 
 // const keyBoardShortcutManager = new KeyBoardShortCutManager()

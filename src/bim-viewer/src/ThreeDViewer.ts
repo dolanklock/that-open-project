@@ -16,6 +16,7 @@ import AIRendererVFour from "./bim-components/AIRendererV4/AIRendererVFour"
 import { AppManager } from "./bim-components"
 import { DiscordIntegration } from "./bim-components/DiscordIntegration"
 import { DiscordIntegrationUI } from "./bim-components/DiscordIntegration/user-interface"
+
 // import { AIRenderer } from "./bim-components/AIRenderer"
 
 export async function ThreeDViewer() {
