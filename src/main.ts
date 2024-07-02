@@ -7,7 +7,7 @@ import { Project, IProject, projectRole, projectStatus, ToDo } from "./Projects"
 import { ProjectsManager } from "./ProjectsManager"
 import { showWarnModalForm, showModalForm, updateProjectDetailsContent, updateProjectCardContent } from "./ProjectFunctions"
 // import {ThreeDViewer} from "./ThreeDViewer"
-import Authenticate from "./Authenticate";
+import Authenticate from "./firebase/Authenticate";
 import { ThreeDViewer } from "./bim-viewer/src/threeDViewer";
 import * as THREE from "three"
 import * as OBC from "openbim-components"
@@ -599,6 +599,7 @@ if ( todoBody ) {
 
 ThreeDViewer()
 Authenticate()
+
 
 // ------------- Authentication ----------------- //
 

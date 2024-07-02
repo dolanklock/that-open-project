@@ -42,9 +42,9 @@
 
 <body>
     <dialog id="login-dialog">
-        <div class="wrapper">
+        <div class="wrapper login">
             <div class="titletest">
-               Login Form
+               Login
             </div>
             <form action="#" id="login-form">
                <div class="field">
@@ -68,7 +68,30 @@
                   <input type="submit" value="Login">
                </div>
                <div class="signup-link">
-                  Not a member? <a href="#">Signup now</a>
+                  Not a member? <a id="not-member" href="#">Signup now</a>
+               </div>
+            </form>
+         </div>
+         <div class="wrapper register page-hidden">
+            <div class="titletest">
+               Register
+            </div>
+            <form action="#" id="login-form">
+               <div class="field">
+                  <input name="email" type="text" required>
+                  <label>Email Address</label>
+               </div>
+               <div class="field">
+                  <input name="password" type="password" required>
+                  <label>Password</label>
+               </div>
+               <div class="field">
+                <input name="password" type="password" required>
+                <label>Re-enter password</label>
+             </div>
+             <br>
+               <div class="field">
+                  <input type="submit" value="Submit">
                </div>
             </form>
          </div>
@@ -180,7 +203,7 @@
         </form>
     </dialog>
 
-    <main id="project-landing" class="">
+    <main id="project-landing" class="page-hidden">
         <nav id="navbar">
             <div style="display: flex; align-items: center; column-gap: 10px;">
                 <span class="material-symbols-outlined">rocket_launch</span>

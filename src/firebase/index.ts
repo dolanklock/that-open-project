@@ -24,39 +24,3 @@ const analytics = getAnalytics(app);
 const auth = getAuth(app)
 
 export {auth}
-
-export async function CreateUser(auth: Auth, email: string, password: string) {
-    await createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      console.log(userCredential.user)
-    })
-    .catch((error) => {
-      if (error.message === "auth/email-already-in-use") {
-        throw new Error("Email already in use")
-      }
-      console.log(error)
-      console.log(error.code)
-      console.log(error.message)
-    })
-  }
-
-export async function signInUser(auth: Auth, email: string, password: string) {
-  signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    console.log(userCredential)
-  })
-  .catch((error) => {
-    if (error.code === "auth/invalid-credential") {
-      alert("Incorrect email address")
-    }
-  })
-  // try {
-  // } catch(error) {
-  //   console.log(error)
-    
-  // }
-}
-
-export async function signOutUser(auth: Auth) {
-    signOut(auth)
-}
