@@ -1,10 +1,9 @@
-import { getAuth, Auth, createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword } from "firebase/auth"
+import { getAuth, Auth, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut, signInWithEmailAndPassword } from "firebase/auth"
 import { auth } from "./index"
 
 // TODO: create register form and setup function
 
 export default () => {
-    // CreateUser(auth, "dolank16@gmail.com", "dolan123")
     const loginDialog = document.getElementById("login-dialog") as HTMLDialogElement
     const login = document.querySelector(".login") as HTMLDivElement
     const register = document.querySelector(".register") as HTMLDivElement
@@ -41,7 +40,7 @@ export default () => {
           })
     })
     // in order to get working again uncomment code below and add page-hidden to bim-container html
-    
+
     // signOut(auth)
     // onAuthStateChanged(auth, (user) => {
     //     if (user) {
@@ -53,5 +52,21 @@ export default () => {
     //     }
     // })
 
-
 }
+
+export async function createUser(auth: Auth, email: string, password: string, displayName: string) {
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+        updateProfile(userCredential.user, {displayName: displayName})
+    })
+    .catch((error) => {
+        if (error.code === "auth/weak-password") {
+            alert(error.message)
+          }
+        if (error.code === "auth/email-already-in-use") {
+            alert("Email is already in use")
+        } 
+    })
+}
+
+// createUser(auth, "dol@gmail.com", "dolydog", "Dolan Klock")

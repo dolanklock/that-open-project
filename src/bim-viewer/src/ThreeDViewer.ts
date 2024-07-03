@@ -17,6 +17,7 @@ import { AppManager } from "./bim-components"
 import { DiscordIntegration } from "./bim-components/DiscordIntegration"
 import { DiscordIntegrationUI } from "./bim-components/DiscordIntegration/user-interface"
 import { Comments } from "./bim-components/Comments";
+import { auth } from "../../firebase"
 
 // import { AIRenderer } from "./bim-components/AIRenderer"
 
@@ -136,22 +137,22 @@ export async function ThreeDViewer() {
   comments.world = world
   
   comments.onCommentAdded.add(comment => {
+    const currentUser = auth.currentUser?.displayName
+    if (!currentUser) return
     if (!comment.position) return
     const commentBubble = BUI.Component.create(() => {
       const commentsTable = document.createElement("bim-table")
       commentsTable.headersHidden = true
       commentsTable.expanded = true
-  
       const setTableData = () => {
         const groupData: BUI.TableGroupData = {
-          data: { Comment: comment.text }
+          data: { Comment: comment.text, displayName: currentUser }
         }
         commentsTable.data = [groupData]
-  
         if (comment.replies.length > 0) {
           groupData.children = comment.replies.map<BUI.TableGroupData>((reply) => {
             return {
-              data: { Comment: reply }
+              data: { Comment: reply, displayName: currentUser },
             }
           })
         }
