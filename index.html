@@ -272,8 +272,12 @@
                     <a href="" id="export-json"></a>
                 </div>
                 <div class="import-export-btn">
-                    <i class='bx bx-sm bxs-file-plus' ></i>
+                    <i class='bx bx-sm bxs-file-plus'></i>
                     <button style="padding: 0;" class="new-project-btn">New Project</button>
+                </div>
+                <div class="import-export-btn">
+                    <i class='bx bx bx-sm bxs-log-out'></i>
+                    <button id="logout-btn" style="padding: 0;" class="new-project-btn">Logout</button>
                 </div>
             </div>
         </header>
@@ -387,7 +391,7 @@
         </div>
     </main>
     
-    <main id="content-project-details" class="project-details page-hidden" style="display: flex; justify-content: center; align-items: center;">
+    <!-- <main id="content-project-details" class="project-details page-hidden" style="display: flex; justify-content: center; align-items: center;">
         <div id="shortcut-container" style="width: 500px; height: 500px; background-color: lightgray;">
             <div id="shortcut-header">
                 <label for="">Search</label>
@@ -425,14 +429,13 @@
                 </div>
             </div>
         </div>
-    </main>
+    </main> -->
 
-    
     <div class="loader hide">
         
     </div>
     <!-- <section id="bim-viewer" class="" style="width: 100vw; height: 100vh; margin: 0;"> -->
-    <div id="bim-container" class="page-hidden" style="display: flex; justify-content: center; align-items: center;">
+    <div id="bim-container" class="" style="display: flex; justify-content: center; align-items: center;">
         <bim-grid id="app">
         </bim-grid>
     </div>

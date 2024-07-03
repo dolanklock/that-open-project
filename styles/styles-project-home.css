@@ -65,6 +65,11 @@
     margin: 0;
 }
 
+.import-export-btn p {
+    margin: 0;
+    padding: 0;
+}
+
 .import-export-btn:hover {
     cursor: pointer;;
 }

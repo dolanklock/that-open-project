@@ -16,6 +16,7 @@ import AIRendererVFour from "./bim-components/AIRendererV4/AIRendererVFour"
 import { AppManager } from "./bim-components"
 import { DiscordIntegration } from "./bim-components/DiscordIntegration"
 import { DiscordIntegrationUI } from "./bim-components/DiscordIntegration/user-interface"
+import { Comments } from "./bim-components/Comments";
 
 // import { AIRenderer } from "./bim-components/AIRenderer"
 
@@ -130,6 +131,68 @@ export async function ThreeDViewer() {
   const discordIntegration = new DiscordIntegration(components)
   discordIntegration.setup()
 
+  const comments = components.get(Comments)
+  // comments.enabled = true
+  comments.world = world
+  
+  comments.onCommentAdded.add(comment => {
+    if (!comment.position) return
+    const commentBubble = BUI.Component.create(() => {
+      const commentsTable = document.createElement("bim-table")
+      commentsTable.headersHidden = true
+      commentsTable.expanded = true
+  
+      const setTableData = () => {
+        const groupData: BUI.TableGroupData = {
+          data: { Comment: comment.text }
+        }
+        commentsTable.data = [groupData]
+  
+        if (comment.replies.length > 0) {
+          groupData.children = comment.replies.map<BUI.TableGroupData>((reply) => {
+            return {
+              data: { Comment: reply }
+            }
+          })
+        }
+      }
+  
+      const onReplyClick = () => {
+        const reply = prompt("Relpy:")
+        if (!reply) return
+        comment.replies.push(reply)
+        setTableData()
+      }
+  
+      setTableData()
+      console.log("running func")
+      return BUI.html`
+      <div>
+        <bim-panel style="min-width: 0; max-width: 20rem; max-height: 20rem; border-radius: 1rem;">
+          <bim-panel-section icon="material-symbols:comment" collapsed>
+            ${commentsTable}
+            <bim-button @click=${onReplyClick} label="Add reply"></bim-button>
+          </bim-panel-section>
+        </bim-panel> 
+      </div>
+      `
+    })
+    // this here is adding the html CSS2DObject to the worlds html container
+    const commentMark = new OBF.Mark(world, commentBubble)
+    commentMark.three.position.copy(comment.position)
+  })
+  
+  const onCommentClick = () => {
+    comments.enabled = !comments.enabled
+  }
+  
+  const commentSection = BUI.Component.create<BUI.PanelSection>(() => {
+    return BUI.html`
+      <bim-toolbar-section label="Comments" icon="material-symbols:comment">
+        <bim-button @click=${onCommentClick} label="On/Off" icon="material-symbols:mode-off-on" tooltip-title="Focus" tooltip-text="Toggle on to add 2D comments to 3D objects"></bim-button>
+      </bim-toolbar-section> 
+    `;
+  });
   const toolbar = BUI.Component.create(() => {
     return BUI.html`
       <bim-toolbar>
@@ -138,6 +201,7 @@ export async function ThreeDViewer() {
         ${selection(components, world)}
         ${AIRendererVFour(components)}
         ${DiscordIntegrationUI(components, world)}
+        ${commentSection}
       </bim-toolbar>
     `
   })

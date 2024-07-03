@@ -2,7 +2,6 @@ import { getAuth, Auth, createUserWithEmailAndPassword, onAuthStateChanged, sign
 import { auth } from "./index"
 
 // TODO: create register form and setup function
-// TODO: create logout button and add functionality
 
 export default () => {
     // CreateUser(auth, "dolank16@gmail.com", "dolan123")
@@ -10,10 +9,14 @@ export default () => {
     const login = document.querySelector(".login") as HTMLDivElement
     const register = document.querySelector(".register") as HTMLDivElement
     const loginBtn = document.getElementById("login-btn")
+    const logoutBtn = document.getElementById("logout-btn") as HTMLButtonElement
     loginBtn?.addEventListener("click", () => {
         if (login.classList.contains("page-hidden")) login.classList.remove("page-hidden")
         if (!register.classList.contains("page-hidden")) register.classList.add("page-hidden")
         loginDialog.showModal()
+    })
+    logoutBtn.addEventListener("click", () => {
+        signOut(auth)
     })
     document.getElementById("not-member")?.addEventListener("click", () => {
         login.classList.toggle("page-hidden")
@@ -28,7 +31,7 @@ export default () => {
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             document.getElementById("project-landing")?.classList.add("page-hidden")
-            document.getElementById("bim-container")?.classList.remove("page-hidden")
+            document.getElementById("content-projects-page")?.classList.remove("page-hidden")
             loginDialog.close()
           })
           .catch((error) => {
@@ -37,16 +40,18 @@ export default () => {
             }
           })
     })
+    // in order to get working again uncomment code below and add page-hidden to bim-container html
+    
     // signOut(auth)
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            document.getElementById("project-landing")?.classList.add("page-hidden")
-            document.getElementById("bim-container")?.classList.remove("page-hidden")
-        } else {
-            document.getElementById("project-landing")?.classList.remove("page-hidden")
-            document.getElementById("bim-container")?.classList.add("page-hidden")
-        }
-    })
+    // onAuthStateChanged(auth, (user) => {
+    //     if (user) {
+    //         document.getElementById("project-landing")?.classList.add("page-hidden")
+    //         document.getElementById("content-projects-page")?.classList.remove("page-hidden")
+    //     } else {
+    //         document.getElementById("project-landing")?.classList.remove("page-hidden")
+    //         document.getElementById("content-projects-page")?.classList.add("page-hidden")
+    //     }
+    // })
 
 
 }
