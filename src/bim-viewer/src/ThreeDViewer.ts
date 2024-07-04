@@ -146,18 +146,17 @@ export async function ThreeDViewer() {
       commentsTable.expanded = true
       const setTableData = () => {
         const groupData: BUI.TableGroupData = {
-          data: { Comment: comment.text, displayName: currentUser }
+          data: { displayName: `${currentUser}: `, Comment: comment.text }
         }
         commentsTable.data = [groupData]
         if (comment.replies.length > 0) {
           groupData.children = comment.replies.map<BUI.TableGroupData>((reply) => {
             return {
-              data: { Comment: reply, displayName: currentUser },
+              data: { displayName: `${currentUser}: `, Comment: reply },
             }
           })
         }
       }
-  
       const onReplyClick = () => {
         const reply = prompt("Relpy:")
         if (!reply) return
@@ -182,9 +181,17 @@ export async function ThreeDViewer() {
     const commentMark = new OBF.Mark(world, commentBubble)
     commentMark.three.position.copy(comment.position)
   })
-  
+
   const onCommentClick = () => {
     comments.enabled = !comments.enabled
+    const btn = commentSection.querySelector("bim-button") as BUI.Button
+    console.log(btn.style.backgroundColor)
+    if (comments.enabled) {
+      btn.style.backgroundColor = "#6610f2"
+      btn.style.borderRadius = "5px"
+    } else {
+      btn.style.backgroundColor = "transparent"
+    }
   }
   
   const commentSection = BUI.Component.create<BUI.PanelSection>(() => {
