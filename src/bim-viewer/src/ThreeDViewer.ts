@@ -165,7 +165,6 @@ export async function ThreeDViewer() {
       }
   
       setTableData()
-      console.log("running func")
       return BUI.html`
       <div>
         <bim-panel style="min-width: 0; max-width: 20rem; max-height: 20rem; border-radius: 1rem;">
@@ -185,7 +184,6 @@ export async function ThreeDViewer() {
   const onCommentClick = () => {
     comments.enabled = !comments.enabled
     const btn = commentSection.querySelector("bim-button") as BUI.Button
-    console.log(btn.style.backgroundColor)
     if (comments.enabled) {
       btn.style.backgroundColor = "#6610f2"
       btn.style.borderRadius = "5px"
@@ -201,6 +199,8 @@ export async function ThreeDViewer() {
       </bim-toolbar-section> 
     `;
   });
+
+  
   const toolbar = BUI.Component.create(() => {
     return BUI.html`
       <bim-toolbar>

@@ -597,6 +597,65 @@ if ( todoBody ) {
     })
 }
 
+// -------------- slider ------------------- //
+// const slideBtnLeft = document.querySelector('.slider__btn--left');
+// const slideBtnRight = document.querySelector('.slider__btn--right');
+// const slides = document.querySelectorAll('.slide');
+
+// const getTranslateX = function (translate) {
+//     const xArr = translate.split('');
+//     const strIdx = xArr.indexOf('(');
+//     const endIdx = xArr.indexOf('%');
+//     return Number(xArr.slice(strIdx + 1, endIdx).join(''));
+//   };
+
+// const dots = document.querySelectorAll('.dots__dot')
+// const updateDotColor = function() {
+//     slides.forEach((slide, idx) => {
+//         if ( getTranslateX(slide.style.transform) === 0 ) {
+//         dots[idx].classList.add('dots__dot--active');
+//         } else {
+//         dots[idx].classList.remove('dots__dot--active');
+//         };
+//     })
+// }
+// const btnSlider = function(...args) {
+//     if ( args[0] === null ) {
+//       args.splice(0, 1);
+//     };
+//     const [transformVal, isLeftBtn] = args;
+//     // logic for button clicks
+//     if ( isLeftBtn ) {
+//       if (getTranslateX(slides[0].style.transform) + transformVal > 0) {
+//         slides.forEach(slide => {
+//           slide.style.transform = `translateX(${getTranslateX(slide.style.transform) - transformVal * (slides.length-1)}%)`;
+//         });
+//       } else {
+//         slides.forEach(slide => {
+//           slide.style.transform = `translateX(${getTranslateX(slide.style.transform) + transformVal}%)`;
+//           console.log('main', slide.style.transform, slide.dataset.slide)
+//         });
+//       };
+//     };
+//     if ( !isLeftBtn ) {
+//       if (getTranslateX(slides[0].style.transform) - transformVal <= slides.length * -100) {
+//         slides.forEach(slide => {
+//           slide.style.transform = `translateX(${getTranslateX(slide.style.transform) + transformVal * (slides.length-1)}%)`;
+//         });
+//       } else {
+//         slides.forEach(slide => {
+//           slide.style.transform = `translateX(${getTranslateX(slide.style.transform) - transformVal}%)`;
+//         });
+//       };
+//     };
+//     updateDotColor()
+//   };
+  
+//   // slider buttons
+//   slideBtnLeft.addEventListener('click', btnSlider.bind(null, 100, true))
+//   slideBtnRight.addEventListener('click', btnSlider.bind(null, 100, false))
+
+
 ThreeDViewer()
 Authenticate()
 

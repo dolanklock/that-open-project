@@ -29,6 +29,7 @@
     grid-area: main;
     background-color: white;
     border: 1px solid black;
+    padding: 10px;
 }
 
 .render-btn {
@@ -37,6 +38,10 @@
     border-radius: 10px;
     background-color: white;
     color: black;
+}
+
+.slide {
+  padding: 100px;
 }
 
 /* .footer {
