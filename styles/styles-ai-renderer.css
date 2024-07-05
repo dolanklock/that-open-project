@@ -2,7 +2,7 @@
     display: grid;
     margin: 0;
     padding: 0;
-    background-color: #22272e;;
+    background-color: #22272e;
     grid-template-areas: 
         "header sidebar"
         "main sidebar"
@@ -31,6 +31,11 @@
 
 .library-sidebar bim-tabs {
   height: 100%;
+  background-color: #22272e;
+}
+
+.library-sidebar bim-tabs bim-tab {
+  padding-right: 15px;
 }
 
 .library-main {
@@ -59,14 +64,13 @@
 /* image card styles */
 
 .image-item {
-    width: 90%;
+    width: 100%;
     height: fit-content;
-    background-color: #BCF124;
+    background-color: white;
     /* border: 1px solid black; */
     border-radius: 8px;
-    margin-top: 10px;
+    margin-top: 20px;
     padding: 10px;
-
 }
 
 
