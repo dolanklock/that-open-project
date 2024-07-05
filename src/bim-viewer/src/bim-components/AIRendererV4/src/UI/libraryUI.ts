@@ -101,16 +101,16 @@ export default (components: OBC.Components, galleryDb: Gallery) => {
     const modal = BUI.Component.create<HTMLDialogElement>(() => {
         return BUI.html `
             <dialog>
-                <div style="background-color: aqua; width: 1100px; height: 800px; display: flex;">
+                <div style="background-color: #22272e; width: 1100px; height: 800px; display: flex;">
                     <div class="library-container">
 
                         <header class="library-header">
-                    
+                            <i class='bx bx-md bxs-palette' ></i>
                         </header>
 
                         <aside class="library-sidebar">
                             <bim-tabs style="grid-area: library-sidebar;">
-                                <bim-tab label="Renders" style="height: 100%;">
+                                <bim-tab label="Renders">
                                     ${Renders(components, galleryDb)}
                                     </bim-tab>
                                 <bim-tab label="Screenshots">
