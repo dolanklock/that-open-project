@@ -13,9 +13,22 @@ import { v4 as uuidv4 } from 'uuid'
 // TODO: next step figure out the logic of having all images rendered and when 
 // arrow btn is clicked the next render will show
 
+// TODO: add functionality to the database so it gets images for us, etc..
+// DB class should have methods for retrieving information we need from it for other parts
+// of our code
+
 export default (components: OBC.Components, galleryDb: Gallery) => {
+
+    const arrayBufferToSrcImg = (arrayBuffer: ArrayBuffer, fileName: string) => {
+        const file = new File([new Blob([arrayBuffer])], fileName)
+        const src = URL.createObjectURL(file)
+        return src
+    }
     const createSlide = async () => {
         const images = await galleryDb.db.renders.toArray()
+        const arrBuff = images[0].buffer
+        const src = arrayBufferToSrcImg(arrBuff, "test")
+        
         const template = `
             <div class="slide slide--1">
                 <img src="https://cdn.pixabay.com/photo/2024/03/04/16/38/cat-8612685_1280.jpg"></img>

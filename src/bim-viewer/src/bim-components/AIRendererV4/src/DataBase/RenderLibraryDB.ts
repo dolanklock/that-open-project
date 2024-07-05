@@ -88,4 +88,19 @@ export class Gallery {
   async clear() {
     await this.db.renders.clear();
   }
+
+  arrayBufferToSrcImg(arrayBuffer: ArrayBuffer, fileName: string) {
+    const file = new File([new Blob([arrayBuffer])], fileName)
+    const src = URL.createObjectURL(file)
+    return src
+  }
+  
+  async getAllArrayBuffersToSrcImg() {
+    const rv: string[] = []
+    const allItems = await this.db.renders.toArray()
+    for (const i of allItems) {
+      rv.push(this.arrayBufferToSrcImg(i.buffer, i.uuid))
+    }
+    return rv
+}
 }
