@@ -151,23 +151,8 @@ export class Gallery {
     const rv: string[] = []
     const allItems = await this.db.renders.toArray()
     for (const i of allItems) {
-      rv.push(this.arrayBufferToSrcImg(i.renderBuffer, i.uuid))
+      if (i.renderBuffer) rv.push(this.arrayBufferToSrcImg(i.renderBuffer, i.uuid))
     }
     return rv
   }
 }
-
-// TODO: need save for render and screenshot
-// if i do a render and click render button from existing screenshot
-// then need to get the existing saved item in database
-// that has screenshot already and save the rendered image to that
-// if taking screenshot of model or uploading new screenshot need
-// to save a brand new item to DB
-
-
-// TODO: db needs to have projectID/ project name,
-// and render and screenshot
-
-// should be able to click on dropdown on card and change the project
-// its currently grouped under and it will move to that group
-// (render image and screenshot)

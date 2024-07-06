@@ -7,7 +7,8 @@ import Renders from "./src/Renders"
 // import Screenshots from "./src/Screenshots"
 import Slider from "./Slider"
 import { LibraryComponent } from "../Components/LibraryComponent"
-import {Screenshots} from "./src/Screenshots"
+import {ScreenshotUI} from "./src/Screenshots"
+import { RenderUI } from "./src/Renders"
 
 export default (components: OBC.Components, galleryDb: Gallery) => {
     const bimPanelSection = document.createElement('bim-panel-section') as BUI.PanelSection
@@ -16,7 +17,8 @@ export default (components: OBC.Components, galleryDb: Gallery) => {
     
     const libraryRenders = new LibraryComponent(components, galleryDb)
     const libraryScreenshots = new LibraryComponent(components, galleryDb)
-    const screenshots = new Screenshots(components, galleryDb)
+    const screenshotUI = new ScreenshotUI(components, galleryDb)
+    const renderUI = new RenderUI(components, galleryDb)
     
     const modal = BUI.Component.create<HTMLDialogElement>(() => {
         return BUI.html `
@@ -31,10 +33,10 @@ export default (components: OBC.Components, galleryDb: Gallery) => {
                         <aside class="library-sidebar">
                             <bim-tabs style="grid-area: library-sidebar;">
                                 <bim-tab label="Renders">
-                                    ${Renders(components, galleryDb)}
+                                    ${renderUI}
                                     </bim-tab>
                                 <bim-tab label="Screenshots">
-                                    ${screenshots.bimPanelSection}
+                                    ${screenshotUI.bimPanelSection}
                                 </bim-tab>
                                 <bim-tab label="Imported">
                                     <button class="render-btn">Render</button>
@@ -53,7 +55,7 @@ export default (components: OBC.Components, galleryDb: Gallery) => {
     })
     document.body.append(modal)
     const onLibraryClick = () => {
-        screenshots.render()
+        screenshotUI.render()
         modal.showModal()
     }
     return BUI.Component.create<BUI.PanelSection>(() => {
