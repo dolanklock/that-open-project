@@ -12,15 +12,16 @@ import { takeCoverage } from "v8"
 
 
 export default (components: OBC.Components) => {
-    const library = new LibraryComponent(components)
-    const galleryDB = new Gallery()
-    galleryDB.init()
+    const galleryDb = new Gallery()
+    galleryDb.init()
+    console.log("hererere", galleryDb)
+    // const library = new LibraryComponent(components, galleryDb)
     
     return BUI.Component.create<BUI.PanelSection>(() => {
         return BUI.html`
             <bim-toolbar-section label="AI Renderer V4" icon="ph:cursor-fill">
-                ${TakeScreenshot(components, galleryDB)}
-                ${Library(components, galleryDB)}
+                ${TakeScreenshot(components, galleryDb)}
+                ${Library(components, galleryDb)}
             </bim-toolbar-section> 
         `
       })

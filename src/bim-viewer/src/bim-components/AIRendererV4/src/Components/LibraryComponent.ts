@@ -8,20 +8,22 @@ export class LibraryComponent {
     private _components: OBC.Components
     galleryDB: Gallery
     bimPanelSection: HTMLElement
-    constructor(components: OBC.Components) {
+    constructor(components: OBC.Components, gallerDb: Gallery) {
         this._components = components
-        this.galleryDB = new Gallery()
+        this.galleryDB = gallerDb
         this.galleryDB.init()
         this.bimPanelSection = document.createElement('bim-panel-section') as BUI.PanelSection
         this.bimPanelSection.setAttribute('label', 'Gallery')
         this.bimPanelSection.setAttribute('icon', 'tabler:world')
         this.updateUI()
     }
+    // TODO: should save render and screenshot to same DB so that they are always paried together
+    // and can always access them together
     /**
      * saves the image to the libraries data base 
      * @param imageURL 
      */
-    async saveRender(imageURL: string) {
+    async saveImage(imageURL: string) {
         setTimeout(async () => {
             await this.galleryDB.save(imageURL, "testing", new Date().toDateString(), uuidv4())
         }, 10000);
@@ -60,7 +62,6 @@ export class LibraryComponent {
             const deleteBtn = card.querySelector(".delete-render") as HTMLButtonElement
             deleteBtn.onclick = this.onCardDelete.bind(this)
             const expandBtn = card.querySelector(".expand") as HTMLButtonElement
-            expandBtn.onclick = this.onImageExpand.bind(this)
             cardContainer.insertAdjacentElement("beforeend", card)
         }
         this.bimPanelSection.insertAdjacentElement("beforeend", cardContainer)
@@ -78,34 +79,34 @@ export class LibraryComponent {
         await this.galleryDB.deleteItem(cardId)
         card.remove()
     }
-    onImageExpand(e: Event) {
-        const imageForm = document.createElement("div") as HTMLDivElement
-        const closeBtn = document.createElement('bim-button') as BUI.Button
-        closeBtn.onclick = function() {
-            imageForm.remove()
-        }
-        closeBtn.style.position = "absolute"
-        closeBtn.style.display = "flex"
-        closeBtn.style.top = "0"
-        closeBtn.style.left = "0"
-        closeBtn.setAttribute("icon", "material-symbols:close")
+    // onImageExpand(e: Event) {
+    //     const imageForm = document.createElement("div") as HTMLDivElement
+    //     const closeBtn = document.createElement('bim-button') as BUI.Button
+    //     closeBtn.onclick = function() {
+    //         imageForm.remove()
+    //     }
+    //     closeBtn.style.position = "absolute"
+    //     closeBtn.style.display = "flex"
+    //     closeBtn.style.top = "0"
+    //     closeBtn.style.left = "0"
+    //     closeBtn.setAttribute("icon", "material-symbols:close")
 
-        imageForm.style.position = "absolute"
-        imageForm.style.width = "fit-content"
-        imageForm.style.maxWidth = "1000px"
-        imageForm.style.height = "auto"
+    //     imageForm.style.position = "absolute"
+    //     imageForm.style.width = "fit-content"
+    //     imageForm.style.maxWidth = "1000px"
+    //     imageForm.style.height = "auto"
         
-        imageForm.style.display = "flex"
-        imageForm.insertAdjacentElement("beforeend", closeBtn)
+    //     imageForm.style.display = "flex"
+    //     imageForm.insertAdjacentElement("beforeend", closeBtn)
 
-        const btnClicked = e.target as HTMLButtonElement
-        const card = btnClicked.closest(".render-card") as HTMLDivElement
-        const image = card.querySelector(".render-image")?.cloneNode(true) as HTMLImageElement
+    //     const btnClicked = e.target as HTMLButtonElement
+    //     const card = btnClicked.closest(".render-card") as HTMLDivElement
+    //     const image = card.querySelector(".render-image")?.cloneNode(true) as HTMLImageElement
         
-        imageForm.insertAdjacentElement("beforeend", image)
-        const viewer = document.getElementById("bim-container")
-        viewer?.insertAdjacentElement("beforeend", imageForm)
+    //     imageForm.insertAdjacentElement("beforeend", image)
+    //     const viewer = document.getElementById("bim-container")
+    //     viewer?.insertAdjacentElement("beforeend", imageForm)
 
 
-    }
+    // }
 }

@@ -18,7 +18,7 @@ import { v4 as uuidv4 } from 'uuid'
 // of our code
 
 export default (components: OBC.Components, galleryDb: Gallery) => {
-
+    
     const arrayBufferToSrcImg = (arrayBuffer: ArrayBuffer, fileName: string) => {
         const file = new File([new Blob([arrayBuffer])], fileName)
         const src = URL.createObjectURL(file)
@@ -26,8 +26,8 @@ export default (components: OBC.Components, galleryDb: Gallery) => {
     }
     const createSlide = async () => {
         const images = await galleryDb.db.renders.toArray()
-        const arrBuff = images[0].buffer
-        const src = arrayBufferToSrcImg(arrBuff, "test")
+        // const arrBuff = images[0].buffer
+        // const src = arrayBufferToSrcImg(arrBuff, "test")
         
         const template = `
             <div class="slide slide--1">

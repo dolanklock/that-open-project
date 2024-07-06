@@ -26,7 +26,7 @@
 
 .library-sidebar {
     grid-area: sidebar;
-    background-color: transparent;
+    background-color: #22272e;
 }
 
 .library-sidebar bim-tabs {
@@ -36,6 +36,7 @@
 
 .library-sidebar bim-tabs bim-tab {
   padding-right: 15px;
+  background-color: #22272e;
 }
 
 .library-main {
