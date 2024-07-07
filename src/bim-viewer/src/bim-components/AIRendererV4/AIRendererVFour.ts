@@ -33,6 +33,10 @@ import { takeCoverage } from "v8"
 // you will see that new project in it and then can select it and it will move the cards over
 // to that group
 
+// TODO: need to set up the slides properly, then once that is setup can go to PromptUI file
+// and get the current active image and pass in its UUID from there to render the image
+
+
 export default (components: OBC.Components) => {
     const galleryDb = new Gallery()
     galleryDb.init()

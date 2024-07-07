@@ -17,14 +17,16 @@ export default (components: OBC.Components, galleryDb: Gallery) => {
     const onRenderClick = async () => {
         console.log("running render")
         try {
-            modal.close()
+            // modal.close()
             spinner.classList.toggle("hide")
             const renderedImages = await renderer.render(prompt)
             if (!renderedImages) throw new Error("Something went wrong, render images is undefined")
             for ( const imageURL of renderedImages ) {
                 console.log("IMAGE BEING SAVED...", imageURL)
                 // *this was wrapped in a settimeout before for 10 seconds....
-                await galleryDb.save(imageURL, "testing", new Date().toDateString(), uuidv4())
+                // TODO: need to get the current active image in sliders UUID
+                const activeImage = document.querySelector(".image-active") as HTMLImageElement
+                await galleryDb.saveRender(imageURL, )
                 // await library.update(imageURL)
                 
             }
@@ -32,33 +34,21 @@ export default (components: OBC.Components, galleryDb: Gallery) => {
             throw new Error(`Unable to complete render: ${error}`)
         } finally {
             spinner.classList.toggle("hide")
-            modal.close()
+            
         }
     }
 
-    const modal = BUI.Component.create<HTMLDialogElement>(() => {
-        return BUI.html `
-            <dialog style="resize: both;">
-                <bim-panel> 
-                    <div style="display: flex; flex-direction: column; gap: 1.5rem; padding: 20px;">
-                        <div style="display: flex; flex-direction: column; gap: .5rem;">
-                            <bim-label style="display: flex" icon="mingcute:rocket-fill">Render Prompt</bim-label>
-                            <bim-text-input value="${prompt}" @input=${onPromptChange} vertical placeholder="Search..." debounce="200"></bim-text-input>
-                        </div>
-                        <div style="display: flex; flex-direction: row; gap: .5rem;">
-                            <bim-button @click=${onRenderClick} label="Render" icon=""></bim-button>
-                        </div>
-                    </div>
-                </bim-panel>
-            </dialog>
-        `
-    })
-
-    document.body.append(modal)
-
     return BUI.Component.create<BUI.PanelSection>(() => {
         return BUI.html `
-            <bim-button @click=${() => modal.showModal()} label="Render" icon="tabler:eye-filled" tooltip-title="Show All" tooltip-text="Shows all elements in all models."></bim-button>
+            <div style="display: flex; gap: 1.5rem; align-items: center; margin-top: 10px">
+                <div style="display: flex; flex-direction: column; gap: .5rem;">
+                    <bim-text-input style="resize: horizontal; width: 500px; height: 30px;" value="${prompt}" @input=${onPromptChange} vertical placeholder="Search..." debounce="200"></bim-text-input>
+                </div>
+                <div style="display: flex; flex-direction: row; gap: .5rem;">
+                    <bim-button style="height:60px;" @click=${onRenderClick} label="Render" icon=""></bim-button>
+                </div>
+            </div>
+            
         `
     })
 }

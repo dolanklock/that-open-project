@@ -69,7 +69,7 @@ export class Gallery {
       throw new Error(`Error saving item to DB: ${error}`)
     }
   }
-  async saveRender(url: string, title: string, date: string, uuid: string) {
+  async saveRender(url: string, existingUUID: string) {
     // uuid in this method will need to come from the screenshot item that is currenrly being rendered
     // should find the parent html and it should have data attribute with uuid in it and then i can 
     // pass that in to this method
@@ -92,7 +92,7 @@ export class Gallery {
         }
     } else {
       const buffer = await response.arrayBuffer();
-      const dbItem = await this.getItemByUUID(uuid)
+      const dbItem = await this.getItemByUUID(existingUUID)
       const id = dbItem.id
       if (!id) return
       return await this.db.renders.update(id, { renderBuffer: buffer});

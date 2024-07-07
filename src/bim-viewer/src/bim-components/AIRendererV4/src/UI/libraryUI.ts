@@ -3,9 +3,9 @@ import * as CUI from "@thatopen/ui-obc"
 import * as OBC from "@thatopen/components"
 import {Gallery} from "../DataBase/RenderLibraryDB"
 import PromptUI from "./PromptUI"
-import Renders from "./src/Renders"
+// import Renders from "./src/Renders"
 // import Screenshots from "./src/Screenshots"
-import Slider from "./Slider"
+import {Slider} from "./Slider"
 import { LibraryComponent } from "../Components/LibraryComponent"
 import {ScreenshotUI} from "./src/Screenshots"
 import { RenderUI } from "./src/Renders"
@@ -19,6 +19,8 @@ export default (components: OBC.Components, galleryDb: Gallery) => {
     const libraryScreenshots = new LibraryComponent(components, galleryDb)
     const screenshotUI = new ScreenshotUI(components, galleryDb)
     const renderUI = new RenderUI(components, galleryDb)
+    const slider = new Slider(components, galleryDb)
+    console.log("sliderconstainer", slider.sliderContainer)
     
     const modal = BUI.Component.create<HTMLDialogElement>(() => {
         return BUI.html `
@@ -28,6 +30,7 @@ export default (components: OBC.Components, galleryDb: Gallery) => {
 
                         <header class="library-header">
                             <i class='bx bx-md bxs-palette' ></i>
+                            ${PromptUI(components, galleryDb)}
                         </header>
 
                         <aside class="library-sidebar">
@@ -45,7 +48,7 @@ export default (components: OBC.Components, galleryDb: Gallery) => {
                         </aside>
 
                         <main class="library-main">
-                            ${Slider(components, galleryDb)}
+                            ${slider.sliderContainer}
                         </main>
 
                     </div>
@@ -54,9 +57,14 @@ export default (components: OBC.Components, galleryDb: Gallery) => {
         `
     })
     document.body.append(modal)
-    const onLibraryClick = () => {
+    const onLibraryClick = async () => {
         screenshotUI.render()
         modal.showModal()
+        const mainLibraryHTMLElement = modal.querySelector(".library-main") as HTMLElement
+        mainLibraryHTMLElement.innerHTML = ""
+        const slidesHTML = await slider.renderScreenshotSlides()
+        mainLibraryHTMLElement.insertAdjacentElement("afterbegin", slidesHTML)
+
     }
     return BUI.Component.create<BUI.PanelSection>(() => {
         return BUI.html `

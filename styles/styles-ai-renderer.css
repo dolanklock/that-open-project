@@ -19,8 +19,10 @@
     color: white;
     display: flex;
     align-items: center;
+    justify-content: flex-start;
     padding: 20px;
     box-sizing: border-box;
+    column-gap: 170px;
     /* text-align: center; */
 }
 
@@ -106,7 +108,6 @@
     /* Only for images that have different size than slide */
     width: 600px;
     height: 600px;
-    background-color: #4CAF50;
     object-fit: cover;
   }
   
