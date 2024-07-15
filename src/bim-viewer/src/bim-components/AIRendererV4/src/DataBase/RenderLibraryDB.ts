@@ -74,10 +74,12 @@ export class Gallery {
     // should find the parent html and it should have data attribute with uuid in it and then i can 
     // pass that in to this method
     try {
+      console.log("url here**", url)
       console.log("saving rendered image", url)
       const response = await fetch(url);
-      console.log(response)
+      console.log("RESPONSE**", response)
       if (!response.ok) {
+        console.log("RUNNING IF")
         switch(response.status) {
             case 400:
                 throw new Error(`Bad response saving image to render library DB: ${response.status}`)
@@ -91,6 +93,7 @@ export class Gallery {
                 throw new Error(`Bad response saving image to render library DB: ${response.status}`)  
         }
     } else {
+      console.log("RUNNING ELSE")
       const buffer = await response.arrayBuffer();
       const dbItem = await this.getItemByUUID(existingUUID)
       const id = dbItem.id
@@ -147,6 +150,7 @@ export class Gallery {
     }
     return rv
   }
+
   async getAllRenderImages() {
     const rv: string[] = []
     const allItems = await this.db.renders.toArray()
@@ -154,5 +158,10 @@ export class Gallery {
       if (i.renderBuffer) rv.push(this.arrayBufferToSrcImg(i.renderBuffer, i.uuid))
     }
     return rv
+  }
+
+  async getAllItems() {
+    const items = await this.db.renders.toArray()
+    return items
   }
 }

@@ -1,23 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300&display=swap');
 
 :root {
-    /* --primary: #26282b; */
-    --primary: #d4d6d9;
-    --primary-100: #029AE0;
-    --primary-200: #4a4946;
-    /* --primary-300: #202124; */
-    --primary-300: #f2f2f0;
-    --background-100: #029AE0;
-    --action-btn: #27d128;
-    --font-xs: 10px;
-    --font-sm: 12px;
-    --font-base: 14px;
-    --font-lg: 16px;
-    --font-xl: 18px;
-    --font-2xl: 20px;
-    --font-3xl: 22px;
-    --card-width: 350px;
-}
+    /* Grayscale Colors */
+    --bim-ui_gray-0: hsl(216, 4%, 22%);
+    --bim-ui_gray-1: hsl(210, 4%, 22%);
+    --bim-ui_gray-2: hsl(180, 2%, 11%);
+    --bim-ui_gray-4: hsl(210 10% 40%);
+    --bim-ui_gray-6: hsl(216, 7%, 87%);
+    --bim-ui_gray-8: hsl(210, 2%, 79%);
+    --bim-ui_gray-9: hsl(210 10% 90%);
+    --bim-ui_gray-10: hsl(220, 1%, 47%);
+  
+    /* Brand Colors */
+    --bim-ui_main-base: #09c281;
+    --bim-ui_accent-base: #fdfeff;
+  
+    /* Brand Colors Contrasts */
+    --bim-ui_main-contrast: var(--bim-ui_gray-10);
+    --bim-ui_accent-contrast: var(--bim-ui_gray-0);
+  }
 
 .todo-item:hover {
     background-color: var(--primary-100);

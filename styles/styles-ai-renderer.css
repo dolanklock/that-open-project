@@ -133,12 +133,12 @@
   .slider__btn--left {
 
     transform: translate(-50%, -50%);
-  }
+  } */
   
   .slider__btn--right {
 
     transform: translate(50%, -50%);
-  }
+  } 
   
   .dots {
     position: absolute;

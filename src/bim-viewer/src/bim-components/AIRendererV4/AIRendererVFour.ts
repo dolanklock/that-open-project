@@ -33,6 +33,12 @@ import { takeCoverage } from "v8"
 // you will see that new project in it and then can select it and it will move the cards over
 // to that group
 
+
+// TODO: need to take the HTML from the variable here "const slidesHTML = await slider.renderScreenshotSlides()"
+// from the libraryUI file, that var has the html with all slides with img, need to take it and figure
+// out the html, css, and js code for making slide show with it. once can do that, then can go to the PromptUI
+// file and get the correct active image and pass in its UUId from there to render the image
+
 // TODO: need to set up the slides properly, then once that is setup can go to PromptUI file
 // and get the current active image and pass in its UUID from there to render the image
 

@@ -24,16 +24,16 @@ export class RenderUI extends BaseUI{
             const src = URL.createObjectURL(file)
             const card = document.createElement("div") as HTMLDivElement
             card.innerHTML = `
-            <div data-id="${dbItem.uuid}" class="render-card" style="width: 150px; height: fit-content; display: flex;
-             flex-direction: column; border-radius: 10px; border: 1px solid rgba(0, 0, 0, 0.5)">
-                <img class="render-image" style="border-radius: 10px 10px 0px 0px" src="${src}">
-                <div style="color: white; width: 100%; height: fit-content; display: flex; flex-direction: column; padding: 10px;">
-                    <bim-label icon="">${dbItem.date}</bim-label>
-                    <div style="margin-top: 10px; width: 100%; height: fit-content; display: flex; flex-direction: row; justify-content: space-between; column-gap: 6px;">
-                        <bim-button class="delete-render" style="width: 50px; min-width: 80px" label="Delete" icon="mdi:garbage-can-outline"></bim-button>
+                <div data-id="${dbItem.uuid}" class="render-card" style="width: 150px; height: fit-content; display: flex;
+                flex-direction: column; border-radius: 10px; border: 1px solid rgba(0, 0, 0, 0.5)">
+                    <img class="render-image" style="border-radius: 10px 10px 0px 0px" src="${src}">
+                    <div style="color: white; width: 100%; height: fit-content; display: flex; flex-direction: column; padding: 10px;">
+                        <bim-label icon="">${dbItem.date}</bim-label>
+                        <div style="margin-top: 10px; width: 100%; height: fit-content; display: flex; flex-direction: row; justify-content: space-between; column-gap: 6px;">
+                            <bim-button class="delete-render" style="width: 50px; min-width: 80px" label="Delete" icon="mdi:garbage-can-outline"></bim-button>
+                        </div>
                     </div>
                 </div>
-            </div>
             `
             card.style.boxShadow = "0 16px 32px rgba(0, 0, 0, 0)"
             const deleteBtn = card.querySelector(".delete-render") as HTMLButtonElement

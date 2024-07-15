@@ -40,35 +40,87 @@ export class Slider {
         this.sliderContainer = sliderContainer
     }
     async renderScreenshotSlides() {
-        const allScreenshotImages = await this._galleryDb.getAllScreenShotImages()
+        // const allScreenshotImages = await this._galleryDb.getAllScreenShotImages()
+        // const allScreenshotImages = await this._galleryDb.getAllScreenShotImages()
+        const dbItems = await this._galleryDb.getAllItems()
         const sliderContainer = this.sliderContainerTemplate() as HTMLDivElement
-        console.log(sliderContainer)
-        for (const img of allScreenshotImages) {
-            const slide = `
-                <div class="slide slide--1 image-active">
-                    <img src="${img}"></img>
-                </div>
-            `
+        let slide: string
+        for (const [idx, dbItem] of dbItems.entries()) {
+            console.log("idx", idx)
+            const arrayBuffer = dbItem.screenshotBuffer as ArrayBuffer
+            const img = this._galleryDb.arrayBufferToSrcImg(arrayBuffer, dbItem.uuid)
+            console.log("fdfgdf", img)
+            if (idx === 0) {
+                slide = `
+                    <div data-uuid-${dbItem.uuid} class="slide active">
+                        <img src="${img}"></img>
+                    </div>
+                `
+            } else {
+                slide = `
+                    <div data-uuid-${dbItem.uuid} class="slide page-hidden">
+                        <img src="${img}"></img>
+                    </div>
+                `
+            }
             sliderContainer?.insertAdjacentHTML("afterbegin", slide)
         }
         console.log("heree", sliderContainer)
         this.sliderContainer = sliderContainer
         return sliderContainer
     }
+
     private sliderContainerTemplate() {
-        const tempContainer = document.createElement("div")
+        const leftBtn = document.createElement("button") as HTMLButtonElement
+        leftBtn.addEventListener("click", this.sliderBtn.bind(this, "left"))
+        leftBtn.classList.add("slider__btn", "slider__btn--left")
+        const rightBtn = document.createElement("button") as HTMLButtonElement
+        rightBtn.addEventListener("click", this.sliderBtn.bind(this, "right"))
+        rightBtn.classList.add("slider__btn", "slider__btn--right")
+        let tempContainer = document.createElement("div") as HTMLDivElement
         tempContainer.innerHTML = `
             <div class="slider">
 
                 <div class="slide-footer">
-                    <button class="slider__btn slider__btn--left">&larr;</button>
-                    <button class="slider__btn slider__btn--right">&rarr;</button>
+                  
                 </div>        
             </div>
         `
-        return tempContainer.firstElementChild
+        const firstChild = tempContainer.firstElementChild as HTMLDivElement
+        firstChild.querySelector(".slide-footer")?.insertAdjacentElement("beforeend", leftBtn)
+        firstChild.querySelector(".slide-footer")?.insertAdjacentElement("beforeend", rightBtn)
+        return firstChild
     }
+
+    sliderBtn(side: "left" | "right") {
+        const nodeList = this.sliderContainer?.querySelectorAll(".slide") as NodeList
+        const slides = Array.from(nodeList)
+        console.log("slides here test", slides)
+        let updatedSlideIdx: number = 0
+        const activeSlideIdx = slides.findIndex((slide) => {
+            console.log(slide)
+            // const s = slide as HTMLElement
+            return slide.classList.contains("active")
+        })
+        if (side === "left") {
+            updatedSlideIdx = activeSlideIdx - 1
+            if (updatedSlideIdx < 0) {
+                updatedSlideIdx = slides.length - 1
+            }
+        } else {
+            updatedSlideIdx = activeSlideIdx + 1
+            if (updatedSlideIdx > slides.length - 1) {
+                updatedSlideIdx = 0
+            }
+        }
+        slides[updatedSlideIdx].classList.add("active")
+        slides[updatedSlideIdx].classList.remove("page-hidden")
+        slides[activeSlideIdx].classList.add("page-hidden")
+        slides[activeSlideIdx].classList.remove("active")
+    }
+
 }
+
 
 
 // export default (components: OBC.Components, galleryDb: Gallery) => {

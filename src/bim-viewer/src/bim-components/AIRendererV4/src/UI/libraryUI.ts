@@ -36,7 +36,7 @@ export default (components: OBC.Components, galleryDb: Gallery) => {
                         <aside class="library-sidebar">
                             <bim-tabs style="grid-area: library-sidebar;">
                                 <bim-tab label="Renders">
-                                    ${renderUI}
+                                    ${renderUI.bimPanelSection}
                                     </bim-tab>
                                 <bim-tab label="Screenshots">
                                     ${screenshotUI.bimPanelSection}

@@ -19,17 +19,12 @@ export default (components: OBC.Components, galleryDb: Gallery) => {
         try {
             // modal.close()
             spinner.classList.toggle("hide")
-            const renderedImages = await renderer.render(prompt)
-            if (!renderedImages) throw new Error("Something went wrong, render images is undefined")
-            for ( const imageURL of renderedImages ) {
-                console.log("IMAGE BEING SAVED...", imageURL)
-                // *this was wrapped in a settimeout before for 10 seconds....
-                // TODO: need to get the current active image in sliders UUID
-                const activeImage = document.querySelector(".image-active") as HTMLImageElement
-                await galleryDb.saveRender(imageURL, )
+            const renderedImage = await renderer.render(prompt)
+            if (!renderedImage) throw new Error("Something went wrong, render images is undefined")
+            const activeSlide = document.querySelector(".active") as HTMLDivElement
+            const uuid = activeSlide.dataset.uuid as string
+            await galleryDb.saveRender(renderedImage[0], uuid)
                 // await library.update(imageURL)
-                
-            }
         } catch (error) {
             throw new Error(`Unable to complete render: ${error}`)
         } finally {
