@@ -4,6 +4,7 @@ import * as OBC from "@thatopen/components"
 import { StableDiffusionRender } from "../Components/StableDiffusionRender"
 import {Gallery} from "../DataBase/RenderLibraryDB"
 import { v4 as uuidv4 } from 'uuid'
+import { getActiveScreenshotImage } from "./src/Functions"
 
 export default (components: OBC.Components, galleryDb: Gallery) => {
     // const library = new LibraryComponent(components)
@@ -16,15 +17,19 @@ export default (components: OBC.Components, galleryDb: Gallery) => {
     }
     const onRenderClick = async () => {
         console.log("running render")
+        const activeImg = await galleryDb.getActiveScreenshotImageAsDataUrl() as string
+        console.log("image RETRIVED", activeImg)
         try {
-            // modal.close()
             spinner.classList.toggle("hide")
-            const renderedImage = await renderer.render(prompt)
+            const renderedImage = await renderer.render(prompt, activeImg)
             if (!renderedImage) throw new Error("Something went wrong, render images is undefined")
             const activeSlide = document.querySelector(".active") as HTMLDivElement
             const uuid = activeSlide.dataset.uuid as string
-            await galleryDb.saveRender(renderedImage[0], uuid)
-                // await library.update(imageURL)
+            console.log("rendered image hereee", renderedImage)
+            // without this settimeout i get a 404 error
+            setTimeout(async () => {
+                await galleryDb.saveRender(renderedImage[0], uuid)
+            }, 15000);
         } catch (error) {
             throw new Error(`Unable to complete render: ${error}`)
         } finally {

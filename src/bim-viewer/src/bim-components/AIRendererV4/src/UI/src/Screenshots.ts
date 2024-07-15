@@ -22,6 +22,7 @@ export class ScreenshotUI extends BaseUI{
         cardContainer.style.padding = "20px 20px 20px 0"
         const allRenders = await this._galleryDb.db.renders.toArray()
         for (const dbItem of allRenders ) {
+            console.log("DB ITEMS", dbItem)
             const file = new File([new Blob([dbItem.screenshotBuffer])], dbItem.id!.toString())
             const src = URL.createObjectURL(file)
             const card = document.createElement("div") as HTMLDivElement

@@ -3,7 +3,7 @@ import Dexie from "dexie";
 
 interface IRender {
     id?: number,
-    renderBuffer: ArrayBuffer | null,
+    renderBuffer: ArrayBuffer,
     screenshotBuffer: ArrayBuffer,
     title: string,
     date: string,
@@ -73,9 +73,8 @@ export class Gallery {
     // uuid in this method will need to come from the screenshot item that is currenrly being rendered
     // should find the parent html and it should have data attribute with uuid in it and then i can 
     // pass that in to this method
-    try {
+    try { 
       console.log("url here**", url)
-      console.log("saving rendered image", url)
       const response = await fetch(url);
       console.log("RESPONSE**", response)
       if (!response.ok) {
@@ -146,10 +145,63 @@ export class Gallery {
     const rv: string[] = []
     const allItems = await this.db.renders.toArray()
     for (const i of allItems) {
+      console.log("testegtetet", i.screenshotBuffer)
       rv.push(this.arrayBufferToSrcImg(i.screenshotBuffer, i.uuid))
     }
     return rv
   }
+  /**
+   * need this function to convert array buffer to data url because in the
+   * getActiveScreenshotImageAsDataUrl function i get the image as array buffer
+   * for active screen shot and then that returns the image as data url 
+   * for running the render function in the promptUI file. 
+   * (the uploadImage method in stablediffusion class needs image as dataurl)
+   * @param arrayBuffer 
+   * @returns 
+   */
+  arrayBufferToDataURL(arrayBuffer: ArrayBuffer) {
+    return new Promise((resolve, reject) => {
+        // Create a Blob from the ArrayBuffer
+        const blob = new Blob([arrayBuffer], { type: 'image/png' })
+        // Use FileReader to convert Blob to Data URL
+        const reader = new FileReader()
+        reader.onloadend = function(event) {
+            resolve(event.target.result);
+        }
+        reader.onerror = function(event) {
+            reject(new Error("Failed to convert ArrayBuffer to Data URL"))
+        }
+        // Read the Blob as Data URL
+        reader.readAsDataURL(blob)
+    })
+  }
+  /**
+   * gets the active image based on slide html element having class "active" in it
+   * from there it gets the uuid from that html element and then passes it
+   * to the getItemByUUID method in this class in order to get the db item
+   * and from that can get the screenshots array buffer in order to pass that
+   * to the render method from stable diffusion as data url 
+   * @returns 
+   */
+  async getActiveScreenshotImageAsDataUrl() {
+    const nodeList = document.querySelectorAll(".slide") as NodeList
+    const slides = Array.from(nodeList) as HTMLDivElement[]
+    const activeSlide = slides.find((slide) => {
+        return slide.classList.contains("active")
+    })
+    console.log("activeslide", activeSlide)
+    if (!activeSlide) return
+    const activeImageUUID = activeSlide.dataset.uuid as string
+    console.log("activeimageuuid", activeImageUUID)
+    const dbItem = await this.getItemByUUID(activeImageUUID)
+    console.log("array buffer look", dbItem.screenshotBuffer)
+    try {
+      const imageDataUrl = await this.arrayBufferToDataURL(dbItem.screenshotBuffer)
+      return imageDataUrl
+    } catch (error) {
+      console.error("Error converting ArrayBuffer to Data URL:", error);
+    }
+}
 
   async getAllRenderImages() {
     const rv: string[] = []

@@ -82,8 +82,9 @@ export class StableDiffusionRender {
      * @param prompt 
      * @returns 
      */
-    async render(prompt: string) {
-        const image = await this._takeScreenshot() as string
+    async render(prompt: string, image: string) {
+        // const test = await this._takeScreenshot() as string
+        console.log("image used here", image)
         const uploadedImageURL = await this._uploadRender(this._APIKEY, image)
         console.log("upload images", uploadedImageURL)
 

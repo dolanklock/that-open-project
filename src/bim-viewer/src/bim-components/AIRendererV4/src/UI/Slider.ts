@@ -52,13 +52,13 @@ export class Slider {
             console.log("fdfgdf", img)
             if (idx === 0) {
                 slide = `
-                    <div data-uuid-${dbItem.uuid} class="slide active">
+                    <div data-uuid=${dbItem.uuid} class="slide active">
                         <img src="${img}"></img>
                     </div>
                 `
             } else {
                 slide = `
-                    <div data-uuid-${dbItem.uuid} class="slide page-hidden">
+                    <div data-uuid=${dbItem.uuid} class="slide page-hidden">
                         <img src="${img}"></img>
                     </div>
                 `

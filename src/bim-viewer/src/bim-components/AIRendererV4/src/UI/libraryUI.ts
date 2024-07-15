@@ -37,7 +37,7 @@ export default (components: OBC.Components, galleryDb: Gallery) => {
                             <bim-tabs style="grid-area: library-sidebar;">
                                 <bim-tab label="Renders">
                                     ${renderUI.bimPanelSection}
-                                    </bim-tab>
+                                </bim-tab>
                                 <bim-tab label="Screenshots">
                                     ${screenshotUI.bimPanelSection}
                                 </bim-tab>
@@ -59,6 +59,7 @@ export default (components: OBC.Components, galleryDb: Gallery) => {
     document.body.append(modal)
     const onLibraryClick = async () => {
         screenshotUI.render()
+        renderUI.render()
         modal.showModal()
         const mainLibraryHTMLElement = modal.querySelector(".library-main") as HTMLElement
         mainLibraryHTMLElement.innerHTML = ""
