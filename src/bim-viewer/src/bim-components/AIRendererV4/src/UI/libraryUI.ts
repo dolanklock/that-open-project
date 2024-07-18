@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import * as BUI from "@thatopen/ui"
 import * as CUI from "@thatopen/ui-obc"
 import * as OBC from "@thatopen/components"
@@ -25,12 +26,12 @@ export default (components: OBC.Components, galleryDb: Gallery) => {
     const modal = BUI.Component.create<HTMLDialogElement>(() => {
         return BUI.html `
             <dialog>
-                <div style="background-color: #22272e; width: 1300px; height: 800px; display: flex;">
+                <div style="border-radius: 20px; width: 1300px; height: 800px; display: flex;">
                     <div class="library-container">
 
                         <header class="library-header">
                             <i class='bx bx-md bxs-palette' ></i>
-                            ${PromptUI(components, galleryDb)}
+                            ${PromptUI(components, galleryDb, renderUI)}
                         </header>
 
                         <aside class="library-sidebar">

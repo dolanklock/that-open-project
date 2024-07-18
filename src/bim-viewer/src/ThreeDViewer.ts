@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import * as THREE from "three"
 import * as OBC from "@thatopen/components"
 import * as OBF from "@thatopen/components-front"
@@ -18,6 +19,7 @@ import { DiscordIntegration } from "./bim-components/DiscordIntegration"
 import { DiscordIntegrationUI } from "./bim-components/DiscordIntegration/user-interface"
 import { Comments } from "./bim-components/Comments";
 import { auth } from "../../firebase"
+import { GeminiConnector } from "./bim-components/GeminiConnector"
 
 // import { AIRenderer } from "./bim-components/AIRenderer"
 
@@ -199,6 +201,16 @@ export async function ThreeDViewer() {
       </bim-toolbar-section> 
     `;
   });
+
+  // It is really important to learn how to use the env variables
+  // This way we don't hardcode our API keys in the code
+  // But be aware that this is no definite solution as a console.log can print
+  // the value if someone is using it in another computer.
+  // Check out the documentation for more info.
+  // const APIKEY = import.meta.env.VITE_APIKEY;
+  const geminiConnector = components.get(GeminiConnector);
+  geminiConnector.apiKey = "AIzaSyBZt2UMyrt0NcYAIOw7I79CyV1O9V6gc4s"
+  geminiConnector.setup()
 
   
   const toolbar = BUI.Component.create(() => {

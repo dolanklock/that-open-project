@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import * as OBC from "@thatopen/components"
 import * as BUI from "@thatopen/ui"
 import * as OBF from "@thatopen/components-front"
@@ -8,7 +9,6 @@ import Prompt from "./src/UI/PromptUI"
 import Library from "./src/UI/libraryUI"
 import {Gallery} from "./src/DataBase/RenderLibraryDB"
 import TakeScreenshot from "./src/UI/TakeScreenshot"
-import { takeCoverage } from "v8"
 
 // TODO: need save for render and screenshot
 // if i do a render and click render button from existing screenshot

@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@google/generative-ai": "^0.15.0",
     "@thatopen/components": "^2.0.9",
     "@thatopen/components-front": "^2.0.9",
     "@thatopen/ui": "^2.0.8",

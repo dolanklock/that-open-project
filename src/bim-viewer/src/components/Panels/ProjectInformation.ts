@@ -1,7 +1,9 @@
+/* eslint-disable prettier/prettier */
 import * as BUI from "@thatopen/ui"
 import * as OBC from "@thatopen/components"
 import * as CUI from "@thatopen/ui-obc"
 import groupings from "./Sections/Groupings"
+import { geminiConnectorUI } from "../../bim-components/GeminiConnector/src"
 
 export default (components: OBC.Components) => {
   const [modelsList] = CUI.tables.modelsList({ components })
@@ -27,6 +29,7 @@ export default (components: OBC.Components) => {
           ${relationsTree}
         </bim-panel-section>
         ${groupings(components)}
+        ${geminiConnectorUI(components)}
       </bim-panel> 
     `
   })

@@ -1,4 +1,7 @@
-import { error } from "console";
+/* eslint-disable consistent-return */
+/* eslint-disable default-case */
+/* eslint-disable max-classes-per-file */
+/* eslint-disable prettier/prettier */
 import Dexie from "dexie";
 
 interface IRender {

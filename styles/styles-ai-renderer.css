@@ -1,8 +1,17 @@
+:root {
+  --action-btn: #27d128;
+  --cancel-btn: #fa4141;
+  --primary-btn: #5551ff;
+  --opencompany-green: #BCF124;
+  --primary: #22272e;
+  --library: #424242bb;
+}
+
 .library-container {
     display: grid;
     margin: 0;
     padding: 0;
-    background-color: #22272e;
+    background-color: var(--library);
     grid-template-areas: 
         "header sidebar"
         "main sidebar"
@@ -11,6 +20,7 @@
     grid-template-columns: 1fr 250px;
     height: 100%;
     width: 100%;
+    border-radius: 20px;
 }
 
 .library-header {
@@ -36,9 +46,13 @@
   background-color: #22272e;
 }
 
+.library-sidebar bim-tabs .parent .switchers {
+  background-color: transparent;
+}
+
 .library-sidebar bim-tabs bim-tab {
   padding-right: 15px;
-  background-color: #22272e;
+  background-color: var(--library);
 }
 
 .library-main {
@@ -123,22 +137,20 @@
     cursor: pointer;
   }
   .slide-footer {
-    padding: 50px;
+    padding: 0 50px 0 50px;
     height: 50px;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-  .slider__btn--left {
-
+  /* .slider__btn--left {
     transform: translate(-50%, -50%);
   } */
   
-  .slider__btn--right {
-
+  /* .slider__btn--right {
     transform: translate(50%, -50%);
-  } 
+  }  */
   
   .dots {
     position: absolute;
