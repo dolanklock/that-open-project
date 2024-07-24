@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import * as BUI from "@thatopen/ui"
 import * as OBC from "@thatopen/components"
 import * as OBF from "@thatopen/components-front"

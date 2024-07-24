@@ -21,7 +21,7 @@ export const geminiConnectorUI = (components: OBC.Components) => {
   dropdown.append(geminiOpt, testOpt);
   dropdown.addEventListener("change", () => {
     const value = dropdown.value as string[];
-    alert(`You've selected: ${value.join(", ")}.`);
+    // alert(`You've selected: ${value.join(", ")}.`);
     geminiConnector.modelName = value[0]
     geminiConnector.updateModal()
   });
@@ -34,7 +34,8 @@ export const geminiConnectorUI = (components: OBC.Components) => {
     // Retrieve the selection from the highlighter
     const selection = highlighter.selection.select;
     // Send our data to the ask method.
-    const fragmentIdMap = await geminiConnector.ask(textInput.value, selection);
+    const fragmentIdMap = await geminiConnector.ask(textInput.value, selection, false);
+    console.log(fragmentIdMap)
     // Use the highlighter back again to 
     highlighter.highlightByID("select", fragmentIdMap);
   }
@@ -62,3 +63,6 @@ export const geminiConnectorUI = (components: OBC.Components) => {
 
   return panelSection;
 };
+
+
+const myObj = "{'12': [123, 132, 2423, ]}"

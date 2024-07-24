@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import/order */
 /* eslint-disable prettier/prettier */
 import * as THREE from "three"
 import * as OBC from "@thatopen/components"
@@ -20,6 +22,8 @@ import { DiscordIntegrationUI } from "./bim-components/DiscordIntegration/user-i
 import { Comments } from "./bim-components/Comments";
 import { auth } from "../../firebase"
 import { GeminiConnector } from "./bim-components/GeminiConnector"
+import  {Ollama} from 'ollama'
+import test from "node:test"
 
 // import { AIRenderer } from "./bim-components/AIRenderer"
 
@@ -211,8 +215,57 @@ export async function ThreeDViewer() {
   const geminiConnector = components.get(GeminiConnector);
   geminiConnector.apiKey = "AIzaSyBZt2UMyrt0NcYAIOw7I79CyV1O9V6gc4s"
   geminiConnector.setup()
+  console.log(geminiConnector._aiModel)
 
+  // ------------------------- TESTING OLLAMA -------------------------- //
+  const testBtn = document.createElement("button")
+  async function runOllama() {
+    console.log("running llama")
+    const ollama = new Ollama()
+    // await ollama.pull({model: 'llama2'})
+    const resOllama = await ollama.chat({
+      model: 'mistral',
+      messages: [{ role: 'user', content: 'Why is the sky blue?' }],
+    })
+    
+    console.log("ollama response", resOllama.message.content)
+    // const imagePath = './examples/multimodal/cat.jpg'
+    // const response = await ollama.generate({
+    //   model: 'mistral',
+    //   prompt: 'describe this image:',
+    //   stream: true,
+    // })
+    // for await (const part of response) {
+    //   process.stdout.write(part.response)
+    // }
+  }
   
+  const test = BUI.Component.create<BUI.PanelSection>(() => {
+    return BUI.html`
+      <bim-toolbar-section label="ollama" icon="material-symbols:comment">
+        <bim-button @click=${runOllama} label="On/Off" icon="material-symbols:mode-off-on" tooltip-title="Focus" tooltip-text="Toggle on to add 2D comments to 3D objects"></bim-button>
+      </bim-toolbar-section> 
+    `;
+  });
+
+  // ------------------------- TESTING OLLAMA -------------------------- //
+
+  // ------------------------- TESTING GETTING CORRECT DATA FORMAT -------------------------- //
+
+  async function runTest() {
+    await geminiConnector.getModelData()
+  }
+
+  const test1 = BUI.Component.create<BUI.PanelSection>(() => {
+    return BUI.html`
+      <bim-toolbar-section label="GET DATA" icon="material-symbols:comment">
+        <bim-button @click=${runTest} label="RUN" icon="material-symbols:mode-off-on" tooltip-title="Focus" tooltip-text="Toggle on to add 2D comments to 3D objects"></bim-button>
+      </bim-toolbar-section> 
+    `;
+  });
+
+  // ------------------------- TESTING GETTING CORRECT DATA FORMAT -------------------------- //
+
   const toolbar = BUI.Component.create(() => {
     return BUI.html`
       <bim-toolbar>
@@ -222,12 +275,14 @@ export async function ThreeDViewer() {
         ${AIRendererVFour(components)}
         ${DiscordIntegrationUI(components, world)}
         ${commentSection}
+        ${test}
+        ${test1}
       </bim-toolbar>
     `
   })
 
   const aiRenderer = AIRenderer(components)
-
+  
   
   const leftPanel = BUI.Component.create(() => {
     return BUI.html`
