@@ -253,7 +253,7 @@ export async function ThreeDViewer() {
   // ------------------------- TESTING GETTING CORRECT DATA FORMAT -------------------------- //
 
   async function runTest() {
-    await geminiConnector.getModelData()
+    await geminiConnector.processSelectionTest()
   }
 
   const test1 = BUI.Component.create<BUI.PanelSection>(() => {

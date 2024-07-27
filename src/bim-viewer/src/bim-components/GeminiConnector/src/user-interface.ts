@@ -34,7 +34,7 @@ export const geminiConnectorUI = (components: OBC.Components) => {
     // Retrieve the selection from the highlighter
     const selection = highlighter.selection.select;
     // Send our data to the ask method.
-    const fragmentIdMap = await geminiConnector.ask(textInput.value, selection, false);
+    const fragmentIdMap = await geminiConnector.ask(textInput.value, selection, true);
     console.log(fragmentIdMap)
     // Use the highlighter back again to 
     highlighter.highlightByID("select", fragmentIdMap);
