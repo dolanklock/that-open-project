@@ -379,10 +379,13 @@ export class GeminiConnector extends OBC.Component {
             // console.log(id)
             expressIds.add(Number(id))
         }
+        // --------------- testing smaller amount of data and it seems to work. 
+        // ------------ only thing is around greater than 6.5 doesnt filter properly -------------- //
         let arr = Array.from(expressIds)
         arr = arr.splice(2, 23)
         console.log("ARRAY", arr)
         expressIds = new Set(arr)
+        // -------------------- end of testing --------------------- //
 
 
         // First level of the structure

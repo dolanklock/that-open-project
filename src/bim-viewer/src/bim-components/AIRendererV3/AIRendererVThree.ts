@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import * as OBC from "@thatopen/components"
 import * as BUI from "@thatopen/ui"
 import * as OBF from "@thatopen/components-front"
@@ -14,14 +15,15 @@ export default (components: OBC.Components) => {
     const galleryDB = new Gallery()
     galleryDB.init()
     
-    return BUI.Component.create<BUI.PanelSection>(() => {
+    return BUI.Component.create<BUI.Panel>(() => {
         return BUI.html`
-            <bim-toolbar-section label="AI Renderer V3" icon="ph:cursor-fill">
-                ${Prompt(components, galleryDB)}
-                ${Settings(components)}
-                ${Library(components, galleryDB)}
-            </bim-toolbar-section> 
+            <bim-panel style="grid-area: elementDataPanel">
+                <bim-panel-section label="AI Renderer V3" icon="ph:cursor-fill">
+                    ${Prompt(components, galleryDB)}
+                    ${Settings(components)}
+                    ${Library(components, galleryDB)}
+                </bim-panel-section> 
+            </bim-panel> 
         `
       })
     }
-

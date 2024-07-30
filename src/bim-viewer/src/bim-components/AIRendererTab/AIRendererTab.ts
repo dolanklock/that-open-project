@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import * as OBC from "@thatopen/components"
 import * as BUI from "@thatopen/ui"
 import * as OBF from "@thatopen/components-front"
@@ -41,7 +42,7 @@ export class Renderer extends OBC.Component {
     get() {
         return BUI.Component.create<BUI.PanelSection>(() => {
             return BUI.html`
-              <bim-toolbar-section label="AI Renderer" icon="ph:cursor-fill">
+              <bim-toolbar-section label="AI Reghfghnderer" icon="ph:cursor-fill">
                 ${this._library.get()}
                 
               </bim-toolbar-section> 

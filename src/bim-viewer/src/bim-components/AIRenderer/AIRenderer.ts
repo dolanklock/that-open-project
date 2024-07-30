@@ -1,17 +1,27 @@
+/* eslint-disable prettier/prettier */
 import * as OBC from "@thatopen/components"
 import * as BUI from "@thatopen/ui"
 import * as OBF from "@thatopen/components-front"
-import { LibraryComponent } from "./src/LibraryComponent"
+import { LibraryComponent, Library } from "./src/LibraryComponent"
 import {StableDiffusionRender} from "./src/StableDiffusionRender"
 import Settings from "./src/Settings"
+import TakeScreenshot from "./src/TakeScreenshot"
+import { Gallery } from "./src/DataBase/RenderLibraryDB"
 // import Settings from "../../components/Panels/Settings"
 
 export default (components: OBC.Components) => {
     const spinner = document.querySelector(".loader") as HTMLDivElement
     const library = new LibraryComponent(components)
     const renderer = new StableDiffusionRender(components)
+    const galleryDb = new Gallery()
+    const lib = new Library(components, galleryDb)
+    lib.render()
+    galleryDb.init()
     let prompt: string
     
+
+    // TODO: need to figure out how to call lib.render() when screenshot is taken...
+
     const onRenderClick = async () => {
         try {
             spinner.classList.toggle("hide")
@@ -21,6 +31,7 @@ export default (components: OBC.Components) => {
                 console.log("IMAGE BEING SAVED...", imageURL)
                 await library.update(imageURL)
             }
+            lib.render()
         } catch (error) {
             throw new Error(`Unable to complete render: ${error}`)
         } finally {
@@ -32,11 +43,17 @@ export default (components: OBC.Components) => {
         const target = e.target as BUI.TextInput
         prompt = target.value
     }
+    // const takeScreenshot = async () => {
+    //     const test = TakeScreenshot(components, galleryDb)
+    //     lib.render()
+    //     return test
+    // }
 
     return BUI.Component.create<BUI.Tab>(() => {
         return BUI.html `
         bim-tab name="AI Renderer Tool" label="AI Renderer Tool" icon="material-symbols:help"
             <bim-panel>
+                ${TakeScreenshot(components, galleryDb)}
                 <bim-panel-section label="AI Render" icon="tabler:world">
                     <div style="display: flex; gap: 0.375rem;">
                         <bim-label icon="mingcute:rocket-fill">Prompt</bim-label>
@@ -48,6 +65,7 @@ export default (components: OBC.Components) => {
                 ${Settings(components)}
         
                 ${library.bimPanelSection}
+                ${lib.mainContainer}
     
             </bim-panel>
         </bim-tab>
