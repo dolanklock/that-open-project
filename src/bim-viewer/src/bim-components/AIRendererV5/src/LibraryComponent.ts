@@ -17,6 +17,7 @@ class Project {
     }
 }
 
+
 export class Library {
     // class should have main container
     // method for adding new projects (html bim panel sections)
@@ -35,7 +36,21 @@ export class Library {
         this.components = components
         this.galleryDb = galleryDb
         this.mainContainer = document.createElement("bim-panel") as BUI.Panel
+        this.mainContainer.style.gridArea = "elementDataPanel"
+        this.mainContainer.style.position = "fixed"
+        this.mainContainer.style.top = "0"
+        this.mainContainer.style.right = "0"
+        this.mainContainer.style.margin = "20px"
+        this.mainContainer.style.width = "450px"
+        this.mainContainer.style.overflow = "auto"
+        this.mainContainer.style.maxHeight = "80vh"
+        this.mainContainer.style.resize = "horizontal"
         this.projects = []
+        this.render()
+    }
+
+    toggle() {
+        this.mainContainer.classList.toggle("hide")
     }
 
     setup() {
@@ -80,35 +95,49 @@ export class Library {
             for (const dbItem of dbItems) {
                 const blob = [new Blob([dbItem.screenshotBuffer])]
                 const card = this.createCard(dbItem, blob)
-                projectContainer.appendChild(card)
+                // projectContainer.appendChild(card)
+                projectContainer.insertAdjacentElement("beforeend", card)
             }
-            this.mainContainer.appendChild(projectContainer)
+            const bimPanelSecton = document.createElement("bim-panel-section") as BUI.PanelSection
+            bimPanelSecton.insertAdjacentElement("beforeend", projectContainer)
+            bimPanelSecton.label = projectName
+            this.mainContainer.appendChild(bimPanelSecton)
         }
     }
-    createProjectContainer(projectName: string): BUI.PanelSection {
-        const container = document.createElement("bim-panel-section") as BUI.PanelSection
-        container.label = projectName
-        container.style.width = "100%"
-        container.style.height = "100%"
-        container.style.display = "grid"
-        container.style.gridTemplateColumns = "repeat(auto-fill, minmax(200px, 200px))"
-        container.style.gap = "5x 5px"
-        container.style.padding = "20px 20px 20px 0"
-        return container
+    createProjectContainer(projectName: string): HTMLDivElement {
+        // const container = document.createElement("bim-panel-section") as BUI.PanelSection
+        // container.label = projectName
+        // container.style.width = "100%"
+        // container.style.height = "100%"
+        // container.style.display = "grid"
+        // container.style.gridTemplateColumns = "repeat(auto-fill, minmax(200px, 200px))"
+        // container.style.gap = "5x 5px"
+        // container.style.padding = "20px 20px 20px 0"
+        // return container
+        const cardContainer = document.createElement("div") as HTMLDivElement
+        cardContainer.style.width = "100%"
+        cardContainer.style.height = "100%"
+        cardContainer.style.display = "grid"
+        cardContainer.style.gridTemplateColumns = "repeat(auto-fill, minmax(150px, 150px))"
+        cardContainer.style.gap = "30px 30px"
+        cardContainer.style.padding = "20px 20px 20px 0"
+        cardContainer.style.overflowY = "scroll"
+        cardContainer.style.maxHeight = "500px"
+        return cardContainer
     }
     createCard(dbItem: IRender, blob: Blob[]): HTMLDivElement {
         const file = new File(blob, dbItem.id!.toString())
         const src = URL.createObjectURL(file)
         const card = document.createElement("div") as HTMLDivElement
             card.innerHTML = `
-            <div data-id="${dbItem.uuid}" class="render-card" style="width: 140px; height: fit-content; display: flex;
+            <div data-id="${dbItem.uuid}" class="render-card" style="width: 125px; height: fit-content; display: flex;
              flex-direction: column; border-radius: 10px; border: 1px solid rgba(0, 0, 0, 0.5)">
                 <img class="render-image" style="border-radius: 10px 10px 0px 0px" src="${src}">
                 <div style="color: white; width: 100%; height: fit-content; display: flex; flex-direction: column; padding: 10px;">
                     <bim-label icon="">${dbItem.date}</bim-label>
                     <div style="margin-top: 10px; width: 100%; height: fit-content; display: flex; flex-direction: row; justify-content: space-between; column-gap: 6px;">
-                        <bim-button class="delete-render" style="width: 50px; min-width: 80px" label="Delete" icon="mdi:garbage-can-outline"></bim-button>
-                        <bim-button class="expand" style="width: 10px;" label="" icon="icomoon-free:enlarge"></bim-button>
+                        <bim-button class="delete-render" style="width: 35px; min-width: 80px" label="Delete" icon="mdi:garbage-can-outline"></bim-button>
+                        <bim-button class="expand" style="width: 5px;" label="" icon="iconoir:enlarge"></bim-button>
                     </div>            
                 </div>
             </div>

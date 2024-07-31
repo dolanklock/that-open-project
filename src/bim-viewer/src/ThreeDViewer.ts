@@ -16,6 +16,11 @@ import AIRenderer from "./bim-components/AIRenderer/AIRenderer"
 import {Renderer} from "./bim-components/AIRendererTab/AIRendererTab"
 import AIRendererVThree from "./bim-components/AIRendererV3/AIRendererVThree"
 import AIRendererVFour from "./bim-components/AIRendererV4/AIRendererVFour"
+
+import AIRendererVersionFive from "./bim-components/AIRendererV5/AIRendererVFive"
+import { Gallery } from "./bim-components/AIRendererV5/src/DataBase/RenderLibraryDB"
+import { Library } from "./bim-components/AIRendererV5/src/LibraryComponent"
+
 import { AppManager } from "./bim-components"
 import { DiscordIntegration } from "./bim-components/DiscordIntegration"
 import { DiscordIntegrationUI } from "./bim-components/DiscordIntegration/user-interface"
@@ -29,6 +34,7 @@ import test from "node:test"
 
 export async function ThreeDViewer() {
   BUI.Manager.init()
+  
   
   const components = new OBC.Components()
   const worlds = components.get(OBC.Worlds)
@@ -47,6 +53,16 @@ export async function ThreeDViewer() {
       </bim-viewport>
     `
   })
+
+
+  const galleryDb = new Gallery()
+//   const AI = AIRendererVersionFive(components, galleryDb)
+  const library = new Library(components, galleryDb)
+
+
+  document.querySelector("body")?.appendChild(library.mainContainer)
+
+
   
   world.renderer = new OBF.PostproductionRenderer(components, viewport)
   const { postproduction } = world.renderer;
@@ -142,6 +158,17 @@ export async function ThreeDViewer() {
   // comments.enabled = true
   comments.world = world
   
+
+
+
+//   const galleryDb = new Gallery()
+//   const AI = AIRendererVersionFive(components, galleryDb)
+//   const library = new Library(components, galleryDb)
+
+
+
+
+
   comments.onCommentAdded.add(comment => {
     const currentUser = auth.currentUser?.displayName
     if (!currentUser) return
@@ -273,6 +300,7 @@ export async function ThreeDViewer() {
         ${camera(world)}
         ${selection(components, world)}
         ${AIRendererVFour(components)}
+        ${AIRendererVersionFive(components, galleryDb, library)}
         ${DiscordIntegrationUI(components, world)}
         ${commentSection}
         ${test}
@@ -281,8 +309,8 @@ export async function ThreeDViewer() {
     `
   })
 
+
   const aiRenderer = AIRenderer(components)
-  
   
   const leftPanel = BUI.Component.create(() => {
     return BUI.html`
@@ -303,8 +331,10 @@ export async function ThreeDViewer() {
       </bim-tabs> 
     `
   })
+
   
   const app = document.getElementById("app") as BUI.Grid
+
   app.layouts = {
     main: {
       template: `
@@ -337,7 +367,7 @@ export async function ThreeDViewer() {
       `, 
       elements: {
         toolbar,
-        elementDataPanel
+        elementDataPanel,
       }
     },
   }
