@@ -11,21 +11,6 @@ import { Gallery } from "./src/DataBase/RenderLibraryDB"
 import { v4 as uuidv4 } from 'uuid'
 // import Settings from "../../components/Panels/Settings"
 
-
-// export class AIRendererVersionFive {
-//     library: Library
-//     private _components: OBC.Components
-//     private _galleryDb: Gallery
-//     constructor(components: OBC.Components) {
-//         this._components = components
-//         this._galleryDb = new Gallery()
-//         this.library = new Library(this._components, this._galleryDb)
-//         this.library.render()
-//     }
-// }
-
-
-
 export default (components: OBC.Components, galleryDb: Gallery, library: Library) => {
     const spinner = document.querySelector(".loader") as HTMLDivElement
     // const library = new LibraryComponent(components)
@@ -77,7 +62,26 @@ export default (components: OBC.Components, galleryDb: Gallery, library: Library
         library.render()
     }
 
-    
+    const gallery = () => {
+        library.toggle()
+    }
+
+    return BUI.Component.create<BUI.ToolbarSection>(() => {
+        return BUI.html`
+            <bim-toolbar-section name="AI Renderer V5" label="AI Renderer V5" icon="ph:cursor-fill">
+                <bim-panel-section>
+                    <bim-toolbar-group>
+                        <bim-button @click=${takeScreenshot} label="Take Screenshot" icon="ion:camera" tooltip-title="Show All" tooltip-text="Shows all elements in all models."></bim-button>
+                        <bim-button @click=${takeScreenshot} label="Settings" icon="ion:camera" tooltip-title="Show All" tooltip-text="Shows all elements in all models."></bim-button>
+                        <bim-button @click=${gallery} label=" Gallery" icon="ion:camera" tooltip-title="Show All" tooltip-text="Shows all elements in all models."></bim-button>
+                    </bim-toolbar-group>
+                </bim-panel-section
+            </bim-toolbar-section>
+        `
+      })
+    }
+
+
 
 
     // return BUI.Component.create<BUI.Tab>(() => {
@@ -105,27 +109,6 @@ export default (components: OBC.Components, galleryDb: Gallery, library: Library
     
     //     `
     // })
-
-    const gallery = () => {
-        library.toggle()
-    }
-
-    return BUI.Component.create<BUI.ToolbarSection>(() => {
-        return BUI.html`
-            bim-toolbar-section name="fgdfgdfgdfgdfg" label="dfgdfgdfgdfgdfgdfgdfgdfgdfg" icon="material-symbols:help"
-                <bim-panel-section>
-                    <bim-toolbar-group>
-                        <bim-button @click=${takeScreenshot} label="Take Screenshot" icon="ion:camera" tooltip-title="Show All" tooltip-text="Shows all elements in all models."></bim-button>
-                        <bim-button @click=${takeScreenshot} label="Settings" icon="ion:camera" tooltip-title="Show All" tooltip-text="Shows all elements in all models."></bim-button>
-                        <bim-button @click=${gallery} label=" Gallery" icon="ion:camera" tooltip-title="Show All" tooltip-text="Shows all elements in all models."></bim-button>
-                    </bim-toolbar-group>
-                </bim-panel-section
-        </bim-toolbar-section>
-        `
-      })
-    }
-
-
 
 
 // TODO: make so that renders are side by side in gallery at least two

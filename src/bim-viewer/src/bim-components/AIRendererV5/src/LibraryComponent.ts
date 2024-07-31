@@ -91,29 +91,23 @@ export class Library {
             console.log(projectName)
             console.log(dbItems)
             console.log("**")
-            const projectContainer = this.createProjectContainer(projectName)
+            const projectDivContainer = this.createProjectContainer()
             for (const dbItem of dbItems) {
                 const blob = [new Blob([dbItem.screenshotBuffer])]
                 const card = this.createCard(dbItem, blob)
                 // projectContainer.appendChild(card)
-                projectContainer.insertAdjacentElement("beforeend", card)
+                projectDivContainer.insertAdjacentElement("beforeend", card)
             }
+            
             const bimPanelSecton = document.createElement("bim-panel-section") as BUI.PanelSection
-            bimPanelSecton.insertAdjacentElement("beforeend", projectContainer)
+            const browseBtn = this.createBrowseBtn(()=>{console.log("testing browse btn")})
+            bimPanelSecton.insertAdjacentElement("beforeend", browseBtn)
+            bimPanelSecton.insertAdjacentElement("beforeend", projectDivContainer)
             bimPanelSecton.label = projectName
             this.mainContainer.appendChild(bimPanelSecton)
         }
     }
-    createProjectContainer(projectName: string): HTMLDivElement {
-        // const container = document.createElement("bim-panel-section") as BUI.PanelSection
-        // container.label = projectName
-        // container.style.width = "100%"
-        // container.style.height = "100%"
-        // container.style.display = "grid"
-        // container.style.gridTemplateColumns = "repeat(auto-fill, minmax(200px, 200px))"
-        // container.style.gap = "5x 5px"
-        // container.style.padding = "20px 20px 20px 0"
-        // return container
+    createProjectContainer(): HTMLDivElement {
         const cardContainer = document.createElement("div") as HTMLDivElement
         cardContainer.style.width = "100%"
         cardContainer.style.height = "100%"
@@ -124,6 +118,16 @@ export class Library {
         cardContainer.style.overflowY = "scroll"
         cardContainer.style.maxHeight = "500px"
         return cardContainer
+    }
+    createBrowseBtn(fn: Function) {
+        const btn = document.createElement("bim-button") as BUI.Button
+        btn.onclick = () => {fn()}
+        // use click event to get closest html element to retrieve project container in order to get all images
+        // of that container and then can open up a new div in middle of screen with images enlarged and flip
+        // through all images with arrows left and right
+        btn.label = "Browse Project Gallery"
+        btn.icon = "tdesign:browse"
+        return btn
     }
     createCard(dbItem: IRender, blob: Blob[]): HTMLDivElement {
         const file = new File(blob, dbItem.id!.toString())
