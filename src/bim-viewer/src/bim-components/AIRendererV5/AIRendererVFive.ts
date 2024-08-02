@@ -24,22 +24,7 @@ export default (components: OBC.Components, galleryDb: Gallery, library: Library
 
     // TODO: need to figure out how to call lib.render() when screenshot is taken...
 
-    const onRenderClick = async () => {
-        try {
-            spinner.classList.toggle("hide")
-            const renderedImages = await renderer.render(prompt)
-            if (!renderedImages) throw new Error("Something went wrong, render images is undefined")
-            for ( const imageURL of renderedImages ) {
-                console.log("IMAGE BEING SAVED...", imageURL)
-                await library.update(imageURL)
-            }
-            lib.render()
-        } catch (error) {
-            throw new Error(`Unable to complete render: ${error}`)
-        } finally {
-            spinner.classList.toggle("hide")
-        }
-    }
+    
 
     const onPrompt = (e: Event) => {
         const target = e.target as BUI.TextInput
@@ -54,12 +39,39 @@ export default (components: OBC.Components, galleryDb: Gallery, library: Library
         postproduction.composer.render()
         const image = world.renderer?.three.domElement.toDataURL("image/png") as string
         console.log("image here", image)
-        await galleryDb.saveScreenshot(image, "testing", new Date().toDateString(), "Project Name Here", uuidv4())
+        const id = uuidv4()
+        await galleryDb.saveScreenshot(image, "testing", new Date().toDateString(), "Screenshots", id)
         galleryDb.getAllScreenShotImages().then((i) => console.log(i))
         const groups = await galleryDb.groupDBItemsByProject()
         console.log("groups here", groups)
         // lib.render()
         library.render()
+        return [id, image]
+    }
+
+    const onRenderClick = async () => {
+        try {
+            spinner.classList.toggle("hide")
+            // do screenshot here which will allow to get the uuid so i can pass to save render method
+            const [id, imageURL] = await takeScreenshot()
+            const renderedImages = await renderer.render("kitty cat", imageURL)
+            console.log("render images", renderedImages)
+            if (!renderedImages) throw new Error("Something went wrong, render images is undefined")
+            for ( const imageURL of renderedImages ) {
+                // console.log("IMAGE BEING SAVED...", imageURL)
+                // without this settimeout i get a 404 error
+                // setTimeout(async () => {
+                //     await galleryDb.saveRender(imageURL, id)
+                // }, 15000);
+                await galleryDb.saveRender(imageURL, id)
+                library.render()
+            }
+            lib.render()
+        } catch (error) {
+            throw new Error(`Unable to complete render: ${error}`)
+        } finally {
+            spinner.classList.toggle("hide")
+        }
     }
 
     const gallery = () => {
@@ -71,6 +83,7 @@ export default (components: OBC.Components, galleryDb: Gallery, library: Library
             <bim-toolbar-section name="AI Renderer V5" label="AI Renderer V5" icon="ph:cursor-fill">
                 <bim-panel-section>
                     <bim-toolbar-group>
+                        <bim-button @click=${onRenderClick} label="Render" icon="ion:camera" tooltip-title="Show All" tooltip-text="Shows all elements in all models."></bim-button>
                         <bim-button @click=${takeScreenshot} label="Take Screenshot" icon="ion:camera" tooltip-title="Show All" tooltip-text="Shows all elements in all models."></bim-button>
                         <bim-button @click=${takeScreenshot} label="Settings" icon="ion:camera" tooltip-title="Show All" tooltip-text="Shows all elements in all models."></bim-button>
                         <bim-button @click=${gallery} label=" Gallery" icon="ion:camera" tooltip-title="Show All" tooltip-text="Shows all elements in all models."></bim-button>

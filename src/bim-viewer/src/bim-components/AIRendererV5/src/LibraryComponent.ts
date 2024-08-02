@@ -17,6 +17,28 @@ class Project {
     }
 }
 
+// all screenshots will have renders
+// renders will have parent screenshot they must be associated to
+// will have projects with different screenshots in them which in turn will have renders in a drop down
+// underneath the screenshot all of the renders associated
+
+// user should have option to render currnet view which will generate a new screenshot and then
+// the rendered image associated and the grouping (screenshot and render) will be added
+// to the porject UI
+
+// user should also be able to render any existing screenshot and then that rendered image will get added 
+// to the sublist of renders underneath the screenshot
+
+// screenshots should have dropdown on them to change their project, if change their project then
+// the screenshot should move to that project grouping and all renders will move with it
+
+// should have add project option at very top of library panel. once project is added. it will
+// append it to the bottom of the panel and then if you click on dropdown for changing projhect
+// of a screenshot, then you will see new project that was added as an option
+
+// if delete a screenshot it will prompt the user "Screenshot and all renders associated will be deleted, are you sure you want to proceed?"
+// user has option to delete individual renders though
+
 
 export class Library {
     // class should have main container
@@ -91,33 +113,42 @@ export class Library {
             console.log(projectName)
             console.log(dbItems)
             console.log("**")
-            const projectDivContainer = this.createProjectContainer()
+            const bimPanelSecton = this.createBIMPanelSection()
             for (const dbItem of dbItems) {
                 const blob = [new Blob([dbItem.screenshotBuffer])]
                 const card = this.createCard(dbItem, blob)
                 // projectContainer.appendChild(card)
-                projectDivContainer.insertAdjacentElement("beforeend", card)
+                bimPanelSecton.insertAdjacentElement("beforeend", card)
             }
-            
-            const bimPanelSecton = document.createElement("bim-panel-section") as BUI.PanelSection
-            const browseBtn = this.createBrowseBtn(()=>{console.log("testing browse btn")})
-            bimPanelSecton.insertAdjacentElement("beforeend", browseBtn)
-            bimPanelSecton.insertAdjacentElement("beforeend", projectDivContainer)
             bimPanelSecton.label = projectName
+            bimPanelSecton.collapsed = false
+            bimPanelSecton.style.justifyContent = "center"
+            bimPanelSecton.style.alignItems = "center"
+            const browseBtn = this.createBrowseBtn(()=>{console.log("testing browse btn")})
+            bimPanelSecton.insertAdjacentElement("afterbegin", browseBtn)
             this.mainContainer.appendChild(bimPanelSecton)
+            
+            // const bimPanelSecton = document.createElement("bim-panel-section") as BUI.PanelSection
+            // bimPanelSecton.collapsed = true
+            
+            // bimPanelSecton.insertAdjacentElement("beforeend", browseBtn)
+            // bimPanelSecton.insertAdjacentElement("beforeend", projectDivContainer)
+            // bimPanelSecton.label = projectName
+            // this.mainContainer.appendChild(bimPanelSecton)
         }
     }
-    createProjectContainer(): HTMLDivElement {
-        const cardContainer = document.createElement("div") as HTMLDivElement
-        cardContainer.style.width = "100%"
-        cardContainer.style.height = "100%"
-        cardContainer.style.display = "grid"
-        cardContainer.style.gridTemplateColumns = "repeat(auto-fill, minmax(150px, 150px))"
-        cardContainer.style.gap = "30px 30px"
-        cardContainer.style.padding = "20px 20px 20px 0"
-        cardContainer.style.overflowY = "scroll"
-        cardContainer.style.maxHeight = "500px"
-        return cardContainer
+    createBIMPanelSection(): BUI.PanelSection {
+        // const cardContainer = document.createElement("div") as HTMLDivElement
+        // cardContainer.style.width = "100%"
+        // cardContainer.style.height = "100%"
+        // cardContainer.style.display = "grid"
+        // cardContainer.style.gridTemplateColumns = "repeat(auto-fill, minmax(150px, 150px))"
+        // cardContainer.style.gap = "30px 30px"
+        // cardContainer.style.padding = "20px 20px 20px 0"
+        // cardContainer.style.overflowY = "scroll"
+        // cardContainer.style.maxHeight = "500px"
+        const bimPanelSecton = document.createElement("bim-panel-section") as BUI.PanelSection
+        return bimPanelSecton
     }
     createBrowseBtn(fn: Function) {
         const btn = document.createElement("bim-button") as BUI.Button
@@ -133,9 +164,14 @@ export class Library {
         const file = new File(blob, dbItem.id!.toString())
         const src = URL.createObjectURL(file)
         const card = document.createElement("div") as HTMLDivElement
-            card.innerHTML = `
-            <div data-id="${dbItem.uuid}" class="render-card" style="width: 125px; height: fit-content; display: flex;
-             flex-direction: column; border-radius: 10px; border: 1px solid rgba(0, 0, 0, 0.5)">
+        card.classList.add("render-card")
+        card.setAttribute("data-id", dbItem.uuid)
+        card.style.border = "1px solid black"
+        card.style.borderRadius = "10px"
+        card.style.width = "350px"
+        card.innerHTML = `
+            <div class="" style="width: 125px; height: fit-content; display: flex;
+             flex-direction: row; border-radius: 10px; border: none">
                 <img class="render-image" style="border-radius: 10px 10px 0px 0px" src="${src}">
                 <div style="color: white; width: 100%; height: fit-content; display: flex; flex-direction: column; padding: 10px;">
                     <bim-label icon="">${dbItem.date}</bim-label>
@@ -146,7 +182,7 @@ export class Library {
                 </div>
             </div>
             `
-            card.style.boxShadow = "0 16px 32px rgba(0, 0, 0, 0)"
+            // card.style.boxShadow = "0 16px 32px black"
             const deleteBtn = card.querySelector(".delete-render") as HTMLButtonElement
             deleteBtn.onclick = this.onCardDelete.bind(this)
             // const expandBtn = card.querySelector(".expand") as HTMLButtonElement

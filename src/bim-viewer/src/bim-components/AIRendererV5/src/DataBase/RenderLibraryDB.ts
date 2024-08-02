@@ -2,12 +2,15 @@
 /* eslint-disable default-case */
 /* eslint-disable max-classes-per-file */
 /* eslint-disable prettier/prettier */
+import { UUID } from "@thatopen/components";
 import Dexie from "dexie";
+import { v4 as uuidv4 } from 'uuid'
 
 export interface IRender {
     id?: number,
-    renderBuffer: ArrayBuffer,
+    renderBuffer: ArrayBuffer | null,
     screenshotBuffer: ArrayBuffer,
+    renderBuffers: { [key: string]: ArrayBuffer }
     title: string,
     date: string,
     projectName: string,
@@ -56,55 +59,32 @@ export class Gallery {
       const response = await fetch(url);
       console.log(response)
       if (!response.ok) {
-        switch(response.status) {
-            case 400:
-                throw new Error(`Bad response saving image to render library DB: ${response.status}`)
-            case 401:
-                throw new Error(`Bad response saving image to render library DB: ${response.status}`)
-            case 403:
-              throw new Error(`Bad response saving image to render library DB: ${response.status}`)
-            case 404:
-                throw new Error(`Bad response saving image to render library DB: ${response.status}`)
-            case 500:
-                throw new Error(`Bad response saving image to render library DB: ${response.status}`)  
-        }
+        this.handleError(response.status)
     } else {
       const screenshotBuffer = await response.arrayBuffer();
-      return await this.db.renders.add({ renderBuffer: null, screenshotBuffer, title, date, projectName, uuid});
+      const renderBuffers = {}
+      return await this.db.renders.add({ renderBuffer: null, screenshotBuffer, renderBuffers, title, date, projectName, uuid});
       }
     } catch (error) {
       throw new Error(`Error saving item to DB: ${error}`)
     }
   }
+
   async saveRender(url: string, existingUUID: string) {
     // uuid in this method will need to come from the screenshot item that is currenrly being rendered
     // should find the parent html and it should have data attribute with uuid in it and then i can 
     // pass that in to this method
     try { 
-      console.log("url here**", url)
       const response = await fetch(url);
-      console.log("RESPONSE**", response)
       if (!response.ok) {
-        console.log("RUNNING IF")
-        switch(response.status) {
-            case 400:
-                throw new Error(`Bad response saving image to render library DB: ${response.status}`)
-            case 401:
-                throw new Error(`Bad response saving image to render library DB: ${response.status}`)
-            case 403:
-              throw new Error(`Bad response saving image to render library DB: ${response.status}`)
-            case 404:
-                throw new Error(`Bad response saving image to render library DB: ${response.status}`)
-            case 500:
-                throw new Error(`Bad response saving image to render library DB: ${response.status}`)  
-        }
+        this.handleError(response.status)
     } else {
-      console.log("RUNNING ELSE")
       const buffer = await response.arrayBuffer();
       const dbItem = await this.getItemByUUID(existingUUID)
-      const id = dbItem.id
-      if (!id) return
-      return await this.db.renders.update(id, { renderBuffer: buffer});
+      if (!dbItem) throw new Error("could not find existing database item by existing uuid")
+      const renderId = uuidv4()
+      dbItem.renderBuffers[renderId] = buffer
+      console.log("db item testing", dbItem)
       }
     } catch (error) {
       throw new Error(`Error saving existing item in DB: ${error}`)
@@ -113,8 +93,8 @@ export class Gallery {
   async getItemByUUID(uuid: string) {
     try {
       const result = await this.db.renders.filter(dbItem => dbItem.uuid === uuid).toArray()
-      console.log("got item", result)
-      console.log("got item", result[0].id)
+    //   console.log("got item", result)
+    //   console.log("got item", result[0].id)
       return result[0]
     } catch (error) {
       throw new Error("cannot find item in DB with matching uuid")
@@ -235,6 +215,24 @@ export class Gallery {
             }
         }
         return projects
+    }
+
+    getScreenshotRenders() {
+
+    }
+    handleError(status: number) {
+        switch(status) {
+            case 400:
+                throw new Error(`Bad response uploading render image to SD: ${status}`)
+            case 401:
+                throw new Error(`Bad response uploading render image to SD: ${status}`)
+            case 403:
+                throw new Error(`Bad response fetching final image url: ${status}`)
+            case 404:
+                throw new Error(`Bad response uploading render image to SD: ${status}`)
+            case 500:
+                throw new Error(`Bad response uploading render image to SD: ${status}`)  
+        }
     }
 
 }

@@ -1,3 +1,5 @@
+/* eslint-disable default-case */
+/* eslint-disable prettier/prettier */
 // import  *  as OBC from "openbim-components"
 import * as OBC from "@thatopen/components"
 import * as OBF from "@thatopen/components-front"

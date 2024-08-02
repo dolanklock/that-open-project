@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 /* eslint-disable object-shorthand */
 /* eslint-disable consistent-return */
 /* eslint-disable default-case */
@@ -8,6 +9,76 @@ import * as OBF from "@thatopen/components-front"
 import * as BUI from "@thatopen/ui"
 import Dexie from "dexie"
 
+
+export class AIRenderer {
+    settings = {
+      prompt: "", // Indications to the AI engine
+      negative_prompt: null, // Indications to be avoided by the AI engine
+      width: "128", // Maximum 1024
+      height: "128", // Maximum 1024
+      samples: "1", // Maximum 4
+      num_inference_steps: "30",
+      safety_checker: "no",
+      enhance_prompt: "yes",
+      guidance_scale: "10", // cifras en string, min 1, max 20
+      strength: 0.7, // Intensity of change, min 0, max 1
+      seed: null, // If null, it will be randomly generated
+      webhook: null,
+      track_id: null,
+    };
+  
+    async render(image: string) {
+      // This shouldn't be in your code on production, but on an environment variable
+      const key = "5Dc5hLuEiPd9ie3PKG6Tv51hXDLlhU52iTOwPhqL6FJZdj6OC5cCYrngMpEq";
+  
+      const proxyUrl = "https://cors-anywhere.herokuapp.com/"; // Avoids CORS locally
+      const uploadUrl = "https://stablediffusionapi.com/api/v3/base64_crop";
+      const processURL = "https://stablediffusionapi.com/api/v3/img2img";
+  
+      // Let's upload the render to stable diffusion
+  
+      const url = proxyUrl + uploadUrl;
+      const crop = "false";
+  
+      const rawUploadResponse = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ key, image, crop }),
+      });
+      
+      const uploadResponse = await rawUploadResponse.json();
+      console.log("tester", uploadResponse)
+      if (!uploadResponse.link) {
+        throw new Error("There was a problem with the upload!");
+      }
+  
+      // Image uploaded! Now, let's process it:
+  
+      const uploadedImageURL = uploadResponse.link;
+      const params = {
+        key,
+        init_image: uploadedImageURL,
+        ...this.settings,
+      };
+  
+      const rawResponse = await fetch(processURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(params),
+      });
+  
+      const response = await rawResponse.json();
+      console.log("res waiting???", response)
+      if (response.status === "success") {
+        setTimeout(() => {
+            return response.output as string[];
+            
+        }, 10000);
+      }
+      throw new Error("Something went wrong rendering");
+    }
+  }
+
 export class StableDiffusionRender {
     private _APIKEY = "5Dc5hLuEiPd9ie3PKG6Tv51hXDLlhU52iTOwPhqL6FJZdj6OC5cCYrngMpEq"
     private _proxyURL = "https://cors-anywhere.herokuapp.com/"; // Avoids CORS locally
@@ -17,33 +88,16 @@ export class StableDiffusionRender {
     width: string
     height: string
     private _components: OBC.Components
+    AIRender: AIRenderer
 
     constructor(components: OBC.Components) {
         this._components = components
         this.negPrompt = "Bad quality, Worst quality, Normal quality, Low quality, Low resolution, Blurry, Jpeg artifacts, Grainy."
         this.width = "800"
         this.height = "800"
+        this.AIRender = new AIRenderer()
     }
-    /**
-     * takes a screen shot of the viewer scene and returns the image as png
-     * @returns 
-     */
-    private async _takeScreenshot() {
-        // const postproductionRenderer = this._components.renderer as OBC.PostproductionRenderer
-        // postproductionRenderer.postproduction.composer.render()
-        // const renderer = postproductionRenderer.get();
-        // const image = renderer.domElement.toDataURL("image/png");
-
-        const worlds = this._components.get(OBC.Worlds)
-        await worlds.update()
-        const world = worlds.list.entries().next().value[1] as OBC.SimpleWorld
-        console.log("WORLD", world)
-        const {postproduction} = world.renderer as OBF.PostproductionRenderer
-        postproduction.composer.render()
-        const image = world.renderer?.three.domElement.toDataURL("image/png")
-        console.log("image here", image)
-        return image
-    }
+   
     /**
      * uploads image to SD and gets the image url from it
      * @param APIKey 
@@ -60,18 +114,7 @@ export class StableDiffusionRender {
               body: JSON.stringify({ key, image, crop }),
             });
             if (!rawUploadResponse.ok) {
-                switch(rawUploadResponse.status) {
-                    case 400:
-                        throw new Error(`Bad response uploading render image to SD: ${rawUploadResponse.status}`)
-                    case 401:
-                        throw new Error(`Bad response uploading render image to SD: ${rawUploadResponse.status}`)
-                    case 403:
-                        throw new Error(`Bad response fetching final image url: ${rawUploadResponse.status}`)
-                    case 404:
-                        throw new Error(`Bad response uploading render image to SD: ${rawUploadResponse.status}`)
-                    case 500:
-                        throw new Error(`Bad response uploading render image to SD: ${rawUploadResponse.status}`)  
-                }
+                this.handleError(rawUploadResponse.status)
             } else {
                 const uploadResponse = await rawUploadResponse.json();
                 return uploadResponse.link
@@ -86,9 +129,11 @@ export class StableDiffusionRender {
      * @param prompt 
      * @returns 
      */
-    async render(prompt: string) {
-        const image = await this._takeScreenshot() as string
-        const uploadedImageURL = await this._uploadRender(this._APIKEY, image)
+    async render(prompt: string, imageURL: string) {
+        // const res = await this.AIRender.render(imageURL)
+        // return res
+        // const image = await this._takeScreenshot() as string
+        const uploadedImageURL = await this._uploadRender(this._APIKEY, imageURL)
         console.log("upload images", uploadedImageURL)
 
         const myHeaders = new Headers();
@@ -110,40 +155,25 @@ export class StableDiffusionRender {
             track_id: null,
         });
         const requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow',
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow',
         };
         const url = this._proxyURL + this._processURL
         try {
             const response = await fetch(url, requestOptions)
             console.log("response", response)
             if (!response.ok) {
-                switch(response.status) {
-                    case 400:
-                        throw new Error(`Bad response fetching final image url: ${response.status}`)
-                    case 401:
-                        throw new Error(`Bad response fetching final image url: ${response.status}`)
-                    case 403:
-                        throw new Error(`Bad response fetching final image url: ${response.status}`)
-                    case 404:
-                        throw new Error(`Bad response fetching final image url: ${response.status}`)
-                    case 405:
-                        throw new Error(`Bad response fetching final image url: ${response.status}`)
-                    case 500:
-                        throw new Error(`Bad response fetching final image url: ${response.status}`)  
-                }
-            } else {
-                const responseURLs: string[] = await response.json()
-                .then((res) => {
-                    console.log("finished", res)
-                    if ( res.status !== "success" ) throw new Error(`Error getting JSON from response: ${res.message}`)
-                    return res.output as string[]
-                })
-                console.log("responseURLs", responseURLs)
-                return responseURLs
+                this.handleError(response.status)
+            } 
+            const responseURLs = await response.json()
+            if (responseURLs.status === "success") {
+                return responseURLs.output as string[];
             }
+            console.log(responseURLs)
+            throw new Error(`status is set to: ${responseURLs.status}`);
+            
         } catch (error) {
             throw new Error(`Error making request to get rendered image from SD: ${error}`)
         }
@@ -156,5 +186,39 @@ export class StableDiffusionRender {
         this.height = settings[0].height
         console.log(this.negPrompt)
         console.log(settings[0])
+    }
+    //  /**
+    //  * takes a screen shot of the viewer scene and returns the image as png
+    //  * @returns 
+    //  */
+    //  private async _takeScreenshot() {
+    //     // const postproductionRenderer = this._components.renderer as OBC.PostproductionRenderer
+    //     // postproductionRenderer.postproduction.composer.render()
+    //     // const renderer = postproductionRenderer.get();
+    //     // const image = renderer.domElement.toDataURL("image/png");
+
+    //     const worlds = this._components.get(OBC.Worlds)
+    //     await worlds.update()
+    //     const world = worlds.list.entries().next().value[1] as OBC.SimpleWorld
+    //     console.log("WORLD", world)
+    //     const {postproduction} = world.renderer as OBF.PostproductionRenderer
+    //     postproduction.composer.render()
+    //     const image = world.renderer?.three.domElement.toDataURL("image/png")
+    //     console.log("image here", image)
+    //     return image
+    // }
+    handleError(status: number) {
+        switch(status) {
+            case 400:
+                throw new Error(`Bad response uploading render image to SD: ${status}`)
+            case 401:
+                throw new Error(`Bad response uploading render image to SD: ${status}`)
+            case 403:
+                throw new Error(`Bad response fetching final image url: ${status}`)
+            case 404:
+                throw new Error(`Bad response uploading render image to SD: ${status}`)
+            case 500:
+                throw new Error(`Bad response uploading render image to SD: ${status}`)  
+        }
     }
 }
