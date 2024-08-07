@@ -17,7 +17,7 @@ export default (components: OBC.Components, galleryDb: Gallery, library: Library
     const renderer = new StableDiffusionRender(components)
     // const galleryDb = new Gallery()
     const lib = new Library(components, galleryDb)
-    lib.render()
+    // lib.render()
     galleryDb.init()
     let prompt: string
     
@@ -54,19 +54,22 @@ export default (components: OBC.Components, galleryDb: Gallery, library: Library
             spinner.classList.toggle("hide")
             // do screenshot here which will allow to get the uuid so i can pass to save render method
             const [id, imageURL] = await takeScreenshot()
-            const renderedImages = await renderer.render("kitty cat", imageURL)
+            // const renderedImages = await renderer.render("kitty cat", imageURL)
+            console.log("IMAGE HERE", imageURL)
+            const renderedImages = await renderer.render("image of cat", imageURL)
             console.log("render images", renderedImages)
             if (!renderedImages) throw new Error("Something went wrong, render images is undefined")
-            for ( const imageURL of renderedImages ) {
+            // for ( const imageURL of renderedImages ) {
                 // console.log("IMAGE BEING SAVED...", imageURL)
                 // without this settimeout i get a 404 error
                 // setTimeout(async () => {
                 //     await galleryDb.saveRender(imageURL, id)
                 // }, 15000);
-                await galleryDb.saveRender(imageURL, id)
-                library.render()
-            }
-            lib.render()
+                // await galleryDb.saveRender(imageURL, id)
+                // library.render()
+            // }
+            await galleryDb.saveRender(renderedImages[0], id)
+            library.render()
         } catch (error) {
             throw new Error(`Unable to complete render: ${error}`)
         } finally {

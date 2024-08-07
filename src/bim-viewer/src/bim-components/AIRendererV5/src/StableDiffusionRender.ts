@@ -12,14 +12,14 @@ import Dexie from "dexie"
 
 export class AIRenderer {
     settings = {
-      prompt: "", // Indications to the AI engine
-      negative_prompt: null, // Indications to be avoided by the AI engine
+      prompt: "cat on the moon", // Indications to the AI engine
+      negative_prompt: "Bad quality", // Indications to be avoided by the AI engine
       width: "128", // Maximum 1024
       height: "128", // Maximum 1024
       samples: "1", // Maximum 4
       num_inference_steps: "30",
-      safety_checker: "no",
-      enhance_prompt: "yes",
+      safety_checker: false,
+      enhance_prompt: true,
       guidance_scale: "10", // cifras en string, min 1, max 20
       strength: 0.7, // Intensity of change, min 0, max 1
       seed: null, // If null, it will be randomly generated
@@ -33,7 +33,7 @@ export class AIRenderer {
   
       const proxyUrl = "https://cors-anywhere.herokuapp.com/"; // Avoids CORS locally
       const uploadUrl = "https://stablediffusionapi.com/api/v3/base64_crop";
-      const processURL = "https://stablediffusionapi.com/api/v3/img2img";
+      const processURL = "https://modelslab.com/api/v6/realtime/img2img";
   
       // Let's upload the render to stable diffusion
   
@@ -66,16 +66,24 @@ export class AIRenderer {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(params),
       });
+    console.log("RAW REPSONSE", rawResponse)
   
-      const response = await rawResponse.json();
-      console.log("res waiting???", response)
-      if (response.status === "success") {
-        setTimeout(() => {
-            return response.output as string[];
-            
-        }, 10000);
-      }
-      throw new Error("Something went wrong rendering");
+    const response = await rawResponse.json();
+
+    if (response.status === "success") {
+        return response.output as string[];
+    }
+    console.log(response)
+    const r = await fetch(response.fetch_result, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(params),
+      });
+    console.log("r::", r)
+    const rr = await r.json()
+    console.log("r::RR", rr)
+
+    throw new Error("Something went wrong rendering");
     }
   }
 
@@ -83,7 +91,8 @@ export class StableDiffusionRender {
     private _APIKEY = "5Dc5hLuEiPd9ie3PKG6Tv51hXDLlhU52iTOwPhqL6FJZdj6OC5cCYrngMpEq"
     private _proxyURL = "https://cors-anywhere.herokuapp.com/"; // Avoids CORS locally
     private _uploadURL = "https://stablediffusionapi.com/api/v3/base64_crop";
-    private _processURL = "https://stablediffusionapi.com/api/v3/img2img";
+    // private _processURL = "https://stablediffusionapi.com/api/v3/img2img";
+    private _processURL = "https://modelslab.com/api/v6/realtime/img2img";
     negPrompt: string
     width: string
     height: string
@@ -141,11 +150,11 @@ export class StableDiffusionRender {
         console.log("prompt used", prompt)
         const raw = JSON.stringify({
             key: this._APIKEY,
-            prompt: prompt,
-            negative_prompt: this.negPrompt,
+            prompt: "image of cat",
+            negative_prompt: "bad quality",
             init_image: uploadedImageURL,
-            width: this.width,
-            height: this.height,
+            width: "512",
+            height: "512",
             samples: "1",
             temp: false,
             safety_checker: false,
@@ -154,19 +163,29 @@ export class StableDiffusionRender {
             webhook: null,
             track_id: null,
         });
+
         const requestOptions = {
             method: 'POST',
             headers: myHeaders,
             body: raw,
             redirect: 'follow',
         };
-        const url = this._proxyURL + this._processURL
+        // const url = this._proxyURL + this._processURL
+        const url = this._processURL
         try {
             const response = await fetch(url, requestOptions)
             console.log("response", response)
             if (!response.ok) {
                 this.handleError(response.status)
-            } 
+            }
+            // const responseURLs: string[] = await response.json()
+            // .then((res) => {
+            //     console.log("finished", res)
+            //     if ( res.status !== "success" ) throw new Error(`Error getting JSON from response: ${res.message}`)
+            //     return res.output as string[]
+            // })
+            // console.log("responseURLs", responseURLs)
+            // return responseURLs
             const responseURLs = await response.json()
             if (responseURLs.status === "success") {
                 return responseURLs.output as string[];

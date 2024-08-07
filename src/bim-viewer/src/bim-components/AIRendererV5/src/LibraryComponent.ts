@@ -119,6 +119,18 @@ export class Library {
                 const card = this.createCard(dbItem, blob)
                 // projectContainer.appendChild(card)
                 bimPanelSecton.insertAdjacentElement("beforeend", card)
+                const renderBIMSectionPanel = this.createBIMPanelSection()
+                // console.log("testing if renders:", dbItem.renderBuffers)
+                // console.log("dbItem:", dbItem)
+                if (dbItem.renderBuffers) {
+                    for ( const [id, renderBuffer] of Object.entries(dbItem.renderBuffers) ) {
+                        const renderBlob = [new Blob([renderBuffer])]
+                        const renderCard = this.createRenderCard(renderBlob, id)
+                        renderBIMSectionPanel.insertAdjacentElement("beforeend", renderCard)
+                    }
+                    bimPanelSecton.insertAdjacentElement("beforeend", renderBIMSectionPanel)
+                }
+
             }
             bimPanelSecton.label = projectName
             bimPanelSecton.collapsed = false
@@ -159,6 +171,35 @@ export class Library {
         btn.label = "Browse Project Gallery"
         btn.icon = "tdesign:browse"
         return btn
+    }
+    createRenderCard(blob: Blob[], id: string) {
+        const file = new File(blob, id)
+        const src = URL.createObjectURL(file)
+        const card = document.createElement("div") as HTMLDivElement
+        card.classList.add("render-card")
+        card.setAttribute("data-id", id)
+        card.style.border = "1px solid black"
+        card.style.borderRadius = "10px"
+        card.style.width = "350px"
+        card.innerHTML = `
+            <div class="" style="width: 125px; height: fit-content; display: flex;
+             flex-direction: row; border-radius: 10px; border: none">
+                <img class="render-image" style="border-radius: 10px 10px 0px 0px" src="${src}">
+                <div style="color: white; width: 100%; height: fit-content; display: flex; flex-direction: column; padding: 10px;">
+                    <bim-label icon="">${new Date().toString()}</bim-label>
+                    <div style="margin-top: 10px; width: 100%; height: fit-content; display: flex; flex-direction: row; justify-content: space-between; column-gap: 6px;">
+                        <bim-button class="delete-render" style="width: 35px; min-width: 80px" label="Delete" icon="mdi:garbage-can-outline"></bim-button>
+                        <bim-button class="expand" style="width: 5px;" label="" icon="iconoir:enlarge"></bim-button>
+                    </div>            
+                </div>
+            </div>
+            `
+            // card.style.boxShadow = "0 16px 32px black"
+            const deleteBtn = card.querySelector(".delete-render") as HTMLButtonElement
+            deleteBtn.onclick = this.onCardDelete.bind(this)
+            // const expandBtn = card.querySelector(".expand") as HTMLButtonElement
+            // expandBtn.onclick = this.onImageExpand.bind(this)
+        return card
     }
     createCard(dbItem: IRender, blob: Blob[]): HTMLDivElement {
         const file = new File(blob, dbItem.id!.toString())
